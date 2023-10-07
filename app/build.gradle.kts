@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "kr.co.korean.investment"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "kr.co.korean.investment"
