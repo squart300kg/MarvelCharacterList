@@ -52,7 +52,8 @@ android {
 
 dependencies {
 
-    implementation(project(":data:network"))
+    implementation(project(":data:repository"))
+    implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
