@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">KoreanInvestment</string>
+    <string name="appName">KoreanInvestment</string>
+    <string name="tabHome">홈</string>
+    <string name="tabBookMark">즐겨찾기</string>
       <string name="title_dynamicfeature">Module Title</string>
 </resources>
