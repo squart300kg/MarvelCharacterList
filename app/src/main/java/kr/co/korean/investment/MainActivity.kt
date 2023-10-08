@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -102,14 +103,14 @@ class MainActivity : ComponentActivity() {
 fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.background(Color.Cyan).fillMaxSize())
+    Box(modifier = modifier.background(MaterialTheme.colorScheme.primary).fillMaxSize())
 }
 
 @Composable
 fun BookmarkScreen(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.background(Color.Blue).fillMaxSize())
+    Box(modifier = modifier.background(MaterialTheme.colorScheme.secondary).fillMaxSize())
 }
 
 @Composable
