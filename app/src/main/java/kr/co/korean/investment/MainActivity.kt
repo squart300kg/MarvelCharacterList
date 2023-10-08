@@ -73,25 +73,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun HomeScreen(
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier
-        .background(MaterialTheme.colorScheme.primary)
-        .fillMaxSize())
-}
-
-@Composable
-fun BookmarkScreen(
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier
-        .background(MaterialTheme.colorScheme.secondary)
-        .fillMaxSize())
-}
-
 @Composable
 private fun NavHostController.getCurrentDestination(): NavDestination? {
     return this.currentBackStackEntryAsState()

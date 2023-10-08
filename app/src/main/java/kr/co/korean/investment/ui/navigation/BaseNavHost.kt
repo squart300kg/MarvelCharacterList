@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import kr.co.korean.investment.BookmarkScreen
-import kr.co.korean.investment.HomeScreen
+import kr.co.korean.ui.bookmark.BookmarkScreen
+import kr.co.korean.ui.home.HomeScreen
 
 @Composable
 fun BaseNavHost(
