@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -70,19 +71,10 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    NavHost(
+                    BaseNavHost(
                         navController = navController,
-                        startDestination = TopLevelDestination.HOME.name,
                         modifier = Modifier.padding(innerPadding)
-                    ) {
-                        composable(route = TopLevelDestination.HOME.name) {
-                            HomeScreen()
-                        }
-                        composable(route = TopLevelDestination.BOOKMARKS.name) {
-                            BookmarkScreen()
-                        }
-
-                    }
+                    )
                 }
             }
         }
@@ -112,6 +104,26 @@ fun RowScope.BaseNavigationBarItem(
         },
         label = { Text(stringResource(id = destination.iconTextIdRes)) }
     )
+}
+
+@Composable
+fun BaseNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
+) {
+    NavHost(
+        navController = navController,
+        startDestination = TopLevelDestination.HOME.name,
+        modifier = modifier
+    ) {
+        composable(route = TopLevelDestination.HOME.name) {
+            HomeScreen()
+        }
+        composable(route = TopLevelDestination.BOOKMARKS.name) {
+            BookmarkScreen()
+        }
+
+    }
 }
 
 @Composable
