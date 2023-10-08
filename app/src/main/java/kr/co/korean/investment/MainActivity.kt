@@ -30,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import kr.co.korean.investment.ui.navigation.BaseNavHost
 import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
 import kr.co.korean.investment.ui.navigation.TopLevelDestination
 import kr.co.korean.investment.ui.navigation.topLevelDestinations
@@ -80,26 +81,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun BaseNavHost(
-    modifier: Modifier = Modifier,
-    navController: NavHostController
-) {
-    NavHost(
-        navController = navController,
-        startDestination = TopLevelDestination.HOME.name,
-        modifier = modifier
-    ) {
-        composable(route = TopLevelDestination.HOME.name) {
-            HomeScreen()
-        }
-        composable(route = TopLevelDestination.BOOKMARKS.name) {
-            BookmarkScreen()
-        }
-
     }
 }
 
