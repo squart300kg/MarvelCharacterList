@@ -11,6 +11,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("libs")
+    }
 }
 
 rootProject.name = "KoreanInvestment"

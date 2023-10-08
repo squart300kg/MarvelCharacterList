@@ -1,0 +1,13 @@
+[versions]
+androidxCore = "1.9.0"
+#androidxComposeBom = "2023.03.00"
+androidxNavigation = "2.7.4"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+#androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+
+[plugins]
+[bundles]
+[metadata]
