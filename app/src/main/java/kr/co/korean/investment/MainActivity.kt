@@ -20,12 +20,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import dagger.hilt.android.AndroidEntryPoint
 import kr.co.korean.investment.ui.navigation.BaseNavHost
 import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
 import kr.co.korean.investment.ui.navigation.BaseDestination
 import kr.co.korean.investment.ui.navigation.baseDestinations
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
+// TODO: 기획서 추가 리스트
+//  0. 플러그인도 카탈로그로 관리하기
+//  1. 네트워크 상태 끊겼을 때?
+//  2.
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
