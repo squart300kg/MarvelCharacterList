@@ -73,6 +73,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+// TODO: 이 코드 어떻게 위치시킬지?
 @Composable
 private fun NavHostController.getCurrentDestination(): NavDestination? {
     return this.currentBackStackEntryAsState()

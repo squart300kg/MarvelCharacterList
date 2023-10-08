@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
+
     Box(modifier = modifier
         .background(MaterialTheme.colorScheme.primary)
         .fillMaxSize())
