@@ -15,13 +15,13 @@ fun BaseNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = TopLevelDestination.HOME.name,
+        startDestination = BaseDestination.HOME.name,
         modifier = modifier
     ) {
-        composable(route = TopLevelDestination.HOME.name) {
+        composable(route = BaseDestination.HOME.name) {
             HomeScreen()
         }
-        composable(route = TopLevelDestination.BOOKMARKS.name) {
+        composable(route = BaseDestination.BOOKMARKS.name) {
             BookmarkScreen()
         }
 

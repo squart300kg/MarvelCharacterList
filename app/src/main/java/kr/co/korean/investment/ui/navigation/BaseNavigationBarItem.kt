@@ -14,7 +14,7 @@ fun RowScope.BaseNavigationBarItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     selected: Boolean,
-    destination: TopLevelDestination
+    destination: BaseDestination
 ) {
     NavigationBarItem(
         modifier = modifier,

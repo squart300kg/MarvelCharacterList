@@ -4,10 +4,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import kr.co.korean.investment.R
 
-val topLevelDestinations: List<TopLevelDestination> =
-    TopLevelDestination.values().asList()
+val baseDestinations: List<BaseDestination> =
+    BaseDestination.values().asList()
 
-enum class TopLevelDestination(
+enum class BaseDestination(
     @DrawableRes val selectedIconRes: Int,
     @DrawableRes val unselectedIconRes: Int,
     @StringRes val iconTextIdRes: Int,
