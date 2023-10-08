@@ -30,7 +30,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
 import kr.co.korean.investment.ui.navigation.TopLevelDestination
+import kr.co.korean.investment.ui.navigation.topLevelDestinations
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = {},
                     bottomBar = {
                         NavigationBar {
-                            TopLevelDestination.values().asList().forEach { destination ->
+                            topLevelDestinations.forEach { destination ->
                                 val selected = navController
                                     .getCurrentDestination()
                                     .isTopLevelDestinationInHierarchy(destination)
@@ -79,31 +81,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun RowScope.BaseNavigationBarItem(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    selected: Boolean,
-    destination: TopLevelDestination
-) {
-    NavigationBarItem(
-        modifier = modifier,
-        selected = selected,
-        onClick = onClick,
-        icon = {
-            Icon(
-                painter = painterResource(id = if (selected) {
-                    destination.selectedIconRes
-                } else {
-                    destination.unselectedIconRes
-                }),
-                contentDescription = null
-            )
-        },
-        label = { Text(stringResource(id = destination.iconTextIdRes)) }
-    )
 }
 
 @Composable

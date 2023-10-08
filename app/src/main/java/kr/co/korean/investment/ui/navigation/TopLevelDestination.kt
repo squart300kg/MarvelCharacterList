@@ -4,6 +4,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import kr.co.korean.investment.R
 
+val topLevelDestinations: List<TopLevelDestination> =
+    TopLevelDestination.values().asList()
+
 enum class TopLevelDestination(
     @DrawableRes val selectedIconRes: Int,
     @DrawableRes val unselectedIconRes: Int,
