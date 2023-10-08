@@ -20,11 +20,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import kr.co.korean.investment.ui.navigation.TopLevelDestination
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
@@ -50,7 +52,17 @@ class MainActivity : ComponentActivity() {
 
                                 NavigationBarItem(
                                     selected = selected,
-                                    onClick = {},
+                                    onClick = {
+                                        val topLevelNavOptions = navOptions {
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
+                                        }
+
+                                        navController.navigate(destination.name, topLevelNavOptions)
+                                    },
                                     icon = {
                                         Icon(
                                             painter = painterResource(id = if (selected) {
