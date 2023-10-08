@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,8 +52,7 @@ class MainActivity : ComponentActivity() {
                                     .getCurrentDestination()
                                     .isTopLevelDestinationInHierarchy(destination)
 
-                                NavigationBarItem(
-                                    selected = selected,
+                                BaseNavigationBarItem(
                                     onClick = {
                                         val topLevelNavOptions = navOptions {
                                             popUpTo(navController.graph.findStartDestination().id) {
@@ -62,19 +62,9 @@ class MainActivity : ComponentActivity() {
                                             restoreState = true
                                         }
 
-                                        navController.navigate(destination.name, topLevelNavOptions)
-                                    },
-                                    icon = {
-                                        Icon(
-                                            painter = painterResource(id = if (selected) {
-                                                destination.selectedIconRes
-                                            } else {
-                                                destination.unselectedIconRes
-                                            }),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    label = { Text(stringResource(id = destination.iconTextIdRes)) }
+                                        navController.navigate(destination.name, topLevelNavOptions) },
+                                    selected = selected,
+                                    destination = destination
                                 )
                             }
                         }
@@ -100,17 +90,46 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun RowScope.BaseNavigationBarItem(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    selected: Boolean,
+    destination: TopLevelDestination
+) {
+    NavigationBarItem(
+        modifier = modifier,
+        selected = selected,
+        onClick = onClick,
+        icon = {
+            Icon(
+                painter = painterResource(id = if (selected) {
+                    destination.selectedIconRes
+                } else {
+                    destination.unselectedIconRes
+                }),
+                contentDescription = null
+            )
+        },
+        label = { Text(stringResource(id = destination.iconTextIdRes)) }
+    )
+}
+
+@Composable
 fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.background(MaterialTheme.colorScheme.primary).fillMaxSize())
+    Box(modifier = modifier
+        .background(MaterialTheme.colorScheme.primary)
+        .fillMaxSize())
 }
 
 @Composable
 fun BookmarkScreen(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.background(MaterialTheme.colorScheme.secondary).fillMaxSize())
+    Box(modifier = modifier
+        .background(MaterialTheme.colorScheme.secondary)
+        .fillMaxSize())
 }
 
 @Composable
