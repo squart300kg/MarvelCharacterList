@@ -17,6 +17,7 @@ data class CharacterUiModel(
     val seriesCount: Int,
 )
 
+// TODO: 이미지 너비, 높이 계산 및 로딩 ContentScale방식 조정해야 함
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
 

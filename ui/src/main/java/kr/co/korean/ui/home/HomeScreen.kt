@@ -56,7 +56,7 @@ fun HomeScreen(
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
+                        .fillMaxWidth(0.8f)
                         .align(Alignment.CenterStart),
                 ) {
                     Image(
@@ -75,6 +75,7 @@ fun HomeScreen(
                             .fillMaxHeight(),
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
+                        // TODO: uiState바꾸면서 중복 제거할 것
                         Text(
                             modifier = modifier,
                             text = stringResource(id = R.string.characterItemUrlCount) + uiModel.urlCount.toString())
@@ -95,14 +96,12 @@ fun HomeScreen(
 
                 Image(
                     modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .background(Color.Blue)
-                        .align(Alignment.CenterEnd)
-                        .padding(dimensionResource(id = R.dimen.characterItemCommonPadding)),
+                        .fillMaxWidth(0.2f)
+                        .fillMaxHeight(0.5f)
+                        .align(Alignment.CenterEnd),
                     painter = painterResource(id = R.drawable.ic_bookmark_select),
                     contentDescription = null)
             }
         }
-
     }
 }
