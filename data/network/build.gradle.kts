@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,8 @@ plugins {
     id("kotlin-kapt")
 }
 
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "kr.co.korean.network"
@@ -15,7 +19,20 @@ android {
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner"
+
+        /**
+         * 실무 진행시엔 '.gitignore'에 'local.properties'를 포함하지 않는 스크립트를 작성합니다.
+         */
+        buildConfigField("String", "marbleApiUrl", "${properties["marbleApiUrl"]}")
+        buildConfigField("String", "marbleHash", "${properties["marbleHash"]}")
+        buildConfigField("String", "marblePubKey", "${properties["marblePubKey"]}")
+        buildConfigField("String", "marblePrivKey", "${properties["marblePrivKey"]}")
+
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -46,6 +63,9 @@ dependencies {
     implementation(libs.com.google.dagger.hilt.android)
     kapt(libs.com.google.dagger.hilt.compiler)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson.converter)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

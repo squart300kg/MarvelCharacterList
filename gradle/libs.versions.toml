@@ -13,6 +13,9 @@ androidxLifecycleViewmodelCompose = "2.6.1"
 androidxLifecycleRuntimeCompose = "2.6.1"
 ioCoilKtCompose = "2.0.0-rc01"
 daggerHilt = "2.45"
+okhttpLogging = "4.10.0"
+retrofit = "2.9.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -37,6 +40,9 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 io-coil-kt = { group = "io.coil-kt", name = "coil-compose", version.ref = "ioCoilKtCompose" }
 com-google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 com-google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLogging" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson",version.ref = "retrofit" }
 
 [plugins]
 [bundles]
