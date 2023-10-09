@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="characterItemCommonPadding">20dp</dimen>
+    <dimen name="characterItemCommonPadding">10dp</dimen>
     <dimen name="characterItemHeight">200dp</dimen>
+    <dimen name="characterItemRoundCorner">8dp</dimen>
 </resources>

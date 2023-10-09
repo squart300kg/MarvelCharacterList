@@ -2,6 +2,7 @@ package kr.co.korean.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,13 +13,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,24 +44,36 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                    .border(
+                        width = 1.dp,
+                        color = Color.White,
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.characterItemRoundCorner))
+                    )
                     .height(dimensionResource(id = R.dimen.characterItemHeight))
                     .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+
             ) {
                 Row(
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .align(Alignment.CenterStart),
                 ) {
                     Image(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically),
+                            .align(Alignment.CenterVertically)
+                            .background(Color.Cyan)
+                            .fillMaxWidth(0.5f)
+                            .fillMaxHeight(),
                         painter = rememberAsyncImagePainter(uiModel.thumbnail),
                         contentDescription = null
                     )
 
                     Column(
                         modifier = Modifier
-                            .background(MaterialTheme.colorScheme.primary)
-                            .fillMaxHeight()
-                        , verticalArrangement = Arrangement.SpaceBetween
+                            .padding(start = dimensionResource(id = R.dimen.characterItemCommonPadding))
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
                             modifier = modifier,
@@ -82,6 +95,8 @@ fun HomeScreen(
 
                 Image(
                     modifier = Modifier
+                        .fillMaxWidth(0.1f)
+                        .background(Color.Blue)
                         .align(Alignment.CenterEnd)
                         .padding(dimensionResource(id = R.dimen.characterItemCommonPadding)),
                     painter = painterResource(id = R.drawable.ic_bookmark_select),
