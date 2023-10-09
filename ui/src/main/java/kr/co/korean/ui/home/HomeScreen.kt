@@ -28,6 +28,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 
+// TODO:
+//  1. 프리뷰 작업
+//  2. 디바이스 크기게 맞게 컴포넌트 조절되도록 설정
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -40,7 +43,7 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(dimensionResource(id = R.dimen.characterItemHeight))
                     .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
             ) {
                 Row(
