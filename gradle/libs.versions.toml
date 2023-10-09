@@ -12,8 +12,7 @@ androidxEspresso = "3.5.0"
 androidxLifecycleViewmodelCompose = "2.6.1"
 androidxLifecycleRuntimeCompose = "2.6.1"
 ioCoilKtCompose = "2.0.0-rc01"
-comGoogleDaggerHiltAndroid = "2.45"
-comGoogleDaggerHiltCompiler = "2.45"
+daggerHilt = "2.45"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -36,8 +35,8 @@ androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-t
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycleViewmodelCompose" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycleRuntimeCompose" }
 io-coil-kt = { group = "io.coil-kt", name = "coil-compose", version.ref = "ioCoilKtCompose" }
-com-google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "comGoogleDaggerHiltAndroid" }
-com-google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "comGoogleDaggerHiltCompiler" }
+com-google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
+com-google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
 
 [plugins]
 [bundles]
