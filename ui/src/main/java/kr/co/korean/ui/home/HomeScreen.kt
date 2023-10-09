@@ -1,5 +1,6 @@
 package kr.co.korean.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,15 +29,28 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
+import java.math.BigInteger
+import java.nio.charset.StandardCharsets.UTF_8
+import java.security.MessageDigest
 
 // TODO:
 //  1. 프리뷰 작업
 //  2. 디바이스 크기게 맞게 컴포넌트 조절되도록 설정
+
+fun md5(input:String): String {
+    val md = MessageDigest.getInstance("MD5")
+    return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
+}
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+
+    System.currentTimeMillis()
+
+    Log.e("md5Log", "currentTime : ${System.currentTimeMillis()}")
+    Log.e("md5Log", "2way : ${md5("${System.currentTimeMillis()}994d77ebd612bd1603d3e56d1142760ce8f6badc86e89e8d573b673c14ab79e01565fb7b")}")
 
     val characterUiState by viewModel.characters.collectAsStateWithLifecycle()
     LazyColumn(modifier = modifier) {
