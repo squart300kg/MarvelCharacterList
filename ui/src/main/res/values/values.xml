@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="characterItemUrlCount">urls : </string>
+    <string name="characterItemComicCount">comics : </string>
+    <string name="characterItemStoryCount">stories : </string>
+    <string name="characterItemEventCount">events : </string>
+    <string name="characterItemSeriesCount">series : </string>
+</resources>
