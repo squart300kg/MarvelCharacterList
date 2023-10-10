@@ -39,5 +39,4 @@ class CharacterRepositoryImpl @Inject constructor(
             }
         }
     }
-
 }
