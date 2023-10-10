@@ -17,7 +17,14 @@ import javax.inject.Inject
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
 ): CharacterRepository {
+    override val savedCharacters: Flow<String>
+        get() = TODO("Not yet implemented")
 
+    override fun saveCharacter(id: String) {
+        TODO("Not yet implemented")
+    }
+
+    // TODO: 비즈니스로직 분리할지?
     override fun getCharacters(): Flow<List<CharacterDataModel>> {
         return flow {
             val currentTimeMillis = System.currentTimeMillis()
