@@ -6,7 +6,6 @@ import kr.co.korean.repository.model.SavedIdsDataModel
 
 interface CharacterRepository {
 
-
     val savedCharacters: Flow<SavedIdsDataModel>
 
     suspend fun modifyCharacterSavedStatus(id: Int)

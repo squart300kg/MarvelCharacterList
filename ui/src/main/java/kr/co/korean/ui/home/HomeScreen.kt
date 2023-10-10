@@ -3,6 +3,7 @@ package kr.co.korean.ui.home
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,9 +40,9 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    val characterUiState by viewModel.characters.collectAsStateWithLifecycle()
+    val characterUiState by viewModel.remoteCharacters.collectAsStateWithLifecycle()
     LazyColumn(modifier = modifier) {
-        items(characterUiState) { uiModel ->
+        itemsIndexed(characterUiState) { index, uiModel  ->
             Log.e("image", uiModel.thumbnail)
             Box(
                 modifier = Modifier
@@ -54,6 +55,7 @@ fun HomeScreen(
                     )
                     .height(dimensionResource(id = R.dimen.characterItemHeight))
                     .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                    .clickable { viewModel.modifyCharacterSavedStatus(characterUiState[index].id) }
 
             ) {
                 Row(
