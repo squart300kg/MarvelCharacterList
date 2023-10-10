@@ -61,13 +61,16 @@ dependencies {
     implementation(project(":common"))
 
     implementation(libs.com.google.dagger.hilt.android)
-    kapt(libs.com.google.dagger.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson.converter)
     implementation(libs.kotlinx.serialization.json)
+
+    kapt(libs.com.google.dagger.hilt.compiler)
+
     androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    testImplementation(libs.androidx.test.ext.junit)
 }

@@ -2,10 +2,13 @@ package kr.co.korean.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kr.co.korean.common.encodeToMd5
+import kr.co.korean.datastore.MarvelCharacterDataStore
 import kr.co.korean.network.BuildConfig
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.repository.model.CharacterDataModel
+import kr.co.korean.repository.model.SavedIdsDataModel
 import java.net.URL
 import javax.inject.Inject
 
@@ -16,12 +19,16 @@ import javax.inject.Inject
  */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
+    private val marvelCharacterDataStore: MarvelCharacterDataStore
 ): CharacterRepository {
-    override val savedCharacters: Flow<String>
-        get() = TODO("Not yet implemented")
 
-    override fun saveCharacter(id: String) {
-        TODO("Not yet implemented")
+    override val savedCharacters: Flow<SavedIdsDataModel> =
+        marvelCharacterDataStore.savedCharacters.map {
+            SavedIdsDataModel(ids = it.idsList)
+        }
+
+    override suspend fun setCharacterSaved(id: Int) {
+        marvelCharacterDataStore.setCharacterSaved(id)
     }
 
     // TODO: 비즈니스로직 분리할지?
