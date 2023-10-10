@@ -22,18 +22,14 @@ class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterDataStore: MarvelCharacterDataStore
 ): CharacterRepository {
 
-    override val savedCharacters: Flow<SavedIdsDataModel> =
+    override val localCharacters: Flow<SavedIdsDataModel> =
         marvelCharacterDataStore.savedCharacters.map {
             SavedIdsDataModel(ids = it.idsList)
         }
 
-    override suspend fun modifyCharacterSavedStatus(id: Int) {
-        marvelCharacterDataStore.setCharacterSaved(id)
-    }
-
     // TODO: 비즈니스로직 분리할지?
-    override fun getCharacters(): Flow<List<CharacterDataModel>> {
-        return flow {
+    override val remoteCharacters: Flow<List<CharacterDataModel>> =
+        flow {
             val currentTimeMillis = System.currentTimeMillis()
             marvelCharacterApi.getCharacters(
                 apiKey = BuildConfig.marblePubKey,
@@ -57,5 +53,34 @@ class CharacterRepositoryImpl @Inject constructor(
                 emit(dataModel)
             }
         }
+
+    override suspend fun modifyCharacterSavedStatus(id: Int) {
+        marvelCharacterDataStore.setCharacterSaved(id)
     }
+//    override fun getCharacters(): Flow<List<CharacterDataModel>> {
+//        return flow {
+//            val currentTimeMillis = System.currentTimeMillis()
+//            marvelCharacterApi.getCharacters(
+//                apiKey = BuildConfig.marblePubKey,
+//                timeStamp = currentTimeMillis,
+//                hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}")
+//            ).let { responseModel ->
+//                responseModel.data.results.map { result ->
+//                    CharacterDataModel(
+//                        id = result.id,
+//                        thumbnail = URL(result.thumbnail.path).let { url ->
+//                            val scheme = if (url.protocol == "http") "https" else url.protocol
+//                            "${scheme}://${url.authority}${url.path}/standard_xlarge.${result.thumbnail.extension}" },
+//                        urlCount = result.urls.size,
+//                        comicCount = result.comics.returned,
+//                        seriesCount = result.series.returned,
+//                        storyCount = result.stories.returned,
+//                        eventCount = result.events.returned
+//                    )
+//                }
+//            }.let { dataModel ->
+//                emit(dataModel)
+//            }
+//        }
+//    }
 }

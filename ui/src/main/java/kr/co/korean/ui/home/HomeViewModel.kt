@@ -5,16 +5,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
-import kr.co.korean.repository.model.SavedIdsDataModel
 import javax.inject.Inject
 
 // TODO: UI모델 사용하도록 변경 필요
-data class CharacterUiModel(
+data class CharactersUiModel(
     val id: Int,
     val thumbnail: String,
     val urlCount: Int,
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val remoteCharacters: StateFlow<List<CharacterDataModel>> =
-        characterRepository.getCharacters()
+        characterRepository.remoteCharacters
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
@@ -40,13 +40,25 @@ class HomeViewModel @Inject constructor(
             )
 
     val localCharacteds: StateFlow<List<Int>> =
-        characterRepository.savedCharacters
+        characterRepository.localCharacters
             .map { it.ids }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = emptyList()
             )
+
+    val characters: StateFlow<CharactersUiModel> =
+        combine(
+            characterRepository.remoteCharacters,
+            characterRepository.localCharacters
+        ) { remoteCharacters, localCharacters ->
+            CharactersUiModel()
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = CharactersUiModel()
+        )
 
     fun modifyCharacterSavedStatus(id: Int) {
         viewModelScope.launch {
