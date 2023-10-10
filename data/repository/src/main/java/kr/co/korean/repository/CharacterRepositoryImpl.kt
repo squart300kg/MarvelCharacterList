@@ -2,9 +2,11 @@ package kr.co.korean.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kr.co.korean.common.encodeToMd5
 import kr.co.korean.network.BuildConfig
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.repository.model.CharacterDataModel
+import java.net.URL
 import javax.inject.Inject
 
 // TODO: etag연동
@@ -22,11 +24,14 @@ class CharacterRepositoryImpl @Inject constructor(
             marvelCharacterApi.getCharacters(
                 apiKey = BuildConfig.marblePubKey,
                 timeStamp = currentTimeMillis,
-                hash = "${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"
+                hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}")
             ).let { responseModel ->
                 responseModel.data.results.map { result ->
                     CharacterDataModel(
                         id = result.id,
+                        thumbnail = URL(result.thumbnail.path).let { url ->
+                            val scheme = if (url.protocol == "http") "https" else url.protocol
+                            "${scheme}://${url.authority}${url.path}.${result.thumbnail.extension}" },
                         urlCount = result.urls.size,
                         comicCount = result.comics.returned,
                         seriesCount = result.series.returned,

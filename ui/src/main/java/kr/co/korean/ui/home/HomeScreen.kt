@@ -49,6 +49,7 @@ fun HomeScreen(
     val characterUiState by viewModel.characters.collectAsStateWithLifecycle()
     LazyColumn(modifier = modifier) {
         items(characterUiState) { uiModel ->
+            Log.e("image", uiModel.thumbnail)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -70,7 +71,7 @@ fun HomeScreen(
                     Image(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
-                            .background(Color.Cyan)
+//                            .background(Color.Cyan)
                             .fillMaxWidth(0.5f)
                             .fillMaxHeight(),
                         painter = rememberAsyncImagePainter(uiModel.thumbnail),

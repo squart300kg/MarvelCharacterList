@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kr.co.korean.repository.CharacterRepository
+import kr.co.korean.repository.model.CharacterDataModel
 import javax.inject.Inject
 
 data class CharacterUiModel(
@@ -19,66 +22,15 @@ data class CharacterUiModel(
 
 // TODO: 이미지 너비, 높이 계산 및 로딩 ContentScale방식 조정해야 함
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    characterRepository: CharacterRepository
+) : ViewModel() {
 
-    val characters = flow {
-        emit(listOf(
-            CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
-            ),CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
-            ),CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
-            ),CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
-            ),CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
-            ),CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
-            ),CharacterUiModel(
-                thumbnail = "https://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg",
-                urlCount = 3,
-                comicCount = 3,
-                storyCount = 3,
-                eventCount = 3,
-                seriesCount = 3
+    val characters: StateFlow<List<CharacterDataModel>> =
+        characterRepository.getCharacters()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = emptyList()
             )
-
-        ))
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = emptyList()
-    )
-
 }
