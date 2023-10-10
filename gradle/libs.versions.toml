@@ -1,4 +1,5 @@
 [versions]
+# libraries
 androidxCore = "1.9.0"
 androidxLlifecycleRuntimeKtx = "2.6.2"
 androidxActivityCompose = "1.8.0"
@@ -13,12 +14,19 @@ androidxLifecycleViewmodelCompose = "2.6.1"
 androidxLifecycleRuntimeCompose = "2.6.1"
 ioCoilKtCompose = "2.0.0-rc01"
 kotlinxSerializationJson = "1.5.1"
-daggerHilt = "2.45"
 okhttpLogging = "4.10.0"
 retrofit = "2.9.0"
 androidxDataStore = "1.0.0"
+
+# plugins
 protobuf = "3.24.0"
 protobufPlugin = "0.9.4"
+androidGradlePlugin = "8.1.2"
+jetbrainsKotlin = "1.8.10"
+#kapt = "1.9.10"
+
+# libraries and plugins
+daggerHilt = "2.45"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -52,7 +60,13 @@ protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+jetbrains-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKotlin" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+#kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "jetbrainsKotlin" }
+#kapt = { id = "kotlin-kapt"}
 
 [bundles]
 [metadata]

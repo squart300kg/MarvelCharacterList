@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.konan.properties.Properties
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin)
+    alias(libs.plugins.dagger.hilt)
+    kotlin("kapt")
 }
 
 val properties = Properties()
