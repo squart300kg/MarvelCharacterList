@@ -18,6 +18,7 @@ okhttpLogging = "4.10.0"
 retrofit = "2.9.0"
 androidxDataStore = "1.0.0"
 protobuf = "3.24.0"
+protobufPlugin = "0.9.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -51,5 +52,7 @@ protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 
 [plugins]
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+
 [bundles]
 [metadata]
