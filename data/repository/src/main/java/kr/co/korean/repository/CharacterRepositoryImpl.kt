@@ -27,7 +27,7 @@ class CharacterRepositoryImpl @Inject constructor(
             SavedIdsDataModel(ids = it.idsList)
         }
 
-    override suspend fun setCharacterSaved(id: Int) {
+    override suspend fun modifyCharacterSavedStatus(id: Int) {
         marvelCharacterDataStore.setCharacterSaved(id)
     }
 

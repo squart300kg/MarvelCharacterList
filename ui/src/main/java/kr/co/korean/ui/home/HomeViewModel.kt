@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import javax.inject.Inject
@@ -23,7 +24,7 @@ data class CharacterUiModel(
 // TODO: 이미지 너비, 높이 계산 및 로딩 ContentScale방식 조정해야 함
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    characterRepository: CharacterRepository
+    private val characterRepository: CharacterRepository
 ) : ViewModel() {
 
     val characters: StateFlow<List<CharacterDataModel>> =
@@ -33,4 +34,11 @@ class HomeViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = emptyList()
             )
+
+    fun modifyCharacterSavedStatus(id: Int) {
+        viewModelScope.launch {
+            characterRepository.modifyCharacterSavedStatus(id)
+        }
+    }
+
 }

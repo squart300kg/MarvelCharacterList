@@ -2,7 +2,6 @@ package kr.co.korean.ui.home
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
-import kr.co.korean.common.encodeToMd5
 import kr.co.korean.ui.R
 
 // TODO:
@@ -40,11 +38,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-
-    System.currentTimeMillis()
-
-    Log.e("md5Log", "currentTime : ${System.currentTimeMillis()}")
-    Log.e("md5Log", "2way : ${encodeToMd5("${System.currentTimeMillis()}994d77ebd612bd1603d3e56d1142760ce8f6badc86e89e8d573b673c14ab79e01565fb7b")}")
 
     val characterUiState by viewModel.characters.collectAsStateWithLifecycle()
     LazyColumn(modifier = modifier) {
