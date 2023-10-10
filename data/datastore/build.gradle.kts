@@ -46,6 +46,8 @@ dependencies {
     kapt(libs.com.google.dagger.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.dataStore.core)
+    implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.protobuf.protoc)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

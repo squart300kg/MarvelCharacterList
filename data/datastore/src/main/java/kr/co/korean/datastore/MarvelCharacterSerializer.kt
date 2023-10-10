@@ -8,6 +8,7 @@ import androidx.datastore.dataStore
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
+import com.google.protobuf.InvalidProtocolBufferException
 
 class MarvelCharacterSerializer @Inject constructor(): Serializer<MarvelCharacter> {
     override val defaultValue: MarvelCharacter =
@@ -23,10 +24,4 @@ class MarvelCharacterSerializer @Inject constructor(): Serializer<MarvelCharacte
     override suspend fun writeTo(t: MarvelCharacter, output: OutputStream) {
         t.writeTo(output)
     }
-
-    val Context.marvelCharacterDataStore: DataStore<MarvelCharacter> by dataStore(
-        fileName = "MarvelCharacter"::class.java.simpleName,
-        serializer = MarvelCharacterSerializer
-    )
-
 }
