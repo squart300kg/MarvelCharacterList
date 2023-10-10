@@ -5,6 +5,6 @@ import kr.co.korean.repository.model.CharacterDataModel
 
 interface CharacterRepository {
 
-    fun getCharacters(): Flow<CharacterDataModel>
+    fun getCharacters(): Flow<List<CharacterDataModel>>
 
 }

@@ -7,21 +7,36 @@ import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.repository.model.CharacterDataModel
 import javax.inject.Inject
 
-
+// TODO: etag연동
+/**
+ * Repository의 경우, API의 ResponseModel 수신 후,
+ * DataModel로 파싱하여 외부 레이어(Ui Layer or Data Layer)에 노출합니다.
+ */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
 ): CharacterRepository {
 
-    override fun getCharacters(): Flow<CharacterDataModel> {
+    override fun getCharacters(): Flow<List<CharacterDataModel>> {
         return flow {
             val currentTimeMillis = System.currentTimeMillis()
-            val response = marvelCharacterApi.getCharacters(
+            marvelCharacterApi.getCharacters(
                 apiKey = BuildConfig.marblePubKey,
                 timeStamp = currentTimeMillis,
                 hash = "${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"
-            )
-            response
-            emit(CharacterDataModel(ss = ""))
+            ).let { responseModel ->
+                responseModel.data.results.map { result ->
+                    CharacterDataModel(
+                        id = result.id,
+                        urlCount = result.urls.size,
+                        comicCount = result.comics.returned,
+                        seriesCount = result.series.returned,
+                        storyCount = result.stories.returned,
+                        eventCount = result.events.returned
+                    )
+                }
+            }.let { dataModel ->
+                emit(dataModel)
+            }
         }
     }
 
