@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.co.korean.database"
+    namespace = "kr.co.korean.datastore"
     compileSdk = 33
 
     defaultConfig {
