@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.co.korean.network.BuildConfig
-import kr.co.korean.network.MarbleCharacterApi
+import kr.co.korean.network.MarvelCharacterApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -48,13 +48,13 @@ object NetworkModule {
     fun provideMarbleCharacterApi(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ): MarbleCharacterApi {
+    ): MarvelCharacterApi {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.marbleApiUrl)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
-            .create(MarbleCharacterApi::class.java)
+            .create(MarvelCharacterApi::class.java)
     }
 
 }

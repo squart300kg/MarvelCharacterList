@@ -3,7 +3,7 @@ package kr.co.korean.network.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CharactersResponse(
+data class CharactersResponseModel(
     val attributionHTML: String,
     val attributionText: String,
     val code: Int,
