@@ -64,6 +64,8 @@ fun HomeScreen(
             LazyColumn(modifier = modifier) {
                 items(characterUiState.itemCount) { index  ->
                     characterUiState[index]?.let { characterUiState ->
+                        var imageProgressState by remember { mutableStateOf(true) }
+
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -90,23 +92,36 @@ fun HomeScreen(
                                     .fillMaxWidth(0.8f)
                                     .align(Alignment.CenterStart),
                             ) {
-                                Image(
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .fillMaxWidth(0.5f)
-                                        .fillMaxHeight(),
-                                    painter = rememberAsyncImagePainter(
-                                        model = characterUiState.thumbnail,
-                                        onState = { imageProgressState ->
-                                            progressState = when (imageProgressState) {
-                                                is AsyncImagePainter.State.Loading -> true
-                                                is AsyncImagePainter.State.Empty,
-                                                is AsyncImagePainter.State.Error,
-                                                is AsyncImagePainter.State.Success -> false
-                                            }
-                                        }),
-                                    contentDescription = null
-                                )
+
+                                Box(modifier = Modifier
+                                    .align(Alignment.CenterVertically)
+                                    .fillMaxWidth(0.5f)
+                                    .fillMaxHeight()) {
+                                    if (imageProgressState) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .align(Alignment.Center),
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                        )
+                                    }
+                                    Image(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .align(Alignment.Center),
+                                        painter = rememberAsyncImagePainter(
+                                            model = characterUiState.thumbnail,
+                                            onState = { state ->
+                                                imageProgressState = when (state) {
+                                                    is AsyncImagePainter.State.Loading -> true
+                                                    is AsyncImagePainter.State.Empty,
+                                                    is AsyncImagePainter.State.Error,
+                                                    is AsyncImagePainter.State.Success -> false
+                                                }
+                                            }),
+                                        contentDescription = null
+                                    )
+                                }
 
                                 Column(
                                     modifier = Modifier
