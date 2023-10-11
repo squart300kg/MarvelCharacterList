@@ -8,6 +8,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+const val CHARACTER_DATA_PAGE_SIZE = 20
 class MarvelCharacterPagingSource @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
 ): PagingSource<Int, CharactersResponseModel.Data.Result>(){

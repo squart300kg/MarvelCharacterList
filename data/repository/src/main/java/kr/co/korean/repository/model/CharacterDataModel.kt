@@ -10,16 +10,3 @@ data class CharacterDataModel(
     val eventCount: Int,
     val seriesCount: Int,
 )
-data class CharactersDataModel2(
-    val characters: List<Character>
-) {
-    data class Character(
-        val id: Int,
-        val thumbnail: String,
-        val urlCount: Int,
-        val comicCount: Int,
-        val storyCount: Int,
-        val eventCount: Int,
-        val seriesCount: Int,
-    )
-}

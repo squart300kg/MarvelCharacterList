@@ -1,6 +1,7 @@
 package kr.co.korean.network.model
 
 import kotlinx.serialization.Serializable
+import kr.co.korean.network.constant.ImageScaleType
 
 @Serializable
 data class CharactersResponseModel(
@@ -83,7 +84,7 @@ data class CharactersResponseModel(
                 val path: String
             ) {
                 val imageFullPath: String
-                    get() = "${path.replace("http", "https")}/standard_xlarge.$extension"
+                    get() = "${path.replace("http", "https")}/${ImageScaleType.PORTRAIT_XLARGE.value}.$extension"
             }
 
             data class Url(

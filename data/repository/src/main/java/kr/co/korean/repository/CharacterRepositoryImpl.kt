@@ -1,12 +1,13 @@
 package kr.co.korean.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kr.co.korean.common.encodeToMd5
 import kr.co.korean.datastore.MarvelCharacterDataStore
-import kr.co.korean.network.BuildConfig
-import kr.co.korean.network.MarvelCharacterApi
+import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.repository.model.SavedIdsDataModel
@@ -18,7 +19,6 @@ import javax.inject.Inject
  * 상위 레이어로 전달을 위한 모델('XXXDataModel')로 파싱 및 Ui Layer or Data Layer에 노출합니다.
  */
 class CharacterRepositoryImpl @Inject constructor(
-    private val marvelCharacterApi: MarvelCharacterApi,
     private val marvelCharacterDataStore: MarvelCharacterDataStore,
     private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource
 ): CharacterRepository {
@@ -28,32 +28,22 @@ class CharacterRepositoryImpl @Inject constructor(
             SavedIdsDataModel(ids = it.idsList)
         }
 
-//    val remoteCharacters2: Flow<CharactersDataModel2> =
-//        marvelCharacterPagingDataSource.
-
-    // TODO: 비즈니스로직 분리할지?
-    override val remoteCharacters: Flow<List<CharacterDataModel>> =
-        flow {
-            val currentTimeMillis = System.currentTimeMillis()
-            marvelCharacterApi.getCharacters(
-                apiKey = BuildConfig.marblePubKey,
-                timeStamp = currentTimeMillis,
-                hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
-                offset = 2
-            ).let { responseModel ->
-                responseModel.data.results.map { result ->
-                    CharacterDataModel(
-                        id = result.id,
-                        thumbnail = result.thumbnail.imageFullPath,
-                        urlCount = result.urls.size,
-                        comicCount = result.comics.returned,
-                        seriesCount = result.series.returned,
-                        storyCount = result.stories.returned,
-                        eventCount = result.events.returned
+    override val remoteCharacters: Flow<PagingData<CharacterDataModel>> =
+        Pager(config = PagingConfig(
+            pageSize = CHARACTER_DATA_PAGE_SIZE
+        )) {
+            marvelCharacterPagingDataSource
+        }.flow.map { pagingDatas ->
+            pagingDatas.map { pagingData ->
+                CharacterDataModel(
+                    id = pagingData.id,
+                    thumbnail = pagingData.thumbnail.imageFullPath,
+                    urlCount = pagingData.urls.size,
+                    comicCount = pagingData.comics.returned,
+                    seriesCount = pagingData.series.returned,
+                    storyCount = pagingData.stories.returned,
+                    eventCount = pagingData.events.returned
                     )
-                }
-            }.let { dataModel ->
-                emit(dataModel)
             }
         }
 

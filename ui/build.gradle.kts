@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.io.coil.kt)
     implementation(libs.com.google.dagger.hilt.android)
+    implementation(libs.androidx.paging.runtimne)
+    implementation(libs.androidx.paging.compose)
     kapt(libs.com.google.dagger.hilt.compiler)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

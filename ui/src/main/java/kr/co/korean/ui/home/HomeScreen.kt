@@ -1,6 +1,5 @@
 package kr.co.korean.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,11 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 
@@ -40,71 +37,77 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    val characterUiState by viewModel.remoteCharacters.collectAsStateWithLifecycle()
+    val characterUiState2 = viewModel.remoteCharacters.collectAsLazyPagingItems()
     LazyColumn(modifier = modifier) {
-        itemsIndexed(characterUiState) { index, uiModel  ->
-            Log.e("image", uiModel.thumbnail)
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-                    .border(
-                        width = 1.dp,
-                        color = Color.White,
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.characterItemRoundCorner))
-                    )
-                    .height(dimensionResource(id = R.dimen.characterItemHeight))
-                    .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-                    .clickable { viewModel.modifyCharacterSavedStatus(characterUiState[index].id) }
-
-            ) {
-                Row(
+        items(characterUiState2.itemCount) { index  ->
+            characterUiState2[index]?.let { characterUiState ->
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .align(Alignment.CenterStart),
+                        .fillMaxWidth()
+                        .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                        .border(
+                            width = 1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.characterItemRoundCorner))
+                        )
+                        .height(dimensionResource(id = R.dimen.characterItemHeight))
+                        .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                        .clickable {
+                            viewModel.modifyCharacterSavedStatus(
+                                characterUiState.id
+                            )
+                        }
+
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .align(Alignment.CenterStart),
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+//                            .background(Color.Cyan)
+                                .fillMaxWidth(0.5f)
+                                .fillMaxHeight(),
+                            painter = rememberAsyncImagePainter(characterUiState.thumbnail),
+                            contentDescription = null
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .padding(start = dimensionResource(id = R.dimen.characterItemCommonPadding))
+                                .fillMaxHeight(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            // TODO: uiState바꾸면서 중복 제거할 것
+                            Text(
+                                modifier = modifier,
+                                text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString())
+                            Text(
+                                modifier = modifier,
+                                text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString())
+                            Text(
+                                modifier = modifier,
+                                text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString())
+                            Text(
+                                modifier = modifier,
+                                text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString())
+                            Text(
+                                modifier = modifier,
+                                text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString())
+                        }
+                    }
+
                     Image(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically)
-//                            .background(Color.Cyan)
-                            .fillMaxWidth(0.5f)
-                            .fillMaxHeight(),
-                        painter = rememberAsyncImagePainter(uiModel.thumbnail),
-                        contentDescription = null
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.characterItemCommonPadding))
-                            .fillMaxHeight(),
-                        verticalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        // TODO: uiState바꾸면서 중복 제거할 것
-                        Text(
-                            modifier = modifier,
-                            text = stringResource(id = R.string.characterItemUrlCount) + uiModel.urlCount.toString())
-                        Text(
-                            modifier = modifier,
-                            text = stringResource(id = R.string.characterItemComicCount) + uiModel.comicCount.toString())
-                        Text(
-                            modifier = modifier,
-                            text = stringResource(id = R.string.characterItemStoryCount) + uiModel.storyCount.toString())
-                        Text(
-                            modifier = modifier,
-                            text = stringResource(id = R.string.characterItemEventCount) + uiModel.eventCount.toString())
-                        Text(
-                            modifier = modifier,
-                            text = stringResource(id = R.string.characterItemSeriesCount) + uiModel.seriesCount.toString())
-                    }
+                            .fillMaxWidth(0.2f)
+                            .fillMaxHeight(0.5f)
+                            .align(Alignment.CenterEnd),
+                        painter = painterResource(id = R.drawable.ic_bookmark_select),
+                        contentDescription = null)
                 }
 
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth(0.2f)
-                        .fillMaxHeight(0.5f)
-                        .align(Alignment.CenterEnd),
-                    painter = painterResource(id = R.drawable.ic_bookmark_select),
-                    contentDescription = null)
             }
         }
     }
