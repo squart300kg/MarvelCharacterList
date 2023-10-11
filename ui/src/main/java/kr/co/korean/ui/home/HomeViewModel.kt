@@ -12,18 +12,33 @@ import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import javax.inject.Inject
 import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 
-// TODO: UI모델 사용하도록 변경 필요
-data class CharactersUiModel(
-    val id: Int,
-    val thumbnail: String,
-    val urlCount: Int,
-    val comicCount: Int,
-    val storyCount: Int,
-    val eventCount: Int,
-    val seriesCount: Int,
-    val saved: Boolean,
-)
+sealed interface CharactersUiState {
+    object Loading: CharactersUiState
+    sealed interface LoadFinished: CharactersUiState {
+
+        data class Success(
+            val uiModel: CharactersUiModel
+        ): LoadFinished {
+            data class CharactersUiModel(
+                val id: Int,
+                val thumbnail: String,
+                val urlCount: Int,
+                val comicCount: Int,
+                val storyCount: Int,
+                val eventCount: Int,
+                val seriesCount: Int,
+                val saved: Boolean,
+            )
+        }
+
+        data class Error(val throwable: Throwable): LoadFinished
+    }
+}
+
+
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -39,7 +54,29 @@ class HomeViewModel @Inject constructor(
                 initialValue = PagingData.empty()
             )
 
+//    val localCharacteds: StateFlow<List<Int>> =
+//        characterRepository.localCharacters
+//            .map { it.ids }
+//            .stateIn(
+//                scope = viewModelScope,
+//                started = SharingStarted.WhileSubscribed(5_000L),
+//                initialValue = emptyList()
+//            )
+//
+//    val characters: StateFlow<CharactersUiModel> =
+//        combine(
+//            characterRepository.remoteCharacters,
+//            characterRepository.localCharacters
+//        ) { remoteCharacters, localCharacters ->
+//            CharactersUiModel()
+//        }.stateIn(
+//            scope = viewModelScope,
+//            started = SharingStarted.WhileSubscribed(5_000L),
+//            initialValue = CharactersUiModel()
+//        )
+
     fun modifyCharacterSavedStatus(id: Int) {
+        Result
         viewModelScope.launch {
             characterRepository.modifyCharacterSavedStatus(id)
         }
