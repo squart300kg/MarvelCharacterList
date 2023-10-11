@@ -13,10 +13,8 @@ import kotlinx.coroutines.launch
 import kr.co.korean.common.model.UiResult
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
-import kr.co.korean.ui.home.CharactersUiModel
+import kr.co.korean.ui.model.CharactersUiModel
 import javax.inject.Inject
-
-// TODO: BookmarkViewModel, 예외처리 각각 어떻게 할지?
 
 fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
     CharactersUiModel(

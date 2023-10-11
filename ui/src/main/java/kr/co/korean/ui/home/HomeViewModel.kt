@@ -1,6 +1,5 @@
 package kr.co.korean.ui.home
 
-import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -15,27 +14,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
-import kr.co.korean.ui.R
+import kr.co.korean.ui.model.CharactersUiModel
 import javax.inject.Inject
 
 // TODO: HomeViewModel, 예외처리 각각 어떻게 할지?
-// TODO: uiModel공통인데 어디 패키지에 둘지?
-
-data class CharactersUiModel(
-    val id: Int,
-    val thumbnail: String,
-    val urlCount: Int,
-    val comicCount: Int,
-    val storyCount: Int,
-    val eventCount: Int,
-    val seriesCount: Int,
-    val saved: Boolean,
-) {
-    @get:DrawableRes
-    val bookMarkImage: Int
-        get() = if (saved) R.drawable.ic_bookmark_select_filled
-        else R.drawable.ic_bookmark_select
-}
 
 fun syncAndConvertUiModel(
     remoteModel: CharacterDataModel,

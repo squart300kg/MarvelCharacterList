@@ -37,6 +37,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
+import kr.co.korean.ui.model.CharactersUiModel
 
 // TODO:
 //  1. 프리뷰 작업

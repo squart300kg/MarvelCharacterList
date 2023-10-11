@@ -36,7 +36,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.common.model.UiResult
 import kr.co.korean.ui.R
-import kr.co.korean.ui.home.Result
+import kr.co.korean.ui.model.CharactersUiModel
 
 @Composable
 fun BookmarkScreen(
@@ -45,13 +45,29 @@ fun BookmarkScreen(
 ) {
     val characterUiState by viewModel.localCharacters.collectAsStateWithLifecycle()
     var progressState by remember { mutableStateOf(true) }
+    BookmarkScreen(
+        modifier = modifier,
+        characterUiState = characterUiState,
+        progressState = progressState,
+        onProgressStateChange = { progressState = it},
+        modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus
+    )
+}
 
+@Composable
+fun BookmarkScreen(
+    modifier: Modifier = Modifier,
+    characterUiState: UiResult<List<CharactersUiModel>>,
+    progressState: Boolean,
+    onProgressStateChange: (Boolean) -> Unit,
+    modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit
+) {
     when (characterUiState) {
-        is UiResult.Loading -> progressState = true
-        is UiResult.Error -> progressState = false
-        is UiResult.Success -> {
-            progressState = false
-            val uiState = (characterUiState as UiResult.Success)
+        is UiResult.Loading -> onProgressStateChange(true)
+        is UiResult.Error -> onProgressStateChange(false)
+        is UiResult.Success<List<CharactersUiModel>> -> {
+            onProgressStateChange(false)
+            val uiState = (characterUiState as UiResult.Success<List<CharactersUiModel>>)
 
             LazyColumn(modifier = modifier) {
                 items(uiState.uiModels.size) { index  ->
@@ -72,7 +88,7 @@ fun BookmarkScreen(
                                 .height(dimensionResource(id = R.dimen.characterItemHeight))
                                 .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
                                 .clickable {
-                                    viewModel.modifyCharacterSavedStatus(
+                                    modifyCharacterSavedStatus(
                                         characterUiState,
                                         !characterUiState.saved
                                     )
