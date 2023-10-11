@@ -39,9 +39,7 @@ class CharacterRepositoryImpl @Inject constructor(
                 responseModel.data.results.map { result ->
                     CharacterDataModel(
                         id = result.id,
-                        thumbnail = URL(result.thumbnail.path).let { url ->
-                            val scheme = if (url.protocol == "http") "https" else url.protocol
-                            "${scheme}://${url.authority}${url.path}/standard_xlarge.${result.thumbnail.extension}" },
+                        thumbnail = result.thumbnail.imageFullPath,
                         urlCount = result.urls.size,
                         comicCount = result.comics.returned,
                         seriesCount = result.series.returned,

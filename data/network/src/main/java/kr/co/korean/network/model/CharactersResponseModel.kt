@@ -1,6 +1,7 @@
 package kr.co.korean.network.model
 
 import kotlinx.serialization.Serializable
+import java.net.URL
 
 @Serializable
 data class CharactersResponseModel(
@@ -81,7 +82,13 @@ data class CharactersResponseModel(
             data class Thumbnail(
                 val extension: String,
                 val path: String
-            )
+            ) {
+                private val httpsPath: String
+                    get() = path.replace("http", "https")
+
+                val imageFullPath: String
+                    get() = "${httpsPath}://${URL(httpsPath).authority}${URL(httpsPath).path}/standard_xlarge.${extension}"
+            }
 
             data class Url(
                 val type: String,
