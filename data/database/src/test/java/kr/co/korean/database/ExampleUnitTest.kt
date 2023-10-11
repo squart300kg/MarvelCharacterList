@@ -1,4 +1,4 @@
-package kr.co.korean.datastore
+package kr.co.korean.database
 
 import org.junit.Test
 

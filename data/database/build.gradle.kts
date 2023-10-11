@@ -1,14 +1,13 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.protobuf)
     alias(libs.plugins.jetbrains.kotlin)
     alias(libs.plugins.dagger.hilt)
     kotlin("kapt")
 }
 
 android {
-    namespace = "kr.co.korean.datastore"
+    namespace = "kr.co.korean.database"
     compileSdk = 33
 
     defaultConfig {
@@ -40,31 +39,22 @@ android {
     }
 }
 
-protobuf {
-    protoc {
-        artifact = libs.protobuf.protoc.get().toString()
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                register("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
-
 dependencies {
 
     implementation(project(":common"))
 
     implementation(libs.com.google.dagger.hilt.android)
-    kapt(libs.com.google.dagger.hilt.compiler)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.dataStore.core)
-    implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+
+    kapt(libs.androidx.room.compiler)
+    kapt(libs.com.google.dagger.hilt.compiler)
+
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    testImplementation(libs.androidx.test.ext.junit)
+    
 }

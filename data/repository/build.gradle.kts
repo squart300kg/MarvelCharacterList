@@ -41,13 +41,12 @@ android {
 
 dependencies {
 
-    implementation(project(":data:datastore"))
+    implementation(project(":data:database"))
     implementation(project(":data:network"))
     implementation(project(":common"))
 
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.protobuf.kotlin.lite)
     implementation(libs.androidx.paging.runtimne)
 
     kapt(libs.com.google.dagger.hilt.compiler)

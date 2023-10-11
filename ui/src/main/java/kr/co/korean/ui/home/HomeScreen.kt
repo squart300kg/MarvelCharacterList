@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 
@@ -46,7 +47,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    val characterUiState = viewModel.remoteCharacters.collectAsLazyPagingItems()
+    val characterUiState = viewModel.characters.collectAsLazyPagingItems()
     var progressState by remember { mutableStateOf(true) }
 
     when (characterUiState.loadState.refresh) {
@@ -78,7 +79,8 @@ fun HomeScreen(
                                 .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
                                 .clickable {
                                     viewModel.modifyCharacterSavedStatus(
-                                        characterUiState
+                                        uiModel = characterUiState,
+                                        saved = !characterUiState.saved
                                     )
                                 }
 
@@ -91,10 +93,18 @@ fun HomeScreen(
                                 Image(
                                     modifier = Modifier
                                         .align(Alignment.CenterVertically)
-//                            .background(Color.Cyan)
                                         .fillMaxWidth(0.5f)
                                         .fillMaxHeight(),
-                                    painter = rememberAsyncImagePainter(characterUiState.thumbnail),
+                                    painter = rememberAsyncImagePainter(
+                                        model = characterUiState.thumbnail,
+                                        onState = { imageProgressState ->
+                                            progressState = when (imageProgressState) {
+                                                is AsyncImagePainter.State.Loading -> true
+                                                is AsyncImagePainter.State.Empty,
+                                                is AsyncImagePainter.State.Error,
+                                                is AsyncImagePainter.State.Success -> false
+                                            }
+                                        }),
                                     contentDescription = null
                                 )
 
@@ -132,7 +142,7 @@ fun HomeScreen(
                                     .fillMaxWidth(0.2f)
                                     .fillMaxHeight(0.5f)
                                     .align(Alignment.CenterEnd),
-                                painter = painterResource(id = R.drawable.ic_bookmark_select),
+                                painter = painterResource(id = characterUiState.bookMarkImage),
                                 contentDescription = null)
                         }
 

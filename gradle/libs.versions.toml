@@ -18,10 +18,9 @@ okhttpLogging = "4.10.0"
 retrofit = "2.9.0"
 androidxDataStore = "1.0.0"
 androidxPaging = "3.2.1"
+room = "2.5.2"
 
 # plugins
-protobuf = "3.24.0"
-protobufPlugin = "0.9.4"
 androidGradlePlugin = "8.1.2"
 jetbrainsKotlin = "1.8.10"
 
@@ -56,15 +55,16 @@ okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor",
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson",version.ref = "retrofit" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
-protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 androidx-paging-runtimne = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "androidxPaging"}
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidxPaging"}
+
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 jetbrains-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKotlin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 

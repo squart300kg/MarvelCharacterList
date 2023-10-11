@@ -1,18 +1,40 @@
 package kr.co.korean.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kr.co.korean.datastore.MarvelCharacterDataStore
-import kr.co.korean.datastore.MarvelCharacters
+import kr.co.korean.database.dao.MarvelCharacterDao
+import kr.co.korean.database.entity.MarvelCharacter
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
-import kr.co.korean.repository.model.SavedIdsDataModel
 import javax.inject.Inject
+
+fun CharacterDataModel.convertRoomModel() =
+    MarvelCharacter(
+        characterId = id,
+        thumbnail = thumbnail,
+        urlCount = urlCount,
+        comicCount = comicCount,
+        storyCount = storyCount,
+        seriesCount = seriesCount,
+        eventCount = eventCount
+    )
+
+fun convertDataModel(roomModel: MarvelCharacter) =
+    CharacterDataModel(
+        id = roomModel.characterId,
+        thumbnail = roomModel.thumbnail,
+        urlCount = roomModel.urlCount,
+        comicCount = roomModel.comicCount,
+        storyCount = roomModel.storyCount,
+        seriesCount = roomModel.seriesCount,
+        eventCount = roomModel.eventCount
+    )
 
 // TODO: etag연동
 /**
@@ -20,13 +42,13 @@ import javax.inject.Inject
  * 상위 레이어로 전달을 위한 모델('XXXDataModel')로 파싱 및 Ui Layer or Data Layer에 노출합니다.
  */
 class CharacterRepositoryImpl @Inject constructor(
-    private val marvelCharacterDataStore: MarvelCharacterDataStore,
+    private val marvelCharacterDao: MarvelCharacterDao,
     private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource
 ): CharacterRepository {
 
-    override val localCharacters: Flow<SavedIdsDataModel> =
-        marvelCharacterDataStore.savedCharacters.map {
-            SavedIdsDataModel(ids = it.charactersList.map { it.id } )
+    override val localCharacters: Flow<List<CharacterDataModel>> =
+        marvelCharacterDao.getAllCharacter().map {
+            it.map(::convertDataModel)
         }
 
     override val remoteCharacters: Flow<PagingData<CharacterDataModel>> =
@@ -48,15 +70,12 @@ class CharacterRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel) {
-        MarvelCharacters.newBuilder().defaultInstanceForType.parserForType
-        MarvelCharacters(
-
-        )
-
-        marvelCharacterDataStore.setCharacterSaved(
-
-        )
+    override suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel, saved: Boolean) {
+        val roomModel = dataModel.convertRoomModel()
+        if (saved) {
+            marvelCharacterDao.upsert(roomModel)
+        } else {
+            marvelCharacterDao.deleteCharacter(roomModel.characterId)
+        }
     }
-
 }
