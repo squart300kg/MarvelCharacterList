@@ -17,8 +17,6 @@ import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.model.CharactersUiModel
 import javax.inject.Inject
 
-// TODO: HomeViewModel, 예외처리 각각 어떻게 할지?
-
 fun syncAndConvertUiModel(
     remoteModel: CharacterDataModel,
     localModels: List<CharacterDataModel>
