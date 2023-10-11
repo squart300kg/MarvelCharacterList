@@ -42,7 +42,7 @@ fun CharacterDataModel.convertUiModel(): CharactersUiModel =
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val characterRepository: CharacterRepository
+    private val characterRepository: CharacterRepository,
 ) : ViewModel() {
 
     val remoteCharacters: StateFlow<PagingData<CharactersUiModel>> =
@@ -75,17 +75,17 @@ class HomeViewModel @Inject constructor(
 //                initialValue = emptyList()
 //            )
 //
-//    val characters: StateFlow<CharactersUiModel> =
-//        combine(
-//            characterRepository.remoteCharacters,
-//            characterRepository.localCharacters
-//        ) { remoteCharacters, localCharacters ->
-//            CharactersUiModel()
-//        }.stateIn(
-//            scope = viewModelScope,
-//            started = SharingStarted.WhileSubscribed(5_000L),
-//            initialValue = CharactersUiModel()
-//        )
+    val characters: StateFlow<PagingData<CharactersUiModel>> =
+        combine(
+            characterRepository.remoteCharacters,
+            characterRepository.localCharacters
+        ) { remoteCharacters, localCharacters ->
+            remoteCharacters.map { CharactersUiModel() }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = PagingData.empty()
+        )
 
     fun modifyCharacterSavedStatus(id: Int) {
         Result

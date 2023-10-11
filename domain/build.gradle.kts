@@ -42,10 +42,12 @@ android {
 dependencies {
 
     implementation(project(":common"))
+    implementation(project(":data:repository"))
 
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.paging.runtimne)
 
     kapt(libs.com.google.dagger.hilt.compiler)
 
