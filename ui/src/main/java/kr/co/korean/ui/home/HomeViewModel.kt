@@ -1,26 +1,25 @@
 package kr.co.korean.ui.home
 
-import android.util.Log
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
-import javax.inject.Inject
-import androidx.paging.cachedIn
-import androidx.paging.map
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kr.co.korean.ui.R
+import javax.inject.Inject
 
+// TODO: HomeViewModel, BookmarkViewModel예외처리 각각 어떻게 할지?
+// TODO: uiModel공통인데 어디 패키지에 둘지?
 data class CharactersUiModel(
     val id: Int,
     val thumbnail: String,
@@ -68,18 +67,6 @@ fun syncAndConvertUiModel(
 class HomeViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
 ) : ViewModel() {
-
-    val remoteCharacters: StateFlow<PagingData<CharactersUiModel>> =
-        characterRepository.remoteCharacters
-            .cachedIn(viewModelScope)
-            .map { pagingData ->
-                pagingData.map { it.convertUiModel() }
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = PagingData.empty()
-            )
 
     val characters: StateFlow<PagingData<CharactersUiModel>> =
         combine(
