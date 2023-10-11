@@ -2,17 +2,18 @@ package kr.co.korean.ui.bookmark
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.home.CharactersUiModel
+import kr.co.korean.ui.home.Result
 import javax.inject.Inject
 
 // TODO: BookmarkViewModel, 예외처리 각각 어떻게 할지?
@@ -29,18 +30,20 @@ fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
         eventCount = dataModel.eventCount,
         saved = true
     )
+
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
 ): ViewModel() {
 
-    val localCharacters: StateFlow<List<CharactersUiModel>> =
+    val localCharacters: StateFlow<Result> =
         characterRepository.localCharacters
-            .map { it.map(::convertUiModel) }
+            .map { Result.Success(it.map(::convertUiModel)) }
+            .catch { Result.Error(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = emptyList()
+                initialValue = Result.Loading
             )
 
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {

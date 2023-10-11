@@ -20,6 +20,13 @@ import javax.inject.Inject
 
 // TODO: HomeViewModel, 예외처리 각각 어떻게 할지?
 // TODO: uiModel공통인데 어디 패키지에 둘지?
+
+sealed interface Result {
+    object Loading: Result
+    data class Success(val uiModels: List<CharactersUiModel>): Result
+    data class Error(val throwable: Throwable): Result
+}
+
 data class CharactersUiModel(
     val id: Int,
     val thumbnail: String,
@@ -35,18 +42,6 @@ data class CharactersUiModel(
         get() = if (saved) R.drawable.ic_bookmark_select_filled
         else R.drawable.ic_bookmark_select
 }
-
-fun CharacterDataModel.convertUiModel(): CharactersUiModel =
-    CharactersUiModel(
-        id = id,
-        thumbnail = thumbnail,
-        urlCount = urlCount,
-        comicCount = comicCount,
-        storyCount = storyCount,
-        seriesCount = seriesCount,
-        eventCount = eventCount,
-        saved = true
-    )
 
 fun syncAndConvertUiModel(
     remoteModel: CharacterDataModel,
@@ -85,6 +80,7 @@ class HomeViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
 
+    // TODO: 유즈케이스로 분리
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             characterRepository.modifyCharacterSavedStatus(

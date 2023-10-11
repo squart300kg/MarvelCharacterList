@@ -69,13 +69,8 @@ fun HomeScreen(
     modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit
 ) {
     when (characterUiState.loadState.refresh) {
-        is LoadState.Loading -> {
-            onProgressStateChange(true)
-        }
-        is LoadState.Error -> {
-            onProgressStateChange(false)
-
-        }
+        is LoadState.Loading -> onProgressStateChange(true)
+        is LoadState.Error -> onProgressStateChange(false)
         is LoadState.NotLoading -> {
             onProgressStateChange(false)
 
