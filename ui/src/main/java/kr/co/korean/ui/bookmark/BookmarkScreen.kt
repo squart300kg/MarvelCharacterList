@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import kr.co.korean.common.model.UiResult
 import kr.co.korean.ui.R
 import kr.co.korean.ui.home.Result
 
@@ -46,11 +47,11 @@ fun BookmarkScreen(
     var progressState by remember { mutableStateOf(true) }
 
     when (characterUiState) {
-        is Result.Loading -> progressState = true
-        is Result.Error -> progressState = false
-        is Result.Success -> {
+        is UiResult.Loading -> progressState = true
+        is UiResult.Error -> progressState = false
+        is UiResult.Success -> {
             progressState = false
-            val uiState = (characterUiState as Result.Success)
+            val uiState = (characterUiState as UiResult.Success)
 
             LazyColumn(modifier = modifier) {
                 items(uiState.uiModels.size) { index  ->

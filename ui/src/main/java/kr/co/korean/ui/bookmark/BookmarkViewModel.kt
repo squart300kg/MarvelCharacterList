@@ -10,14 +10,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kr.co.korean.common.model.UiResult
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.home.CharactersUiModel
-import kr.co.korean.ui.home.Result
 import javax.inject.Inject
 
 // TODO: BookmarkViewModel, 예외처리 각각 어떻게 할지?
-// TODO: BookmarkViewModel, 상태바 모델링 필요
 
 fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
     CharactersUiModel(
@@ -36,14 +35,14 @@ class BookmarkViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
 ): ViewModel() {
 
-    val localCharacters: StateFlow<Result> =
+    val localCharacters: StateFlow<UiResult<List<CharactersUiModel>>> =
         characterRepository.localCharacters
-            .map { Result.Success(it.map(::convertUiModel)) }
-            .catch { Result.Error(it) }
+            .map { UiResult.Success(it.map(::convertUiModel)) }
+            .catch { UiResult.Error(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = Result.Loading
+                initialValue = UiResult.Loading
             )
 
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {

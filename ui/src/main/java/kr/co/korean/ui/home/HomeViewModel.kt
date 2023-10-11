@@ -21,12 +21,6 @@ import javax.inject.Inject
 // TODO: HomeViewModel, 예외처리 각각 어떻게 할지?
 // TODO: uiModel공통인데 어디 패키지에 둘지?
 
-sealed interface Result {
-    object Loading: Result
-    data class Success(val uiModels: List<CharactersUiModel>): Result
-    data class Error(val throwable: Throwable): Result
-}
-
 data class CharactersUiModel(
     val id: Int,
     val thumbnail: String,
