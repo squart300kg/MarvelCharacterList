@@ -17,6 +17,7 @@ kotlinxSerializationJson = "1.5.1"
 okhttpLogging = "4.10.0"
 retrofit = "2.9.0"
 androidxDataStore = "1.0.0"
+androidxPagingRuntimne = "3.2.1"
 
 # plugins
 protobuf = "3.24.0"
@@ -57,6 +58,7 @@ retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+androidx-paging-runtimne = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "androidxPagingRuntimne"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson.converter)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.paging.runtimne)
 
     kapt(libs.com.google.dagger.hilt.compiler)
 

@@ -7,9 +7,9 @@ import kr.co.korean.common.encodeToMd5
 import kr.co.korean.datastore.MarvelCharacterDataStore
 import kr.co.korean.network.BuildConfig
 import kr.co.korean.network.MarvelCharacterApi
+import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.repository.model.SavedIdsDataModel
-import java.net.URL
 import javax.inject.Inject
 
 // TODO: etag연동
@@ -19,13 +19,17 @@ import javax.inject.Inject
  */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
-    private val marvelCharacterDataStore: MarvelCharacterDataStore
+    private val marvelCharacterDataStore: MarvelCharacterDataStore,
+    private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource
 ): CharacterRepository {
 
     override val localCharacters: Flow<SavedIdsDataModel> =
         marvelCharacterDataStore.savedCharacters.map {
             SavedIdsDataModel(ids = it.idsList)
         }
+
+//    val remoteCharacters2: Flow<CharactersDataModel2> =
+//        marvelCharacterPagingDataSource.
 
     // TODO: 비즈니스로직 분리할지?
     override val remoteCharacters: Flow<List<CharacterDataModel>> =

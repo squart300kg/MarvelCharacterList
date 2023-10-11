@@ -1,7 +1,6 @@
 package kr.co.korean.network.model
 
 import kotlinx.serialization.Serializable
-import java.net.URL
 
 @Serializable
 data class CharactersResponseModel(
