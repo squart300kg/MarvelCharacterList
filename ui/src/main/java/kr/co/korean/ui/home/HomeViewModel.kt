@@ -25,7 +25,6 @@ data class CharactersUiModel(
     val saved: Boolean,
 )
 
-// TODO: 이미지 너비, 높이 계산 및 로딩 ContentScale방식 조정해야 함
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val characterRepository: CharacterRepository
@@ -38,27 +37,6 @@ class HomeViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = emptyList()
             )
-
-    val localCharacteds: StateFlow<List<Int>> =
-        characterRepository.localCharacters
-            .map { it.ids }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = emptyList()
-            )
-
-    val characters: StateFlow<CharactersUiModel> =
-        combine(
-            characterRepository.remoteCharacters,
-            characterRepository.localCharacters
-        ) { remoteCharacters, localCharacters ->
-            CharactersUiModel()
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = CharactersUiModel()
-        )
 
     fun modifyCharacterSavedStatus(id: Int) {
         viewModelScope.launch {

@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 // TODO: etag연동
 /**
- * Repository의 경우, API의 ResponseModel 수신 후,
- * DataModel로 파싱하여 외부 레이어(Ui Layer or Data Layer)에 노출합니다.
+ * Repository의 경우, API의 'XXXResponse' 네이밍의 모델 수신 후,
+ * 상위 레이어로 전달을 위한 모델('XXXDataModel')로 파싱 및 Ui Layer or Data Layer에 노출합니다.
  */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
@@ -34,7 +34,8 @@ class CharacterRepositoryImpl @Inject constructor(
             marvelCharacterApi.getCharacters(
                 apiKey = BuildConfig.marblePubKey,
                 timeStamp = currentTimeMillis,
-                hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}")
+                hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
+                offset = 2
             ).let { responseModel ->
                 responseModel.data.results.map { result ->
                     CharacterDataModel(
@@ -55,30 +56,5 @@ class CharacterRepositoryImpl @Inject constructor(
     override suspend fun modifyCharacterSavedStatus(id: Int) {
         marvelCharacterDataStore.setCharacterSaved(id)
     }
-//    override fun getCharacters(): Flow<List<CharacterDataModel>> {
-//        return flow {
-//            val currentTimeMillis = System.currentTimeMillis()
-//            marvelCharacterApi.getCharacters(
-//                apiKey = BuildConfig.marblePubKey,
-//                timeStamp = currentTimeMillis,
-//                hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}")
-//            ).let { responseModel ->
-//                responseModel.data.results.map { result ->
-//                    CharacterDataModel(
-//                        id = result.id,
-//                        thumbnail = URL(result.thumbnail.path).let { url ->
-//                            val scheme = if (url.protocol == "http") "https" else url.protocol
-//                            "${scheme}://${url.authority}${url.path}/standard_xlarge.${result.thumbnail.extension}" },
-//                        urlCount = result.urls.size,
-//                        comicCount = result.comics.returned,
-//                        seriesCount = result.series.returned,
-//                        storyCount = result.stories.returned,
-//                        eventCount = result.events.returned
-//                    )
-//                }
-//            }.let { dataModel ->
-//                emit(dataModel)
-//            }
-//        }
-//    }
+
 }

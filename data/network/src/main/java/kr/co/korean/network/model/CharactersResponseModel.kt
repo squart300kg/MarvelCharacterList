@@ -83,11 +83,8 @@ data class CharactersResponseModel(
                 val extension: String,
                 val path: String
             ) {
-                private val httpsPath: String
-                    get() = path.replace("http", "https")
-
                 val imageFullPath: String
-                    get() = "${httpsPath}://${URL(httpsPath).authority}${URL(httpsPath).path}/standard_xlarge.${extension}"
+                    get() = "${path.replace("http", "https")}/standard_xlarge.$extension"
             }
 
             data class Url(
