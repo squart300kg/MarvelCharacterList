@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -49,17 +50,34 @@ fun HomeScreen(
 
     val characterUiState = viewModel.characters.collectAsLazyPagingItems()
     var progressState by remember { mutableStateOf(true) }
+    HomeScreen(
+        modifier = modifier,
+        characterUiState = characterUiState,
+        progressState = progressState,
+        onProgressStateChange = { progressState = it},
+        modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus
+    )
 
-    when (characterUiState.loadState.refresh) {
+}
+
+@Composable
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    characterUiState: LazyPagingItems<CharactersUiModel>,
+    progressState: Boolean,
+    onProgressStateChange: (Boolean) -> Unit,
+    modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit
+) {
+    when (characterUiState!!.loadState.refresh) {
         is LoadState.Loading -> {
-            progressState = true
+            onProgressStateChange(true)
         }
         is LoadState.Error -> {
-            progressState = false
+            onProgressStateChange(false)
 
         }
         is LoadState.NotLoading -> {
-            progressState = false
+            onProgressStateChange(false)
 
             LazyColumn(modifier = modifier) {
                 items(characterUiState.itemCount) { index  ->
@@ -80,9 +98,9 @@ fun HomeScreen(
                                 .height(dimensionResource(id = R.dimen.characterItemHeight))
                                 .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
                                 .clickable {
-                                    viewModel.modifyCharacterSavedStatus(
-                                        uiModel = characterUiState,
-                                        saved = !characterUiState.saved
+                                    modifyCharacterSavedStatus(
+                                        characterUiState,
+                                        !characterUiState.saved
                                     )
                                 }
 
@@ -177,5 +195,4 @@ fun HomeScreen(
             )
         }
     }
-
 }
