@@ -11,6 +11,6 @@ interface CharacterRepository {
 
     val remoteCharacters: Flow<PagingData<CharacterDataModel>>
 
-    suspend fun modifyCharacterSavedStatus(id: Int)
+    suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel)
 
 }

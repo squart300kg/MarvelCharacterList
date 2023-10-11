@@ -7,6 +7,7 @@ import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kr.co.korean.datastore.MarvelCharacterDataStore
+import kr.co.korean.datastore.MarvelCharacters
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
@@ -25,7 +26,7 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override val localCharacters: Flow<SavedIdsDataModel> =
         marvelCharacterDataStore.savedCharacters.map {
-            SavedIdsDataModel(ids = it.idsList)
+            SavedIdsDataModel(ids = it.charactersList.map { it.id } )
         }
 
     override val remoteCharacters: Flow<PagingData<CharacterDataModel>> =
@@ -43,12 +44,19 @@ class CharacterRepositoryImpl @Inject constructor(
                     seriesCount = pagingData.series.returned,
                     storyCount = pagingData.stories.returned,
                     eventCount = pagingData.events.returned
-                    )
+                )
             }
         }
 
-    override suspend fun modifyCharacterSavedStatus(id: Int) {
-        marvelCharacterDataStore.setCharacterSaved(id)
+    override suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel) {
+        MarvelCharacters.newBuilder().defaultInstanceForType.parserForType
+        MarvelCharacters(
+
+        )
+
+        marvelCharacterDataStore.setCharacterSaved(
+
+        )
     }
 
 }

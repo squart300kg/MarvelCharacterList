@@ -9,8 +9,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kr.co.korean.datastore.MarvelCharacter
 import kr.co.korean.datastore.MarvelCharacterSerializer
+import kr.co.korean.datastore.MarvelCharacters
 import javax.inject.Singleton
 
 @Module
@@ -22,7 +22,7 @@ object DataStoreModule {
     fun provideMarvelCharacterDataStore(
         @ApplicationContext context: Context,
         marvelCharacterSerializer: MarvelCharacterSerializer
-    ): DataStore<MarvelCharacter> =
+    ): DataStore<MarvelCharacters> =
         DataStoreFactory.create(
             serializer = marvelCharacterSerializer
         ) {

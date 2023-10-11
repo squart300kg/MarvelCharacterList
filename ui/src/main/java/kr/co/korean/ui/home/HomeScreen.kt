@@ -78,7 +78,7 @@ fun HomeScreen(
                                 .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
                                 .clickable {
                                     viewModel.modifyCharacterSavedStatus(
-                                        characterUiState.id
+                                        characterUiState
                                     )
                                 }
 

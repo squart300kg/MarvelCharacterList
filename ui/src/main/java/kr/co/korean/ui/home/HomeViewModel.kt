@@ -13,8 +13,6 @@ import kr.co.korean.repository.model.CharacterDataModel
 import javax.inject.Inject
 import androidx.paging.cachedIn
 import androidx.paging.map
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
 data class CharactersUiModel(
@@ -57,41 +55,36 @@ class HomeViewModel @Inject constructor(
                 initialValue = PagingData.empty()
             )
 
-//    val remoteCharacters: StateFlow<PagingData<CharacterDataModel>> =
-//        characterRepository.remoteCharacters
-//            .cachedIn(viewModelScope)
-//            .stateIn(
-//                scope = viewModelScope,
-//                started = SharingStarted.WhileSubscribed(5_000L),
-//                initialValue = PagingData.empty()
-//            )
+//    val characters: StateFlow<PagingData<CharactersUiModel>> =
+//        combine(
+//            characterRepository.remoteCharacters,
+//            characterRepository.localCharacters
+//        ) { remoteCharacters, localCharacters ->
+//            remoteCharacters.map { it.convertUiModel() }
+//        }.stateIn(
+//            scope = viewModelScope,
+//            started = SharingStarted.WhileSubscribed(5_000L),
+//            initialValue = PagingData.empty()
+//        )
 
-//    val localCharacteds: StateFlow<List<Int>> =
-//        characterRepository.localCharacters
-//            .map { it.ids }
-//            .stateIn(
-//                scope = viewModelScope,
-//                started = SharingStarted.WhileSubscribed(5_000L),
-//                initialValue = emptyList()
-//            )
-//
-    val characters: StateFlow<PagingData<CharactersUiModel>> =
-        combine(
-            characterRepository.remoteCharacters,
-            characterRepository.localCharacters
-        ) { remoteCharacters, localCharacters ->
-            remoteCharacters.map { CharactersUiModel() }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = PagingData.empty()
-        )
-
-    fun modifyCharacterSavedStatus(id: Int) {
-        Result
+    fun modifyCharacterSavedStatus(uiModel: CharactersUiModel) {
         viewModelScope.launch {
-            characterRepository.modifyCharacterSavedStatus(id)
+            characterRepository.modifyCharacterSavedStatus(
+                dataModel = CharacterDataModel(
+                    id = uiModel.id,
+                    thumbnail = uiModel.thumbnail,
+                    urlCount = uiModel.urlCount,
+                    storyCount = uiModel.storyCount,
+                    seriesCount = uiModel.seriesCount,
+                    eventCount = uiModel.eventCount,
+                    comicCount = uiModel.comicCount
+                )
+            )
         }
+    }
+
+    fun downloadThumbnail() {
+        // TODO: Implement
     }
 
 }

@@ -6,22 +6,25 @@ import java.io.IOException
 import javax.inject.Inject
 
 class MarvelCharacterDataStore @Inject constructor(
-    private val preference: DataStore<MarvelCharacter>
+    private val preference: DataStore<MarvelCharacters>
 ) {
     val savedCharacters = preference.data
 
-    suspend fun setCharacterSaved(id: Int) {
+    suspend fun setCharacterSaved(id: MarvelCharacters) {
         try {
             preference.updateData {
                 it.toBuilder()
                     .apply {
-                        if (idsList.contains(id)) {
-                            idsList
-                                .apply { remove(id) }
-                                .forEachIndexed { index, id ->
-                                    setIds(index, id)
-                                }
-                        } else { addIds(id) }
+                        this.defaultInstanceForType.newBuilderForType().apply {
+                            this.charactersList.
+                        }.build()
+                        val searchedCharacter = charactersList.contains(id)
+                        if (searchedCharacter != null) {
+                            val searchedIndex = charactersList.indexOf(searchedCharacter)
+                            removeCharacters(searchedIndex)
+                        } else {
+                            addCharacters()
+                        }
                     }
                     .build()
             }
