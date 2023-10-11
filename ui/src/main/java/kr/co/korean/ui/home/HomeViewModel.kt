@@ -12,47 +12,59 @@ import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import javax.inject.Inject
 import androidx.paging.cachedIn
+import androidx.paging.map
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
-sealed interface CharactersUiState {
-    object Loading: CharactersUiState
-    sealed interface LoadFinished: CharactersUiState {
+data class CharactersUiModel(
+    val id: Int,
+    val thumbnail: String,
+    val urlCount: Int,
+    val comicCount: Int,
+    val storyCount: Int,
+    val eventCount: Int,
+    val seriesCount: Int,
+    val saved: Boolean,
+)
 
-        data class Success(
-            val uiModel: CharactersUiModel
-        ): LoadFinished {
-            data class CharactersUiModel(
-                val id: Int,
-                val thumbnail: String,
-                val urlCount: Int,
-                val comicCount: Int,
-                val storyCount: Int,
-                val eventCount: Int,
-                val seriesCount: Int,
-                val saved: Boolean,
-            )
-        }
-
-        data class Error(val throwable: Throwable): LoadFinished
-    }
-}
-
-
+fun CharacterDataModel.convertUiModel(): CharactersUiModel =
+    CharactersUiModel(
+        id = id,
+        thumbnail = thumbnail,
+        urlCount = urlCount,
+        comicCount = comicCount,
+        storyCount = storyCount,
+        seriesCount = seriesCount,
+        eventCount = eventCount,
+        saved = true
+    )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val characterRepository: CharacterRepository
 ) : ViewModel() {
 
-    val remoteCharacters: StateFlow<PagingData<CharacterDataModel>> =
+    val remoteCharacters: StateFlow<PagingData<CharactersUiModel>> =
         characterRepository.remoteCharacters
             .cachedIn(viewModelScope)
+            .map { pagingData ->
+                pagingData.map { it.convertUiModel() }
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = PagingData.empty()
             )
+
+//    val remoteCharacters: StateFlow<PagingData<CharacterDataModel>> =
+//        characterRepository.remoteCharacters
+//            .cachedIn(viewModelScope)
+//            .stateIn(
+//                scope = viewModelScope,
+//                started = SharingStarted.WhileSubscribed(5_000L),
+//                initialValue = PagingData.empty()
+//            )
 
 //    val localCharacteds: StateFlow<List<Int>> =
 //        characterRepository.localCharacters
