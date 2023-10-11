@@ -15,6 +15,9 @@ import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.home.CharactersUiModel
 import javax.inject.Inject
 
+// TODO: BookmarkViewModel, 예외처리 각각 어떻게 할지?
+// TODO: BookmarkViewModel, 상태바 모델링 필요
+
 fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
     CharactersUiModel(
         id = dataModel.id,

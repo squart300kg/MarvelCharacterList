@@ -18,7 +18,7 @@ import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.R
 import javax.inject.Inject
 
-// TODO: HomeViewModel, BookmarkViewModel예외처리 각각 어떻게 할지?
+// TODO: HomeViewModel, 예외처리 각각 어떻게 할지?
 // TODO: uiModel공통인데 어디 패키지에 둘지?
 data class CharactersUiModel(
     val id: Int,
