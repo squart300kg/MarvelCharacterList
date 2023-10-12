@@ -141,13 +141,10 @@ class MainActivity : ComponentActivity() {
                     BaseDialog(
                         modifier = Modifier,
                         titleText = dialogUiState.dialogText,
-                        onClickOk = {},
-                        onClickCancel = {}
+                        onClickOk = viewModel::dismissDialog,
+                        onClickCancel = viewModel::dismissDialog
                     )
                 }
-
-
-
             }
         }
     }

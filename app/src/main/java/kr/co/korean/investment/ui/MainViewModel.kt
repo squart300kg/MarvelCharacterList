@@ -59,6 +59,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun dismissDialog() {
+        _dialogUiState.update {
+            it.copy(
+                dialogText = ""
+            )
+        }
+    }
+
     fun showPermissionSettingRedirectDialog() {
 
     }

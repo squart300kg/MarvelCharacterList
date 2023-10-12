@@ -1,5 +1,6 @@
 package kr.co.korean.investment.ui.dialog
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,7 +36,6 @@ fun BaseDialog(
             modifier = modifier
                 .wrapContentWidth()
                 .wrapContentHeight()            ,
-            color = Color.White
         ) {
             Column(modifier = Modifier.width(350.dp)) {
 
@@ -49,27 +49,22 @@ fun BaseDialog(
                 )
 
                 Divider(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Color.Transparent,
                     modifier = Modifier
                         .height(1.dp + 24.dp)
                         .padding(top = 24.dp)
                         .fillMaxWidth()
                 )
 
-                Button(
-                    onClick = onClickOk,
+                Text(
                     modifier = Modifier
                         .height(48.dp)
-                        .fillMaxWidth(),
-                    border = null,
-                    elevation = null,
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.ok),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+                        .fillMaxWidth()
+                        .clickable { onClickOk() },
+                    text = stringResource(id = R.string.ok),
+                    textAlign = TextAlign.Center,
+
+                )
             }
         }
     }
