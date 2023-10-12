@@ -88,7 +88,6 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
         }
         outputStream?.use {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            Log.e("imageSaveLog", "saved")
         }
     }
 }

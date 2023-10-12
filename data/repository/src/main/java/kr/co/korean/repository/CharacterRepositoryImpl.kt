@@ -37,7 +37,6 @@ fun convertDataModel(roomModel: MarvelCharacter) =
         eventCount = roomModel.eventCount
     )
 
-// TODO: etag연동
 /**
  * Repository의 경우, API의 'XXXResponse' 네이밍의 모델 수신 후,
  * 상위 레이어로 전달을 위한 모델('XXXDataModel')로 파싱 및 Ui Layer or Data Layer에 노출합니다.

@@ -1,26 +1,22 @@
 package kr.co.korean.ui.home
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kr.co.korean.domain.ModifyCharacterSavedStatusUseCase
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.ui.model.convertDataModel
 import javax.inject.Inject
 
 fun syncAndConvertUiModel(
@@ -41,10 +37,8 @@ fun syncAndConvertUiModel(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
+    private val modifyCharacterSavedStatusUseCase: ModifyCharacterSavedStatusUseCase
 ) : ViewModel() {
-
-    private var _refreshState = MutableStateFlow(false)
-    val refreshState = _refreshState.asStateFlow()
 
     val characters: StateFlow<PagingData<CharactersUiModel>> =
         combine(
@@ -63,19 +57,10 @@ class HomeViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
 
-    // TODO: 유즈케이스로 분리
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            characterRepository.modifyCharacterSavedStatus(
-                dataModel = CharacterDataModel(
-                    id = uiModel.id,
-                    thumbnail = uiModel.thumbnail,
-                    urlCount = uiModel.urlCount,
-                    storyCount = uiModel.storyCount,
-                    seriesCount = uiModel.seriesCount,
-                    eventCount = uiModel.eventCount,
-                    comicCount = uiModel.comicCount
-                ),
+            modifyCharacterSavedStatusUseCase(
+                dataModel = uiModel.convertDataModel(),
                 saved = saved
             )
         }

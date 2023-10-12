@@ -11,26 +11,19 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kr.co.korean.common.model.UiResult
+import kr.co.korean.domain.ModifyCharacterSavedStatusUseCase
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.ui.model.convertDataModel
+import kr.co.korean.ui.model.convertUiModel
 import javax.inject.Inject
 
-fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
-    CharactersUiModel(
-        id = dataModel.id,
-        thumbnail = dataModel.thumbnail,
-        urlCount = dataModel.urlCount,
-        comicCount = dataModel.comicCount,
-        storyCount = dataModel.storyCount,
-        seriesCount = dataModel.seriesCount,
-        eventCount = dataModel.eventCount,
-        saved = true
-    )
 
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
+    private val modifyCharacterSavedStatusUseCase: ModifyCharacterSavedStatusUseCase
 ): ViewModel() {
 
     val localCharacters: StateFlow<UiResult<List<CharactersUiModel>>> =
@@ -45,16 +38,8 @@ class BookmarkViewModel @Inject constructor(
 
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            characterRepository.modifyCharacterSavedStatus(
-                dataModel = CharacterDataModel(
-                    id = uiModel.id,
-                    thumbnail = uiModel.thumbnail,
-                    urlCount = uiModel.urlCount,
-                    storyCount = uiModel.storyCount,
-                    seriesCount = uiModel.seriesCount,
-                    eventCount = uiModel.eventCount,
-                    comicCount = uiModel.comicCount
-                ),
+            modifyCharacterSavedStatusUseCase(
+                dataModel = uiModel.convertDataModel(),
                 saved = saved
             )
         }
