@@ -35,8 +35,8 @@ class BookmarkViewModel @Inject constructor(
 
     val localCharacters: StateFlow<UiResult<List<CharactersUiModel>>> =
         characterRepository.localCharacters
-            .map { UiResult.Success(it.map(::convertUiModel)) }
             .catch { UiResult.Error(it) }
+            .map { UiResult.Success(it.map(::convertUiModel)) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),

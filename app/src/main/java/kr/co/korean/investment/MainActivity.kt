@@ -99,10 +99,8 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         val topLevelNavOptions = navOptions {
                                             popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
                                             }
                                             launchSingleTop = true
-                                            restoreState = true
                                         }
 
                                         navController.navigate(destination.name, topLevelNavOptions) },

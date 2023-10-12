@@ -11,7 +11,6 @@ import kr.co.korean.common.model.UiResult
 import kr.co.korean.repository.AppStateRepository
 import javax.inject.Inject
 
-// TODO: bookmarkscreen 프로그래스바 이상함
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val appStateRepository: AppStateRepository

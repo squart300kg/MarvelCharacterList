@@ -65,7 +65,7 @@ fun BookmarkScreen(
     when (characterUiState) {
         is UiResult.Loading -> onProgressStateChange(true)
         is UiResult.Error -> onProgressStateChange(false)
-        is UiResult.Success<List<CharactersUiModel>> -> {
+        is UiResult.Success -> {
             onProgressStateChange(false)
 
             LazyColumn(modifier = modifier) {
