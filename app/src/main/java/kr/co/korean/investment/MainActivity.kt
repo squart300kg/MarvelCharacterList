@@ -49,6 +49,8 @@ import kr.co.korean.investment.ui.navigation.BaseNavHost
 import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
 import kr.co.korean.investment.ui.navigation.BaseDestination
 import kr.co.korean.investment.ui.navigation.baseDestinations
+import kr.co.korean.investment.ui.navigation.util.getCurrentDestination
+import kr.co.korean.investment.ui.navigation.util.isTopLevelDestinationInHierarchy
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
 // TODO: 기획서 추가 리스트
@@ -157,16 +159,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-// TODO: 이 코드 어떻게 위치시킬지?
-@Composable
-private fun NavHostController.getCurrentDestination(): NavDestination? {
-    return this.currentBackStackEntryAsState()
-            .value
-            ?.destination
-}
-
-private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: BaseDestination) =
-    this?.hierarchy?.any {
-        it.route?.contains(destination.name, true) ?: false
-    } ?: false
