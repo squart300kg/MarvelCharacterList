@@ -25,9 +25,9 @@ hiltWorker = "1.0.0"
 protobuf = "3.24.0"
 
 # plugins
+protobufPlugin = "0.9.4"
 androidGradlePlugin = "8.1.2"
 jetbrainsKotlin = "1.8.10"
-protobufPlugin = "0.9.4"
 
 # libraries and plugins
 daggerHilt = "2.45"
@@ -78,9 +78,9 @@ protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 jetbrains-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKotlin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
-protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 
 [bundles]
 [metadata]

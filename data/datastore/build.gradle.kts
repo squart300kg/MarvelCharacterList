@@ -35,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 protobuf {
@@ -57,8 +60,8 @@ dependencies {
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.datastore.core)
-    implementation(libs.protobuf.kotlin.lite)
     implementation(libs.protobuf.protoc)
+    implementation(libs.protobuf.kotlin.lite)
 
     kapt(libs.com.google.dagger.hilt.compiler)
 
