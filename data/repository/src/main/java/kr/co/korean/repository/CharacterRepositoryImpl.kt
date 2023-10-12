@@ -44,7 +44,6 @@ fun convertDataModel(roomModel: MarvelCharacter) =
  */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterDao: MarvelCharacterDao,
-//    private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource,
     private val marvelCharacterApi: MarvelCharacterApi,
     private val thumbnailDownloadDataSource: ThumbnailDownloadDataSource
 ): CharacterRepository {

@@ -8,7 +8,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-const val CHARACTER_DATA_PAGE_SIZE = 20
+const val CHARACTER_DATA_PAGE_SIZE = 1
 const val STARTING_REFRESH_KEY_PAGE = 1
 
 class MarvelCharacterPagingSource @Inject constructor(
@@ -17,8 +17,7 @@ class MarvelCharacterPagingSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharactersResponseModel.Data.Result> {
         try {
-            val nextPage = 1550
-//            val nextPage = params.key ?: 1
+            val nextPage = params.key ?: 1
             val currentTimeMillis = System.currentTimeMillis()
 
             val response = marvelCharacterApi.getCharacters(
