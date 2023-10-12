@@ -30,7 +30,9 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
     @Assisted private val workerParams: WorkerParameters,
 ): CoroutineWorker(applicationContext, workerParams) {
     override suspend fun doWork(): Result {
-        val url = workerParams.inputData.getString("url")!!
+        val url = checkNotNull(workerParams.inputData.getString("url")) {
+            return Result.failure()
+        }
 
         return try {
             downloadImageToGallery(url.convertToBitmap())
@@ -39,6 +41,8 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
         } catch (e: IOException) {
             Result.failure()
         } catch (e: MalformedURLException) {
+            Result.failure()
+        } catch (e: Exception) {
             Result.failure()
         }
     }
