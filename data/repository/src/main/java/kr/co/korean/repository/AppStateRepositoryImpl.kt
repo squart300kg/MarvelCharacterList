@@ -1,7 +1,7 @@
-package kr.co.korean.repository.model
+package kr.co.korean.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kr.co.korean.datastore.AppStateDataStore
 import javax.inject.Inject
 
@@ -10,8 +10,9 @@ class AppStateRepositoryImpl @Inject constructor(
 ): AppStateRepository {
 
     override val appFirstStatedState: Flow<Boolean> =
-        flow {
-//            appStateDataStore.setFirstStartedState()
-            emit(false)
-        }
+        appStateDataStore.appState.map { it.appFirstStated }
+
+    override suspend fun startApp() {
+        appStateDataStore.startApp()
+    }
 }
