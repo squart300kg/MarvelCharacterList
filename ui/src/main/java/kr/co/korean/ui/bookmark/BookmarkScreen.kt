@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,8 +36,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.common.model.Result
+//import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
+//import kr.co.korean.investment.ui.theme.Pink80
+//import kr.co.korean.investment.ui.theme.Purple80
+//import kr.co.korean.investment.ui.theme.PurpleGrey80
 import kr.co.korean.ui.R
 import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.util.DevicePreviews
 
 @Composable
 fun BookmarkScreen(
@@ -191,5 +197,59 @@ fun BookmarkScreen(
                 color = MaterialTheme.colorScheme.tertiary,
             )
         }
+    }
+}
+
+@Composable
+@DevicePreviews
+fun BookmarkScreenPreview() {
+    MaterialTheme {
+        BookmarkScreen(
+            characterUiState = Result.Success(listOf(
+                CharactersUiModel(
+                    id = 1,
+                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    urlCount = 1,
+                    comicCount = 1,
+                    storyCount = 1,
+                    eventCount = 1,
+                    seriesCount = 1,
+                    saved = true,
+                ),
+                CharactersUiModel(
+                    id = 1,
+                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    urlCount = 1,
+                    comicCount = 1,
+                    storyCount = 1,
+                    eventCount = 1,
+                    seriesCount = 1,
+                    saved = false,
+                ),
+                CharactersUiModel(
+                    id = 1,
+                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    urlCount = 1,
+                    comicCount = 1,
+                    storyCount = 1,
+                    eventCount = 1,
+                    seriesCount = 1,
+                    saved = true,
+                ),
+                CharactersUiModel(
+                    id = 1,
+                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    urlCount = 1,
+                    comicCount = 1,
+                    storyCount = 1,
+                    eventCount = 1,
+                    seriesCount = 1,
+                    saved = true,
+                )
+            )),
+            progressState = false,
+            onProgressStateChange = {},
+            modifyCharacterSavedStatus = {_,_ ->}
+        )
     }
 }

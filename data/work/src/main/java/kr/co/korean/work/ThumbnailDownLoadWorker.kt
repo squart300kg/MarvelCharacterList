@@ -23,7 +23,6 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-// TODO: 이미지 다운로드 실패했을때 에러처리?
 private const val JPG_EXTENSION = "jpg"
 private const val JPG_MIME_TYPE = "image/jpg"
 const val ERROR_MESSAGE = "errorMessage"
@@ -41,6 +40,12 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
             downloadImageToGallery(url.convertToBitmap())
 
             Result.success()
+
+            /**
+             * 현재는 [ThumbnailDownloadDataSource]에 예외 데이터를 전달하나 이를 핸들링하진 않습니다.
+             * 다만, 실무 진행시엔 예외 관련 정보를 전달 및 이를 수신하여
+             * 핸들링하며 최종적으로 UI Layer까지 전달하게 됩니다.
+             */
         } catch (e: IOException) {
             Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
         } catch (e: MalformedURLException) {
