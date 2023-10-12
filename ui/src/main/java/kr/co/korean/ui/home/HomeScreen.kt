@@ -1,6 +1,5 @@
 package kr.co.korean.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -46,10 +45,6 @@ import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.ui.R as UiRes
-
-// TODO:
-//  1. 프리뷰 작업
-//  2. 디바이스 크기게 맞게 컴포넌트 조절되도록 설정
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -230,7 +225,6 @@ fun HomeScreen(
                                         .fillMaxHeight(),
                                     verticalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    // TODO: uiState바꾸면서 중복 제거할 것
                                     Text(
                                         modifier = modifier,
                                         text = stringResource(id = UiRes.string.characterItemUrlCount) + characterUiState.urlCount.toString()

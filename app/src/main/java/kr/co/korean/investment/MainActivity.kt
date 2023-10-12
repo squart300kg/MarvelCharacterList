@@ -28,12 +28,14 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kr.co.korean.common.model.Result
 import kr.co.korean.investment.ui.MainViewModel
 import kr.co.korean.investment.ui.navigation.BaseNavHost
 import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
 import kr.co.korean.investment.ui.navigation.baseDestinations
 import kr.co.korean.investment.ui.navigation.util.getCurrentDestination
 import kr.co.korean.investment.ui.navigation.util.isTopLevelDestinationInHierarchy
+import kr.co.korean.investment.ui.permission.PermissionEffect
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
 // TODO: 기획서 추가 리스트
@@ -109,33 +111,26 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-
-                requiredPermissionsStates.permissions.forEach { permissionState ->
-                    LaunchedEffect(permissionState.status) {
-                        if (requiredPermissionsStates.allPermissionsGranted) {
-                            permissionGrantedState = true
-                        } else {
-
-                            // 앱 첫 진입 및 권한 다이얼로그 로딩
-                            Log.e("permission", "appFirstStartedState : $appFirstStartedState")
-                            if (!appFirstStartedState) {
-                                Log.e("permission", "first")
+                when (appFirstStartedState) {
+                    is Result.Loading -> {}
+                    is Result.Error -> {}
+                    is Result.Success -> {
+                        PermissionEffect(
+                            multiplePermissionsState = requiredPermissionsStates,
+                            appFirstStartedState = (appFirstStartedState as Result.Success<Boolean>).model,
+                            onPermissionStateChanged = { permissionGrantedState = true },
+                            onShowFirst = {
                                 viewModel.startApp()
                                 requiredPermissionsStates.launchMultiplePermissionRequest()
-                            } else {
-                                // 권한 거절 클릭
-                                if (permissionState.status.shouldShowRationale) {
-                                    // 첫 번째 권한 거절로, 권한 필요 다이얼로그를 로딩하며, 권한 재요청
-                                    requiredPermissionsStates.launchMultiplePermissionRequest()
-                                    viewModel.showPermissionNeededDialog()
-                                    Log.e("permission", "shouldShowRationale true")
-                                } else {
-                                    // 두 번째 권한 거절로, 권한 설정 페이지 리다이렉트 다이얼로그 로딩
-                                    viewModel.showPermissionSettingRedirectDialog()
-                                    Log.e("permission", "shouldShowRationale false")
-                                }
+                            },
+                            onUserNagativeClickFirst = {
+                                viewModel.showPermissionNeededDialog()
+                                requiredPermissionsStates.launchMultiplePermissionRequest()
+                            },
+                            onUserNagativeClickSecond = {
+                                viewModel.showPermissionSettingRedirectDialog()
                             }
-                        }
+                        )
                     }
                 }
             }
