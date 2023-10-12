@@ -1,5 +1,6 @@
 [versions]
 # libraries
+accompanist = "0.28.0"
 androidxCore = "1.9.0"
 androidxLlifecycleRuntimeKtx = "2.6.2"
 androidxActivityCompose = "1.8.0"
@@ -30,6 +31,7 @@ jetbrainsKotlin = "1.8.10"
 daggerHilt = "2.45"
 
 [libraries]
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLlifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
