@@ -42,8 +42,8 @@ class MarvelCharacterPagingSource @Inject constructor(
     }
 
     /**
-     * swifeRefresh시, 첫 번째 데이터부터 다시 보여주므로,
-     * null을 리턴하여  [params.key]를 1로 반환받습니다.
+     * swifeRefresh시, 데이터를 처음부터 보여주므로,
+     * null을 리턴하여  [params.key]를 1로 반환받게합니다.
      */
     override fun getRefreshKey(state: PagingState<Int, CharactersResponseModel.Data.Result>): Int? {
         return null
