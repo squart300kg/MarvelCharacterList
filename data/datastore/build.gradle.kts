@@ -3,11 +3,12 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.protobuf)
     kotlin("kapt")
 }
 
 android {
-    namespace = "kr.co.korean.repository"
+    namespace = "kr.co.korean.datastore"
     compileSdk = 33
 
     defaultConfig {
@@ -34,27 +35,34 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    kapt {
-        correctErrorTypes = true
+}
+
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+            }
+        }
     }
 }
 
 dependencies {
 
-    implementation(project(":data:database"))
-    implementation(project(":data:datastore"))
-    implementation(project(":data:network"))
-    implementation(project(":data:work"))
-    implementation(project(":common"))
-
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.paging.runtimne)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.protobuf.protoc)
 
     kapt(libs.com.google.dagger.hilt.compiler)
 
-    androidTestImplementation(libs.junit)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
-
-    testImplementation(libs.androidx.test.ext.junit)
 }
