@@ -2,9 +2,7 @@ package kr.co.korean.repository
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import kr.co.korean.database.entity.MarvelCharacter
 import kr.co.korean.repository.model.CharacterDataModel
-import kr.co.korean.repository.model.SavedIdsDataModel
 
 interface CharacterRepository {
 
@@ -14,4 +12,5 @@ interface CharacterRepository {
 
     suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel, saved: Boolean)
 
+    fun downloadThumbnail(url: String)
 }

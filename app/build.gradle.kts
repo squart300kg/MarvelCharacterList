@@ -77,6 +77,8 @@ dependencies {
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.junit)
     implementation(libs.com.google.dagger.hilt.android)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.hilt.work)
     kapt(libs.com.google.dagger.hilt.compiler)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

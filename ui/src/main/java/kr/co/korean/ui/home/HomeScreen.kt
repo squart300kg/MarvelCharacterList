@@ -56,7 +56,8 @@ fun HomeScreen(
         characterUiState = characterUiState,
         progressState = progressState,
         onProgressStateChange = { progressState = it},
-        modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus
+        modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus,
+        downloadThumbnail = viewModel::downloadThumbnail
     )
 
 }
@@ -67,7 +68,8 @@ fun HomeScreen(
     characterUiState: LazyPagingItems<CharactersUiModel>,
     progressState: Boolean,
     onProgressStateChange: (Boolean) -> Unit,
-    modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit
+    modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
+    downloadThumbnail: (String) -> Unit
 ) {
     when (characterUiState.loadState.refresh) {
         is LoadState.Loading -> onProgressStateChange(true)
@@ -122,7 +124,8 @@ fun HomeScreen(
                                     Image(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .align(Alignment.Center),
+                                            .align(Alignment.Center)
+                                            .clickable { downloadThumbnail(characterUiState.thumbnail) },
                                         painter = rememberAsyncImagePainter(
                                             model = characterUiState.thumbnail,
                                             onState = { state ->
@@ -133,7 +136,7 @@ fun HomeScreen(
                                                     is AsyncImagePainter.State.Success -> false
                                                 }
                                             }),
-                                        contentDescription = null
+                                        contentDescription = null,
                                     )
                                 }
 

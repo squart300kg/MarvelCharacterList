@@ -72,8 +72,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun downloadThumbnail() {
-        // TODO: Implement
+    fun downloadThumbnail(url: String) {
+        characterRepository.downloadThumbnail(url)
     }
 
 }

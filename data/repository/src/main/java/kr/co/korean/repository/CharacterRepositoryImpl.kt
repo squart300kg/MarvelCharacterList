@@ -1,6 +1,5 @@
 package kr.co.korean.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -12,6 +11,7 @@ import kr.co.korean.database.entity.MarvelCharacter
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
+import kr.co.korean.work.ThumbnailDownloadDataSource
 import javax.inject.Inject
 
 fun CharacterDataModel.convertRoomModel() =
@@ -43,7 +43,8 @@ fun convertDataModel(roomModel: MarvelCharacter) =
  */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterDao: MarvelCharacterDao,
-    private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource
+    private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource,
+    private val thumbnailDownloadDataSource: ThumbnailDownloadDataSource
 ): CharacterRepository {
 
     override val localCharacters: Flow<List<CharacterDataModel>> =
@@ -77,5 +78,9 @@ class CharacterRepositoryImpl @Inject constructor(
         } else {
             marvelCharacterDao.deleteCharacter(roomModel.characterId)
         }
+    }
+
+    override fun downloadThumbnail(url: String) {
+        thumbnailDownloadDataSource.downloadThumbnail(url)
     }
 }
