@@ -19,11 +19,12 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
-import java.io.OutputStream
+import java.lang.Exception
 import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
 
+private const val JPG_EXTENSION = "jpg"
+private const val JPG_MIME_TYPE = "image/jpg"
 @HiltWorker
 class ThumbnailDownLoadWorker @AssistedInject constructor(
     @Assisted applicationContext: Context,
@@ -31,53 +32,54 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
 ): CoroutineWorker(applicationContext, workerParams) {
     override suspend fun doWork(): Result {
         val url = workerParams.inputData.getString("url")!!
-        Log.e("workTest", "tick ${url}")
 
-        val mImage = mLoad(url)
-        mSaveMediaToStorage(mImage)
+        downloadImageToGallery(url.convertToBitmap())
+
         return Result.success()
     }
 
-    // Function to establish connection and load image
-    private fun mLoad(string: String): Bitmap? {
-        val url = URL(string)
-//        val connection: HttpURLConnection?
-        try {
-            val connection = url.openConnection() as HttpURLConnection
-            connection.connect()
-            val inputStream: InputStream = connection.inputStream
-            val bufferedInputStream = BufferedInputStream(inputStream)
-            return BitmapFactory.decodeStream(bufferedInputStream)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Log.e("imageSaveLog", "error : ${e.message}")
-            Log.e("imageSaveLog", "error : ${e.printStackTrace()}")
+    private fun String.convertToBitmap(): Bitmap {
+        return (URL(this).openConnection() as HttpURLConnection).apply {
+            connect()
+        }.let { httpURLConnection ->
+            httpURLConnection.inputStream.let { inputStream ->
+                BufferedInputStream(inputStream).let { bufferedInputStream ->
+                    BitmapFactory.decodeStream(bufferedInputStream)
+                }
+            }
         }
-        return null
     }
 
-    private fun mSaveMediaToStorage(bitmap: Bitmap?) {
-        val filename = "${System.currentTimeMillis()}.jpg"
-        var fos: OutputStream? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            applicationContext.contentResolver?.also { resolver ->
-                val contentValues = ContentValues().apply {
+    private fun downloadImageToGallery(bitmap: Bitmap) {
+        val filename = "${System.currentTimeMillis()}.${JPG_EXTENSION}"
+        val fos = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            applicationContext.contentResolver?.
+            let { resolver ->
+                ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    put(MediaStore.MediaColumns.MIME_TYPE, JPG_MIME_TYPE)
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                }.let { contentValues ->
+                    resolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        contentValues
+                    )?.let { imageUri ->
+                        imageUri.let { resolver.openOutputStream(it) }
+                    }
                 }
-                val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                fos = imageUri?.let { resolver.openOutputStream(it) }
             }
         } else {
-            val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val image = File(imagesDir, filename)
-            fos = FileOutputStream(image)
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            ).let { imagesDir ->
+                File(imagesDir, filename)
+            }.let { image ->
+                FileOutputStream(image)
+            }
         }
         fos?.use {
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             Log.e("imageSaveLog", "saved")
-
         }
     }
 }
