@@ -24,4 +24,8 @@
 -dontwarn retrofit2.KotlinExtensions
 # ==============================================================
 
+# responseModel
 -keep class kr.co.korean.network.model.** { *; }
+
+# missing rules
+-dontwarn java.lang.invoke.StringConcatFactory
