@@ -142,7 +142,6 @@ fun BookmarkScreen(
                                         .fillMaxHeight(),
                                     verticalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    // TODO: uiState바꾸면서 중복 제거할 것
                                     Text(
                                         modifier = modifier,
                                         text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString()

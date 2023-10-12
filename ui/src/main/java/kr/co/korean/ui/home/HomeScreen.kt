@@ -25,7 +25,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,10 +41,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.work.WorkInfo
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import kr.co.korean.common.model.Result
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.ui.R as UiRes
@@ -74,7 +71,6 @@ fun HomeScreen(
         modifier = modifier,
         refreshState = pullRefreshState,
         characterUiState = characterUiState,
-        progressState = loadingProgressState,
         imageDownloadState = imageDownloadState,
         onSnackBarStateChanged = onSnackBarStateChanged,
         onRefreshProgressStateChange = { refreshProgressState = it },
@@ -101,7 +97,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     refreshState: PullRefreshState,
     characterUiState: LazyPagingItems<CharactersUiModel>,
-    progressState: Boolean,
     imageDownloadState: ImageDownLoadResult,
     onSnackBarStateChanged: (String) -> Unit,
     onRefreshProgressStateChange: (Boolean) -> Unit,
@@ -110,39 +105,35 @@ fun HomeScreen(
     downloadThumbnail: (String) -> Unit
 ) {
 
+    /**
+     * 이미지 첫 로딩시, 새로고침시에 프로그래스바를 띄웁니다.
+     * 또한 이미지 로딩이 완료(=[LoadState.NotLoading])시,
+     * 이미지 다운을 위한 프로그래스바(=[ImageDownLoadResult]를 띄우게 됩니다.
+     */
     when (characterUiState.loadState.refresh) {
         is LoadState.Loading -> {
-            Log.e("progressState", "loadState Loading")
             onLoadingProgressStateChange(true)
             onRefreshProgressStateChange(true)
         }
         is LoadState.Error -> {
-            Log.e("progressState", "loadState Error")
-
             onLoadingProgressStateChange(false)
             onRefreshProgressStateChange(true)
         }
         is LoadState.NotLoading -> {
-            Log.e("progressState", "loadState NotLoading")
-
             onLoadingProgressStateChange(false)
             onRefreshProgressStateChange(false)
 
             when (imageDownloadState) {
                 is ImageDownLoadResult.Loading -> {
-                    Log.e("progressState", "ImageDownLoadResult Loading")
                     onLoadingProgressStateChange(true)
                 }
                 is ImageDownLoadResult.Error -> {
-                    Log.e("progressState", "ImageDownLoadResult Error")
                     onLoadingProgressStateChange(true)
                 }
                 is ImageDownLoadResult.Success -> {
-                    Log.e("progressState", "ImageDownLoadResult Success")
                     onLoadingProgressStateChange(false)
                 }
                 is ImageDownLoadResult.NoneStart -> {
-                    Log.e("progressState", "ImageDownLoadResult NoneStart")
                     onLoadingProgressStateChange(false)
                 }
             }

@@ -35,15 +35,14 @@ class ThumbnailDownloadDataSource @Inject constructor(
     @ApplicationContext private val applicationContext: Context
 ) {
 
+    /**
+     * debounce를 200으로 준 이유는, 불필요한 리컴포지션 방지와 프로그래스바 로딩을 위한 임의의 값입니다.
+     */
     private val _imageDownloadState = MutableStateFlow<ImageDownLoadResult>(ImageDownLoadResult.NoneStart)
     @OptIn(FlowPreview::class)
     val imageDownloadState
         get() = _imageDownloadState.asStateFlow()
-            .debounce(100L)
-
-//            .distinctUntilChangedBy {
-//                ImageDownLoadResult.Loading
-//            }
+            .debounce(200L)
 
 
     fun downloadThumbnail(url: String) {
