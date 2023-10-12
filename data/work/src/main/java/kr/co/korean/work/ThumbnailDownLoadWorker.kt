@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -18,11 +17,11 @@ import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
-import java.lang.Exception
 import java.net.HttpURLConnection
+import java.net.MalformedURLException
 import java.net.URL
 
+// TODO: 이미지 다운로드 실패했을때 에러처리?
 private const val JPG_EXTENSION = "jpg"
 private const val JPG_MIME_TYPE = "image/jpg"
 @HiltWorker
@@ -33,9 +32,15 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         val url = workerParams.inputData.getString("url")!!
 
-        downloadImageToGallery(url.convertToBitmap())
+        return try {
+            downloadImageToGallery(url.convertToBitmap())
 
-        return Result.success()
+            Result.success()
+        } catch (e: IOException) {
+            Result.failure()
+        } catch (e: MalformedURLException) {
+            Result.failure()
+        }
     }
 
     private fun String.convertToBitmap(): Bitmap {
@@ -52,7 +57,7 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
 
     private fun downloadImageToGallery(bitmap: Bitmap) {
         val filename = "${System.currentTimeMillis()}.${JPG_EXTENSION}"
-        val fos = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val outputStream = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             applicationContext.contentResolver?.
             let { resolver ->
                 ContentValues().apply {
@@ -77,7 +82,7 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
                 FileOutputStream(image)
             }
         }
-        fos?.use {
+        outputStream?.use {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             Log.e("imageSaveLog", "saved")
         }
