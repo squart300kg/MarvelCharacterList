@@ -4,14 +4,18 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import androidx.work.WorkInfo
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kr.co.korean.common.model.Result
 import kr.co.korean.database.dao.MarvelCharacterDao
 import kr.co.korean.database.entity.MarvelCharacter
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
+import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
 import javax.inject.Inject
 
@@ -78,6 +82,9 @@ class CharacterRepositoryImpl @Inject constructor(
             marvelCharacterDao.deleteCharacter(roomModel.characterId)
         }
     }
+
+    override val imageDownloadState: Flow<ImageDownLoadResult> =
+        thumbnailDownloadDataSource.imageDownloadState
 
     override fun downloadThumbnail(url: String) {
         thumbnailDownloadDataSource.downloadThumbnail(url)

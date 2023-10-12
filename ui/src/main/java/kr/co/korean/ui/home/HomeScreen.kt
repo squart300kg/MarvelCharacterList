@@ -25,6 +25,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,12 +38,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.work.WorkInfo
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import kr.co.korean.common.model.Result
 import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.ui.R as UiRes
 
 // TODO:
@@ -58,7 +63,8 @@ fun HomeScreen(
 ) {
 
     val characterUiState = viewModel.characters.collectAsLazyPagingItems()
-    var loadingProgressState by remember { mutableStateOf(true) }
+    val imageDownloadState by viewModel.imageDownloadState.collectAsStateWithLifecycle()
+    var loadingProgressState by remember { mutableStateOf(false) }
     var refreshProgressState by remember { mutableStateOf(false) }
     val pullRefreshState = rememberPullRefreshState(
         refreshing = refreshProgressState,
@@ -69,6 +75,7 @@ fun HomeScreen(
         refreshState = pullRefreshState,
         characterUiState = characterUiState,
         progressState = loadingProgressState,
+        imageDownloadState = imageDownloadState,
         onSnackBarStateChanged = onSnackBarStateChanged,
         onRefreshProgressStateChange = { refreshProgressState = it },
         onLoadingProgressStateChange = { loadingProgressState = it },
@@ -76,6 +83,16 @@ fun HomeScreen(
         downloadThumbnail = viewModel::downloadThumbnail
     )
 
+    if (loadingProgressState) {
+        Box(modifier = modifier.fillMaxSize()) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(80.dp),
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -85,24 +102,50 @@ fun HomeScreen(
     refreshState: PullRefreshState,
     characterUiState: LazyPagingItems<CharactersUiModel>,
     progressState: Boolean,
+    imageDownloadState: ImageDownLoadResult,
     onSnackBarStateChanged: (String) -> Unit,
     onRefreshProgressStateChange: (Boolean) -> Unit,
     onLoadingProgressStateChange: (Boolean) -> Unit,
     modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
     downloadThumbnail: (String) -> Unit
 ) {
+
     when (characterUiState.loadState.refresh) {
         is LoadState.Loading -> {
+            Log.e("progressState", "loadState Loading")
             onLoadingProgressStateChange(true)
             onRefreshProgressStateChange(true)
         }
         is LoadState.Error -> {
-            onRefreshProgressStateChange(true)
+            Log.e("progressState", "loadState Error")
+
             onLoadingProgressStateChange(false)
+            onRefreshProgressStateChange(true)
         }
         is LoadState.NotLoading -> {
+            Log.e("progressState", "loadState NotLoading")
+
             onLoadingProgressStateChange(false)
             onRefreshProgressStateChange(false)
+
+            when (imageDownloadState) {
+                is ImageDownLoadResult.Loading -> {
+                    Log.e("progressState", "ImageDownLoadResult Loading")
+                    onLoadingProgressStateChange(true)
+                }
+                is ImageDownLoadResult.Error -> {
+                    Log.e("progressState", "ImageDownLoadResult Error")
+                    onLoadingProgressStateChange(true)
+                }
+                is ImageDownLoadResult.Success -> {
+                    Log.e("progressState", "ImageDownLoadResult Success")
+                    onLoadingProgressStateChange(false)
+                }
+                is ImageDownLoadResult.NoneStart -> {
+                    Log.e("progressState", "ImageDownLoadResult NoneStart")
+                    onLoadingProgressStateChange(false)
+                }
+            }
 
             if (characterUiState.loadState.append.endOfPaginationReached) {
                 onSnackBarStateChanged(
@@ -233,17 +276,6 @@ fun HomeScreen(
                     }
                 }
             }
-        }
-    }
-
-    if (progressState) {
-        Box(modifier = modifier.fillMaxSize()) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(80.dp),
-                color = MaterialTheme.colorScheme.tertiary,
-            )
         }
     }
 

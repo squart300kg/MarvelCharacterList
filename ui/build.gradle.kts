@@ -49,6 +49,7 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data:repository"))
+    implementation(project(":data:work"))
     implementation(project(":common"))
 
     implementation(libs.androidx.core.ktx)
@@ -67,6 +68,7 @@ dependencies {
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.paging.runtimne)
     implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.work.runtime)
     kapt(libs.com.google.dagger.hilt.compiler)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.paging.runtimne)
     implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.hilt.work)
 
     kapt(libs.com.google.dagger.hilt.compiler)
 

@@ -5,18 +5,25 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import androidx.work.WorkInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kr.co.korean.common.model.Result
 import kr.co.korean.domain.ModifyCharacterSavedStatusUseCase
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.ui.model.convertDataModel
+import kr.co.korean.work.ImageDownLoadResult
 import javax.inject.Inject
 
 fun syncAndConvertUiModel(
@@ -43,7 +50,7 @@ class HomeViewModel @Inject constructor(
     val characters: StateFlow<PagingData<CharactersUiModel>> =
         combine(
             characterRepository.remoteCharacters.cachedIn(viewModelScope),
-            characterRepository.localCharacters
+            characterRepository.localCharacters,
         ) { remoteCharacters, localCharacters ->
             remoteCharacters.map { remoteCharacter ->
                 syncAndConvertUiModel(
@@ -56,6 +63,14 @@ class HomeViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = PagingData.empty()
         )
+
+    val imageDownloadState: StateFlow<ImageDownLoadResult> =
+        characterRepository.imageDownloadState
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = ImageDownLoadResult.NoneStart
+            )
 
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {

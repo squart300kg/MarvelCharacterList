@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kr.co.korean.common.model.UiResult
 import kr.co.korean.repository.AppStateRepository
 import javax.inject.Inject
 

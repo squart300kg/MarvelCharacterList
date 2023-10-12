@@ -10,7 +10,9 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.io.BufferedInputStream
@@ -24,6 +26,7 @@ import java.net.URL
 // TODO: 이미지 다운로드 실패했을때 에러처리?
 private const val JPG_EXTENSION = "jpg"
 private const val JPG_MIME_TYPE = "image/jpg"
+const val ERROR_MESSAGE = "errorMessage"
 @HiltWorker
 class ThumbnailDownLoadWorker @AssistedInject constructor(
     @Assisted applicationContext: Context,
@@ -39,11 +42,11 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
 
             Result.success()
         } catch (e: IOException) {
-            Result.failure()
+            Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
         } catch (e: MalformedURLException) {
-            Result.failure()
+            Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
         } catch (e: Exception) {
-            Result.failure()
+            Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
         }
     }
 

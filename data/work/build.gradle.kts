@@ -38,6 +38,8 @@ android {
 
 dependencies {
 
+    implementation(project(":common"))
+
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.work.runtime)
