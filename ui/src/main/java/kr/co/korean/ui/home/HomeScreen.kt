@@ -15,6 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -43,6 +49,7 @@ import kr.co.korean.ui.model.CharactersUiModel
 //  1. 프리뷰 작업
 //  2. 디바이스 크기게 맞게 컴포넌트 조절되도록 설정
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -50,37 +57,60 @@ fun HomeScreen(
 ) {
 
     val characterUiState = viewModel.characters.collectAsLazyPagingItems()
-    var progressState by remember { mutableStateOf(true) }
+    var loadingProgressState by remember { mutableStateOf(true) }
+    var refreshProgressState by remember { mutableStateOf(false) }
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = refreshProgressState,
+        onRefresh = characterUiState::refresh
+    )
     HomeScreen(
         modifier = modifier,
+        refreshState = pullRefreshState,
         characterUiState = characterUiState,
-        progressState = progressState,
-        onProgressStateChange = { progressState = it},
+        progressState = loadingProgressState,
+        onRefreshProgressStateChange = { refreshProgressState = it },
+        onLoadingProgressStateChange = { loadingProgressState = it },
         modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus,
         downloadThumbnail = viewModel::downloadThumbnail
     )
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    refreshState: PullRefreshState,
     characterUiState: LazyPagingItems<CharactersUiModel>,
     progressState: Boolean,
-    onProgressStateChange: (Boolean) -> Unit,
+    onRefreshProgressStateChange: (Boolean) -> Unit,
+    onLoadingProgressStateChange: (Boolean) -> Unit,
     modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
     downloadThumbnail: (String) -> Unit
 ) {
     when (characterUiState.loadState.refresh) {
-        is LoadState.Loading -> onProgressStateChange(true)
-        is LoadState.Error -> onProgressStateChange(false)
+        is LoadState.Loading -> {
+            onLoadingProgressStateChange(true)
+            onRefreshProgressStateChange(true)
+        }
+        is LoadState.Error -> {
+            onRefreshProgressStateChange(true)
+            onLoadingProgressStateChange(false)
+        }
         is LoadState.NotLoading -> {
-            onProgressStateChange(false)
+            onLoadingProgressStateChange(false)
+            onRefreshProgressStateChange(false)
 
-            LazyColumn(modifier = modifier) {
-                items(characterUiState.itemCount) { index  ->
+            LazyColumn(modifier = modifier
+                .pullRefresh(refreshState)
+            ) {
+                items(characterUiState.itemCount) { index ->
                     characterUiState[index]?.let { characterUiState ->
-                        var imageProgressState by remember { mutableStateOf(true) }
+                        var imageProgressState by remember {
+                            mutableStateOf(
+                                true
+                            )
+                        }
 
                         Box(
                             modifier = Modifier
@@ -109,10 +139,12 @@ fun HomeScreen(
                                     .align(Alignment.CenterStart),
                             ) {
 
-                                Box(modifier = Modifier
-                                    .align(Alignment.CenterVertically)
-                                    .fillMaxWidth(0.5f)
-                                    .fillMaxHeight()) {
+                                Box(
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .fillMaxWidth(0.5f)
+                                        .fillMaxHeight()
+                                ) {
                                     if (imageProgressState) {
                                         CircularProgressIndicator(
                                             modifier = Modifier
@@ -125,16 +157,21 @@ fun HomeScreen(
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .align(Alignment.Center)
-                                            .clickable { downloadThumbnail(characterUiState.thumbnail) },
+                                            .clickable {
+                                                downloadThumbnail(
+                                                    characterUiState.thumbnail
+                                                )
+                                            },
                                         painter = rememberAsyncImagePainter(
                                             model = characterUiState.thumbnail,
                                             onState = { state ->
-                                                imageProgressState = when (state) {
-                                                    is AsyncImagePainter.State.Loading -> true
-                                                    is AsyncImagePainter.State.Empty,
-                                                    is AsyncImagePainter.State.Error,
-                                                    is AsyncImagePainter.State.Success -> false
-                                                }
+                                                imageProgressState =
+                                                    when (state) {
+                                                        is AsyncImagePainter.State.Loading -> true
+                                                        is AsyncImagePainter.State.Empty,
+                                                        is AsyncImagePainter.State.Error,
+                                                        is AsyncImagePainter.State.Success -> false
+                                                    }
                                             }),
                                         contentDescription = null,
                                     )
@@ -153,19 +190,24 @@ fun HomeScreen(
                                     // TODO: uiState바꾸면서 중복 제거할 것
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString())
+                                        text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString()
+                                    )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString())
+                                        text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString()
+                                    )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString())
+                                        text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString()
+                                    )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString())
+                                        text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString()
+                                    )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString())
+                                        text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
+                                    )
                                 }
                             }
 
@@ -175,7 +217,8 @@ fun HomeScreen(
                                     .fillMaxHeight(0.5f)
                                     .align(Alignment.CenterEnd),
                                 painter = painterResource(id = characterUiState.bookMarkImage),
-                                contentDescription = null)
+                                contentDescription = null
+                            )
                         }
 
                     }
@@ -193,5 +236,14 @@ fun HomeScreen(
                 color = MaterialTheme.colorScheme.tertiary,
             )
         }
+    }
+
+    Box(modifier = modifier
+        .fillMaxWidth()) {
+        PullRefreshIndicator(
+            modifier = Modifier.align(Alignment.Center),
+            refreshing = true,
+            state = refreshState
+        )
     }
 }
