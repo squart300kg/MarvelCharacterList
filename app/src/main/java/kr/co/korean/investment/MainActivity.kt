@@ -7,16 +7,28 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -30,6 +42,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kr.co.korean.common.model.UiResult
 import kr.co.korean.investment.ui.MainViewModel
 import kr.co.korean.investment.ui.navigation.BaseNavHost
@@ -65,9 +78,16 @@ class MainActivity : ComponentActivity() {
             val requiredPermissionsStates = rememberMultiplePermissionsState(REQUIRED_PERMISSIONS)
             var permissionGrantedState by remember { mutableStateOf(false) }
             val appFirstStartedState by viewModel.appFirstStartedState.collectAsStateWithLifecycle()
+            val uiScope = rememberCoroutineScope()
+            val snackbarHostState = remember { SnackbarHostState() }
 
             KoreanInvestmentTheme {
                 Scaffold(
+                    snackbarHost = {
+                        SnackbarHost(
+                            hostState = snackbarHostState
+                        )
+                    },
                     bottomBar = {
                         NavigationBar {
                             baseDestinations.forEach { destination ->
@@ -96,7 +116,12 @@ class MainActivity : ComponentActivity() {
                     if (permissionGrantedState) {
                         BaseNavHost(
                             navController = navController,
-                            modifier = Modifier.padding(innerPadding)
+                            modifier = Modifier.padding(innerPadding),
+                            onSnackBarStateChanged = { message ->
+                                uiScope.launch {
+                                    snackbarHostState.showSnackbar(message = message)
+                                }
+                            }
                         )
                     }
                 }

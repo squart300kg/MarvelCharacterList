@@ -11,15 +11,18 @@ import kr.co.korean.ui.home.HomeScreen
 @Composable
 fun BaseNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    onSnackBarStateChanged: (String) -> Unit,
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = BaseDestination.HOME.name,
-        modifier = modifier
     ) {
         composable(route = BaseDestination.HOME.name) {
-            HomeScreen()
+            HomeScreen(
+                onSnackBarStateChanged = onSnackBarStateChanged
+            )
         }
         composable(route = BaseDestination.BOOKMARKS.name) {
             BookmarkScreen()

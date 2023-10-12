@@ -67,11 +67,10 @@ fun BookmarkScreen(
         is UiResult.Error -> onProgressStateChange(false)
         is UiResult.Success<List<CharactersUiModel>> -> {
             onProgressStateChange(false)
-            val uiState = (characterUiState as UiResult.Success<List<CharactersUiModel>>)
 
             LazyColumn(modifier = modifier) {
-                items(uiState.uiModels.size) { index  ->
-                    uiState.uiModels[index].let { characterUiState ->
+                items(characterUiState.uiModels.size) { index  ->
+                    characterUiState.uiModels[index].let { characterUiState ->
                         var imageProgressState by remember { mutableStateOf(true) }
 
                         Box(

@@ -36,14 +36,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import kr.co.korean.ui.R
 import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.ui.R as UiRes
 
 // TODO:
 //  1. 프리뷰 작업
@@ -53,6 +52,7 @@ import kr.co.korean.ui.model.CharactersUiModel
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onSnackBarStateChanged: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -68,6 +68,7 @@ fun HomeScreen(
         refreshState = pullRefreshState,
         characterUiState = characterUiState,
         progressState = loadingProgressState,
+        onSnackBarStateChanged = onSnackBarStateChanged,
         onRefreshProgressStateChange = { refreshProgressState = it },
         onLoadingProgressStateChange = { loadingProgressState = it },
         modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus,
@@ -83,6 +84,7 @@ fun HomeScreen(
     refreshState: PullRefreshState,
     characterUiState: LazyPagingItems<CharactersUiModel>,
     progressState: Boolean,
+    onSnackBarStateChanged: (String) -> Unit,
     onRefreshProgressStateChange: (Boolean) -> Unit,
     onLoadingProgressStateChange: (Boolean) -> Unit,
     modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
@@ -101,6 +103,12 @@ fun HomeScreen(
             onLoadingProgressStateChange(false)
             onRefreshProgressStateChange(false)
 
+            if (characterUiState.loadState.append.endOfPaginationReached) {
+                onSnackBarStateChanged(
+                    stringResource(id = UiRes.string.pagingEndMessage)
+                )
+            }
+
             LazyColumn(modifier = modifier
                 .pullRefresh(refreshState)
             ) {
@@ -115,16 +123,16 @@ fun HomeScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                                .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
                                 .border(
                                     width = 1.dp,
                                     color = Color.White,
                                     shape = RoundedCornerShape(
-                                        dimensionResource(id = R.dimen.characterItemRoundCorner)
+                                        dimensionResource(id = UiRes.dimen.characterItemRoundCorner)
                                     )
                                 )
-                                .height(dimensionResource(id = R.dimen.characterItemHeight))
-                                .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                                .height(dimensionResource(id = UiRes.dimen.characterItemHeight))
+                                .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
                                 .clickable {
                                     modifyCharacterSavedStatus(
                                         characterUiState,
@@ -181,7 +189,7 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .padding(
                                             start = dimensionResource(
-                                                id = R.dimen.characterItemCommonPadding
+                                                id = UiRes.dimen.characterItemCommonPadding
                                             )
                                         )
                                         .fillMaxHeight(),
@@ -190,23 +198,23 @@ fun HomeScreen(
                                     // TODO: uiState바꾸면서 중복 제거할 것
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString()
+                                        text = stringResource(id = UiRes.string.characterItemUrlCount) + characterUiState.urlCount.toString()
                                     )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString()
+                                        text = stringResource(id = UiRes.string.characterItemComicCount) + characterUiState.comicCount.toString()
                                     )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString()
+                                        text = stringResource(id = UiRes.string.characterItemStoryCount) + characterUiState.storyCount.toString()
                                     )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString()
+                                        text = stringResource(id = UiRes.string.characterItemEventCount) + characterUiState.eventCount.toString()
                                     )
                                     Text(
                                         modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
+                                        text = stringResource(id = UiRes.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
                                     )
                                 }
                             }
