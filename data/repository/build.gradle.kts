@@ -42,7 +42,6 @@ android {
 dependencies {
 
     implementation(project(":data:database"))
-    implementation(project(":data:datastore"))
     implementation(project(":data:network"))
     implementation(project(":data:work"))
     implementation(project(":common"))

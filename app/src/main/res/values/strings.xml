@@ -2,6 +2,4 @@
 <string name="appName">KoreanInvestment</string>
     <string name="tabHome">홈</string>
     <string name="tabBookMark">즐겨찾기</string>
-    <string name="permissionGrantGuide">권한을 허용하지 않으면 이미지를 다운받을 수 없어요!</string>
-    <string name="ok">확인</string>
 </resources>

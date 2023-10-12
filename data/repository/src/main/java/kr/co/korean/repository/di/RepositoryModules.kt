@@ -4,20 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kr.co.korean.network.MarvelCharacterApi
-import kr.co.korean.repository.AppStateRepository
-import kr.co.korean.repository.AppStateRepositoryImpl
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.CharacterRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModules {
-
-    @Binds
-    fun bindsAppStateRepository(
-        bindRepositoryImpl: AppStateRepositoryImpl
-    ): AppStateRepository
 
     @Binds
     fun bindsCharacterRepository(

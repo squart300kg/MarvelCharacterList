@@ -11,10 +11,15 @@ import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -36,23 +41,29 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
             return Result.failure()
         }
 
-        return try {
-            downloadImageToGallery(url.convertToBitmap())
+        return withContext(Dispatchers.IO) {
+            try {
+                downloadImageToGallery(url.convertToBitmap())
 
-            Result.success()
+                Result.success()
 
-            /**
-             * 현재는 [ThumbnailDownloadDataSource]에 예외 데이터를 전달하나 이를 핸들링하진 않습니다.
-             * 다만, 실무 진행시엔 예외 관련 정보를 전달 및 이를 수신하여
-             * 핸들링하며 최종적으로 UI Layer까지 전달하게 됩니다.
-             */
-        } catch (e: IOException) {
-            Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
-        } catch (e: MalformedURLException) {
-            Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
-        } catch (e: Exception) {
-            Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
+                /**
+                 * 현재는 [ThumbnailDownloadDataSource]에 예외 데이터를 전달하나 이를 핸들링하진 않습니다.
+                 * 다만, 실무 진행시엔 예외 관련 정보를 전달 및 이를 수신하여
+                 * 핸들링하며 최종적으로 UI Layer까지 전달하게 됩니다.
+                 */
+            } catch (e: IOException) {
+                Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
+            } catch (e: MalformedURLException) {
+                Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
+            } catch (e: Exception) {
+                Result.failure(Data.Builder().putString(ERROR_MESSAGE, e.message).build())
+            }
         }
+    }
+
+    override suspend fun getForegroundInfo(): ForegroundInfo {
+        return super.getForegroundInfo()
     }
 
     private fun String.convertToBitmap(): Bitmap {
