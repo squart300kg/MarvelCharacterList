@@ -34,48 +34,31 @@ data class CharactersResponseModel(
             val urls: List<Url>
         ) {
 
-            sealed interface Item {
-
-                val name: String
-                val resourceURI: String
-                data class NormalItem(
-                    override val name: String,
-                    override val resourceURI: String
-                ): Item
-
-                data class StoryItem(
-                    override val name: String,
-                    override val resourceURI: String,
-                    val type: String
-                ): Item
-            }
-
-
             data class Comics(
                 val available: Int,
                 val collectionURI: String,
-                val items: List<Item.NormalItem>,
+                val items: List<NormalItem>,
                 val returned: Int
             )
 
             data class Events(
                 val available: Int,
                 val collectionURI: String,
-                val items: List<Item.NormalItem>,
+                val items: List<NormalItem>,
                 val returned: Int
             )
 
             data class Series(
                 val available: Int,
                 val collectionURI: String,
-                val items: List<Item.NormalItem>,
+                val items: List<NormalItem>,
                 val returned: Int
             )
 
             data class Stories(
                 val available: Int,
                 val collectionURI: String,
-                val items: List<Item.StoryItem>,
+                val items: List<StoryItem>,
                 val returned: Int
             )
 
@@ -93,5 +76,16 @@ data class CharactersResponseModel(
             )
 
         }
+
+        data class NormalItem(
+            val name: String,
+            val resourceURI: String
+        )
+
+        data class StoryItem(
+            val name: String,
+            val resourceURI: String,
+            val type: String
+        )
     }
 }
