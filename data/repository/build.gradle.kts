@@ -43,6 +43,7 @@ dependencies {
 
     implementation(project(":data:database"))
     implementation(project(":data:network"))
+    implementation(project(":data:work"))
     implementation(project(":common"))
 
     implementation(libs.com.google.dagger.hilt.android)
