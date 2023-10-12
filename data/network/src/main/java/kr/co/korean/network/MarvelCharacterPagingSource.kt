@@ -9,7 +9,6 @@ import java.io.IOException
 import javax.inject.Inject
 
 const val CHARACTER_DATA_PAGE_SIZE = 1
-const val STARTING_REFRESH_KEY_PAGE = 1
 
 class MarvelCharacterPagingSource @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
@@ -30,7 +29,7 @@ class MarvelCharacterPagingSource @Inject constructor(
             return LoadResult.Page(
                 data = response.results,
                 prevKey = null,
-                nextKey = if (nextPage >= response.limit) null else nextPage + 1
+                nextKey = if (nextPage >= response.total) null else nextPage + 1
             )
 
         } catch (e: IOException) {
@@ -42,12 +41,11 @@ class MarvelCharacterPagingSource @Inject constructor(
         }
     }
 
+    /**
+     * swifeRefresh시, 첫 번째 데이터부터 다시 보여주므로,
+     * null을 리턴하여  [params.key]를 1로 반환받습니다.
+     */
     override fun getRefreshKey(state: PagingState<Int, CharactersResponseModel.Data.Result>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.let { anchorPage ->
-                anchorPage.prevKey?.plus(STARTING_REFRESH_KEY_PAGE) ?:
-                anchorPage.nextKey?.minus(STARTING_REFRESH_KEY_PAGE)
-            }
-        }
+        return null
     }
 }

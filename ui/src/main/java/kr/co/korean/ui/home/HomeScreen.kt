@@ -105,6 +105,7 @@ fun HomeScreen(
             onRefreshProgressStateChange(false)
 
             if (characterUiState.loadState.append.endOfPaginationReached) {
+                Log.e("pageEndLog", "append end")
                 onSnackBarStateChanged(
                     stringResource(id = UiRes.string.pagingEndMessage)
                 )
