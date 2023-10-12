@@ -19,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
@@ -30,6 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.co.korean.common.model.Result
 import kr.co.korean.investment.ui.MainViewModel
+import kr.co.korean.investment.ui.dialog.BaseDialog
 import kr.co.korean.investment.ui.navigation.BaseNavHost
 import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
 import kr.co.korean.investment.ui.navigation.baseDestinations
@@ -63,9 +66,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val requiredPermissionsStates = rememberMultiplePermissionsState(REQUIRED_PERMISSIONS)
+            val uiScope = rememberCoroutineScope()
             var permissionGrantedState by remember { mutableStateOf(false) }
             val appFirstStartedState by viewModel.appFirstStartedState.collectAsStateWithLifecycle()
-            val uiScope = rememberCoroutineScope()
+            val dialogUiState by viewModel.dialogUiState.collectAsStateWithLifecycle()
             val snackbarHostState = remember { SnackbarHostState() }
 
             KoreanInvestmentTheme {
@@ -133,6 +137,17 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
+                if (dialogUiState.isDialogShown()) {
+                    BaseDialog(
+                        modifier = Modifier,
+                        titleText = dialogUiState.dialogText,
+                        onClickOk = {},
+                        onClickCancel = {}
+                    )
+                }
+
+
+
             }
         }
     }
