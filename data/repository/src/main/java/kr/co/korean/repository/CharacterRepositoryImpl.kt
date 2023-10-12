@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.map
 import kr.co.korean.database.dao.MarvelCharacterDao
 import kr.co.korean.database.entity.MarvelCharacter
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
+import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ThumbnailDownloadDataSource
@@ -43,7 +44,8 @@ fun convertDataModel(roomModel: MarvelCharacter) =
  */
 class CharacterRepositoryImpl @Inject constructor(
     private val marvelCharacterDao: MarvelCharacterDao,
-    private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource,
+//    private val marvelCharacterPagingDataSource: MarvelCharacterPagingSource,
+    private val marvelCharacterApi: MarvelCharacterApi,
     private val thumbnailDownloadDataSource: ThumbnailDownloadDataSource
 ): CharacterRepository {
 
@@ -53,11 +55,10 @@ class CharacterRepositoryImpl @Inject constructor(
         }
 
     override val remoteCharacters: Flow<PagingData<CharacterDataModel>> =
-        Pager(config = PagingConfig(
-            pageSize = CHARACTER_DATA_PAGE_SIZE
-        )) {
-            marvelCharacterPagingDataSource
-        }.flow.map { pagingDatas ->
+        Pager(
+            config = PagingConfig(pageSize = CHARACTER_DATA_PAGE_SIZE),
+            pagingSourceFactory = { MarvelCharacterPagingSource(marvelCharacterApi) }
+        ).flow.map { pagingDatas ->
             pagingDatas.map { pagingData ->
                 CharacterDataModel(
                     id = pagingData.id,

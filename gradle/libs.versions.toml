@@ -13,6 +13,7 @@ androidxTestExtJunit = "1.1.5"
 androidxEspresso = "3.5.0"
 androidxLifecycleViewmodelCompose = "2.6.1"
 androidxLifecycleRuntimeCompose = "2.6.1"
+composeMaterial = "1.4.0-beta01"
 ioCoilKtCompose = "2.0.0-rc01"
 kotlinxSerializationJson = "1.5.1"
 okhttpLogging = "4.10.0"
@@ -45,6 +46,7 @@ androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graph
 androidx-compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview"}
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeMaterial" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common", version.ref = "androidxNavigationCommonKtx"}
 junit = { group = "junit", name = "junit", version.ref = "junit"}

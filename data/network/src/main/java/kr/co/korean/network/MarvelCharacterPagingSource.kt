@@ -1,14 +1,19 @@
 package kr.co.korean.network
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import dagger.Reusable
 import kr.co.korean.common.encodeToMd5
 import kr.co.korean.network.model.CharactersResponseModel
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
 const val CHARACTER_DATA_PAGE_SIZE = 20
+const val STARTING_REFRESH_KEY_PAGE = 1
+
 class MarvelCharacterPagingSource @Inject constructor(
     private val marvelCharacterApi: MarvelCharacterApi,
 ): PagingSource<Int, CharactersResponseModel.Data.Result>(){
@@ -40,9 +45,13 @@ class MarvelCharacterPagingSource @Inject constructor(
         }
     }
 
-    // TODO: 구현해야함
     override fun getRefreshKey(state: PagingState<Int, CharactersResponseModel.Data.Result>): Int? {
-        return null
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.let { anchorPage ->
+                anchorPage.prevKey?.plus(STARTING_REFRESH_KEY_PAGE) ?:
+                anchorPage.nextKey?.minus(STARTING_REFRESH_KEY_PAGE)
+            }
+        }
     }
 
 

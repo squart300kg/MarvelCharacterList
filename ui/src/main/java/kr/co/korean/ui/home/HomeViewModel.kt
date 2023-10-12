@@ -1,16 +1,22 @@
 package kr.co.korean.ui.home
 
+import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
@@ -36,6 +42,9 @@ fun syncAndConvertUiModel(
 class HomeViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
 ) : ViewModel() {
+
+    private var _refreshState = MutableStateFlow(false)
+    val refreshState = _refreshState.asStateFlow()
 
     val characters: StateFlow<PagingData<CharactersUiModel>> =
         combine(
