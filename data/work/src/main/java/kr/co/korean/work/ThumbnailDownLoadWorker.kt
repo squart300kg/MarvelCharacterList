@@ -1,11 +1,7 @@
 package kr.co.korean.work
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Notification
 import android.content.ContentValues
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -28,8 +24,6 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
 
 private const val JPG_EXTENSION = "jpg"
 private const val JPG_MIME_TYPE = "image/jpg"
