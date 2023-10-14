@@ -2,4 +2,6 @@
 <string name="appName">KoreanInvestment</string>
     <string name="tabHome">홈</string>
     <string name="tabBookMark">즐겨찾기</string>
+    <string name="ok">확인</string>
+    <string name="permissionGrantGuide">권한을 허용해야만 앱을 사용할 수 있습니다.\n권한 허용을 위해 설정 화면으로 이동합니다.</string>
 </resources>

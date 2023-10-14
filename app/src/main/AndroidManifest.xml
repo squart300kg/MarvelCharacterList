@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:name=".KoreanInvestmentApplication"
@@ -32,7 +36,7 @@
             tools:node="remove">
         </provider>
 
-        <!-- Image Write For ScopedStorage -->
+        <!-- 28이하 버전 sopred storage 대응을 위한 선언 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
