@@ -1,8 +1,6 @@
 package kr.co.korean.network.model
 
-import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializable
 import kr.co.korean.network.constant.ImageScaleType
 
 data class CharactersResponseModel(
