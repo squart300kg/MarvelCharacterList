@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file("/Users/n22301003-sysong/AOSProjects/KoreanInvestment/ssyssy.jks")
+            storePassword = "ssyssy"
+            keyAlias = "ssyssy"
+            keyPassword = "ssyssy"
+        }
+    }
     namespace = "kr.co.korean.investment"
     compileSdk = 34
 
@@ -26,11 +34,13 @@ android {
 
     buildTypes {
         release {
+            isDebuggable = true
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

@@ -21,7 +21,7 @@ object NetworkModule {
     @Provides
     fun provideDebugInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor { message ->
-            Log.d("API", message)
+            Log.e("API", message)
         }.apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

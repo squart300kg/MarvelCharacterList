@@ -1,5 +1,6 @@
 package kr.co.korean.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -23,6 +24,7 @@ import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.ui.model.convertDataModel
+import kr.co.korean.ui.model.convertUiModel
 import kr.co.korean.work.ImageDownLoadResult
 import javax.inject.Inject
 
@@ -52,6 +54,9 @@ class HomeViewModel @Inject constructor(
             characterRepository.remoteCharacters.cachedIn(viewModelScope),
             characterRepository.localCharacters,
         ) { remoteCharacters, localCharacters ->
+            Log.e("characterLog", "vm remote : $remoteCharacters")
+            Log.e("characterLog", "\n")
+            Log.e("characterLog", "vm local : $localCharacters")
             remoteCharacters.map { remoteCharacter ->
                 syncAndConvertUiModel(
                     remoteModel = remoteCharacter,
