@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 import kr.co.korean.network.constant.ImageScaleType
 
-@Keep
 data class CharactersResponseModel(
     @SerializedName("attributionHTML")
     val attributionHTML: String,
@@ -22,7 +21,6 @@ data class CharactersResponseModel(
     @SerializedName("status")
     val status: String,
 ) {
-    @Keep
     data class Data(
         @SerializedName("count")
         val count: Int,
@@ -35,7 +33,6 @@ data class CharactersResponseModel(
         @SerializedName("total")
         val total: Int
     ) {
-        @Keep
         data class Result(
             @SerializedName("comics")
             val comics: Comics,
@@ -61,7 +58,6 @@ data class CharactersResponseModel(
             val urls: List<Url>
         ) {
 
-            @Keep
             data class Comics(
                 @SerializedName("available")
                 val available: Int,
@@ -73,7 +69,6 @@ data class CharactersResponseModel(
                 val returned: Int
             )
 
-            @Keep
             data class Events(
                 @SerializedName("available")
                 val available: Int,
@@ -85,7 +80,6 @@ data class CharactersResponseModel(
                 val returned: Int
             )
 
-            @Keep
             data class Series(
                 @SerializedName("available")
                 val available: Int,
@@ -97,7 +91,6 @@ data class CharactersResponseModel(
                 val returned: Int
             )
 
-            @Keep
             data class Stories(
                 @SerializedName("available")
                 val available: Int,
@@ -109,7 +102,6 @@ data class CharactersResponseModel(
                 val returned: Int
             )
 
-            @Keep
             data class Thumbnail(
                 @SerializedName("extension")
                 val extension: String,
@@ -120,7 +112,6 @@ data class CharactersResponseModel(
                     get() = "${path.replace("http", "https")}/${ImageScaleType.PORTRAIT_XLARGE.value}.$extension"
             }
 
-            @Keep
             data class Url(
                 @SerializedName("type")
                 val type: String,
@@ -130,7 +121,6 @@ data class CharactersResponseModel(
 
         }
 
-        @Keep
         data class NormalItem(
             @SerializedName("name")
             val name: String,
@@ -138,7 +128,6 @@ data class CharactersResponseModel(
             val resourceURI: String
         )
 
-        @Keep
         data class StoryItem(
             @SerializedName("name")
             val name: String,
