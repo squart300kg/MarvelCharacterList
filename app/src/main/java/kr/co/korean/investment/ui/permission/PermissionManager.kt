@@ -12,6 +12,9 @@ enum class PermissionState {
     Rejected
 }
 
+/**
+ * scope storage에 따라 권한을 세분화합니다.
+ */
 val permissions = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 } else {

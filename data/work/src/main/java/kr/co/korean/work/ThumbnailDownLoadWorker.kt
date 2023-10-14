@@ -1,24 +1,25 @@
 package kr.co.korean.work
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Notification
 import android.content.ContentValues
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.File
@@ -27,13 +28,19 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 
 private const val JPG_EXTENSION = "jpg"
 private const val JPG_MIME_TYPE = "image/jpg"
+
+private const val BACKGROUND_WORK_NOTIFICATION_ID = 1
+private const val BACKGROUND_WORK_NOTIFICATION_CHANNEL_ID = "backgroundWorkNotificationChannelId"
 const val ERROR_MESSAGE = "errorMessage"
+
 @HiltWorker
 class ThumbnailDownLoadWorker @AssistedInject constructor(
-    @Assisted applicationContext: Context,
+    @Assisted private val applicationContext: Context,
     @Assisted private val workerParams: WorkerParameters,
 ): CoroutineWorker(applicationContext, workerParams) {
     override suspend fun doWork(): Result {
@@ -41,7 +48,7 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
             return Result.failure()
         }
 
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Default) {
             try {
                 downloadImageToGallery(url.convertToBitmap())
 
@@ -63,7 +70,16 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
     }
 
     override suspend fun getForegroundInfo(): ForegroundInfo {
-        return super.getForegroundInfo()
+        return ForegroundInfo(
+            BACKGROUND_WORK_NOTIFICATION_ID,
+            NotificationCompat.Builder(
+                applicationContext,
+                BACKGROUND_WORK_NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(androidx.core.R.drawable.notification_bg_normal_pressed)
+                .setContentTitle(applicationContext.getString(R.string.downloadImage))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
+        )
     }
 
     private fun String.convertToBitmap(): Bitmap {
@@ -100,9 +116,11 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
             Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES
             ).let { imagesDir ->
+                if (!imagesDir.mkdir()) imagesDir.mkdir()
+
                 File(imagesDir, filename)
-            }.let { image ->
-                FileOutputStream(image)
+            }.let { imageFile ->
+                FileOutputStream(imageFile)
             }
         }
         outputStream?.use {
