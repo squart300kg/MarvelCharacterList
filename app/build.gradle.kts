@@ -7,6 +7,9 @@ plugins {
 }
 
 android {
+    /**
+     * 실제 앱 환경과 동일하게 jks파일로 패키징 및 빌드테스트를 진행하였습니다.
+     */
     signingConfigs {
         create("release") {
             storeFile = file("../ssyssy.jks")
@@ -34,7 +37,6 @@ android {
 
     buildTypes {
         release {
-            isDebuggable = true
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

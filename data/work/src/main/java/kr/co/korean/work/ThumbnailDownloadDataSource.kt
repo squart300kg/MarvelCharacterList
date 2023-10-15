@@ -55,18 +55,23 @@ class ThumbnailDownloadDataSource @Inject constructor(
                     .apply {
                         observeForever { workInfo ->
                             CoroutineScope(Dispatchers.Default).launch {
-                                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                                    _imageDownloadState.emit(ImageDownLoadResult.Success)
-                                    delay(500L)
-                                    _imageDownloadState.emit(ImageDownLoadResult.NoneStart)
-                                } else if (workInfo.state == WorkInfo.State.RUNNING) {
-                                    _imageDownloadState.emit(ImageDownLoadResult.Loading)
-                                } else if (workInfo.state == WorkInfo.State.FAILED) {
-                                    _imageDownloadState.emit(ImageDownLoadResult.Error)
-                                    delay(500L)
-                                    _imageDownloadState.emit(ImageDownLoadResult.NoneStart)
-                                } else {
-                                    _imageDownloadState.emit(ImageDownLoadResult.NoneStart)
+                                when (workInfo.state) {
+                                    WorkInfo.State.SUCCEEDED -> {
+                                        _imageDownloadState.emit(ImageDownLoadResult.Success)
+                                        delay(200L)
+                                        _imageDownloadState.emit(ImageDownLoadResult.NoneStart)
+                                    }
+                                    WorkInfo.State.RUNNING -> {
+                                        _imageDownloadState.emit(ImageDownLoadResult.Loading)
+                                    }
+                                    WorkInfo.State.FAILED -> {
+                                        _imageDownloadState.emit(ImageDownLoadResult.Error)
+                                        delay(200L)
+                                        _imageDownloadState.emit(ImageDownLoadResult.NoneStart)
+                                    }
+                                    else -> {
+                                        _imageDownloadState.emit(ImageDownLoadResult.NoneStart)
+                                    }
                                 }
                             }
                         }
