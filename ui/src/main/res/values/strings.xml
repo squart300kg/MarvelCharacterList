@@ -6,5 +6,6 @@
     <string name="characterItemEventCount">events : </string>
     <string name="characterItemSeriesCount">series : </string>
     <string name="pagingEndMessage">end of page! </string>
-
+    <string name="savedSuccess">Image Is Successfully Saved!</string>
+    <string name="savedError">Image Saving Is Error!</string>
 </resources>

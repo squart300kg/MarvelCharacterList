@@ -49,7 +49,8 @@ class ThumbnailDownLoadWorker @AssistedInject constructor(
                 Result.success()
 
                 /**
-                 * 현재는 [ThumbnailDownloadDataSource]에 예외 데이터를 전달하나 이를 핸들링하진 않습니다.
+                 * 현재는 [ThumbnailDownloadDataSource]에 예외 데이터를 전달하나,
+                 * 구체적인 메시지 경우의 수에 따른 분기처리 핸들링까진 진행하지 않았습니다.
                  * 다만, 실무 진행시엔 예외 관련 정보를 전달 및 이를 수신하여
                  * 핸들링하며 최종적으로 UI Layer까지 전달하게 됩니다.
                  */

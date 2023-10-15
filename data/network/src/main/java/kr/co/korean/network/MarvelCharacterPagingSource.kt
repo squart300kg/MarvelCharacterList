@@ -19,18 +19,12 @@ class MarvelCharacterPagingSource @Inject constructor(
         try {
             val nextPage = params.key ?: 1
             val currentTimeMillis = System.currentTimeMillis()
-
-            Log.e("characterLog", "ds remote request: apikey ${BuildConfig.marblePubKey}")
-            Log.e("characterLog", "ds remote request: timeStamp ${currentTimeMillis}")
-            Log.e("characterLog", "ds remote request: hash ${encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}")}")
-            Log.e("characterLog", "ds remote request: offset ${nextPage}")
             val response = marvelCharacterApi.getCharacters(
                 apiKey = BuildConfig.marblePubKey,
                 timeStamp = currentTimeMillis,
                 hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
                 offset = nextPage
             ).data
-            Log.e("characterLog", "ds remote response: $response")
 
             return LoadResult.Page(
                 data = response.results,

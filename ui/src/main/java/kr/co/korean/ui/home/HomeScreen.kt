@@ -115,21 +115,20 @@ fun HomeScreen(
             onRefreshProgressStateChange(true)
         }
         is LoadState.NotLoading -> {
-            onLoadingProgressStateChange(false)
             onRefreshProgressStateChange(false)
 
             when (imageDownloadState) {
                 is ImageDownLoadResult.Loading -> {
                     onLoadingProgressStateChange(true)
                 }
-                is ImageDownLoadResult.Error -> {
-                    onLoadingProgressStateChange(true)
-                }
-                is ImageDownLoadResult.Success -> {
-                    onLoadingProgressStateChange(false)
-                }
                 is ImageDownLoadResult.NoneStart -> {
                     onLoadingProgressStateChange(false)
+                }
+                is ImageDownLoadResult.Error -> {
+                    onSnackBarStateChanged(stringResource(id = UiRes.string.savedError))
+                }
+                is ImageDownLoadResult.Success -> {
+                    onSnackBarStateChanged(stringResource(id = UiRes.string.savedSuccess))
                 }
             }
 
