@@ -9,7 +9,7 @@ plugins {
 android {
     signingConfigs {
         create("release") {
-            storeFile = file("/Users/n22301003-sysong/AOSProjects/KoreanInvestment/ssyssy.jks")
+            storeFile = file("../ssyssy.jks")
             storePassword = "ssyssy"
             keyAlias = "ssyssy"
             keyPassword = "ssyssy"
