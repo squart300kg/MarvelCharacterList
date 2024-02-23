@@ -70,8 +70,8 @@ fun HomeScreen(
         onSnackBarStateChanged = onSnackBarStateChanged,
         onRefreshProgressStateChange = { refreshProgressState = it },
         onLoadingProgressStateChange = { loadingProgressState = it },
-        modifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus,
-        downloadThumbnail = viewModel::downloadThumbnail
+        onModifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus,
+        onDownloadThumbnail = viewModel::downloadThumbnail
     )
 
     if (loadingProgressState) {
@@ -96,8 +96,8 @@ fun HomeScreen(
     onSnackBarStateChanged: (String) -> Unit,
     onRefreshProgressStateChange: (Boolean) -> Unit,
     onLoadingProgressStateChange: (Boolean) -> Unit,
-    modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
-    downloadThumbnail: (String) -> Unit
+    onModifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
+    onDownloadThumbnail: (String) -> Unit
 ) {
 
     /**
@@ -143,120 +143,11 @@ fun HomeScreen(
             ) {
                 items(characterUiState.itemCount) { index ->
                     characterUiState[index]?.let { characterUiState ->
-                        var imageProgressState by remember {
-                            mutableStateOf(
-                                true
-                            )
-                        }
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(
-                                        dimensionResource(id = UiRes.dimen.characterItemRoundCorner)
-                                    )
-                                )
-                                .height(dimensionResource(id = UiRes.dimen.characterItemHeight))
-                                .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
-                                .clickable {
-                                    modifyCharacterSavedStatus(
-                                        characterUiState,
-                                        !characterUiState.saved
-                                    )
-                                }
-
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .align(Alignment.CenterStart),
-                            ) {
-
-                                Box(
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .fillMaxWidth(0.5f)
-                                        .fillMaxHeight()
-                                ) {
-                                    if (imageProgressState) {
-                                        CircularProgressIndicator(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .align(Alignment.Center),
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                        )
-                                    }
-                                    Image(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .align(Alignment.Center)
-                                            .clickable {
-                                                downloadThumbnail(
-                                                    characterUiState.thumbnail
-                                                )
-                                            },
-                                        painter = rememberAsyncImagePainter(
-                                            model = characterUiState.thumbnail,
-                                            onState = { state ->
-                                                imageProgressState =
-                                                    when (state) {
-                                                        is AsyncImagePainter.State.Loading -> true
-                                                        is AsyncImagePainter.State.Empty,
-                                                        is AsyncImagePainter.State.Error,
-                                                        is AsyncImagePainter.State.Success -> false
-                                                    }
-                                            }),
-                                        contentDescription = null,
-                                    )
-                                }
-
-                                Column(
-                                    modifier = Modifier
-                                        .padding(
-                                            start = dimensionResource(
-                                                id = UiRes.dimen.characterItemCommonPadding
-                                            )
-                                        )
-                                        .fillMaxHeight(),
-                                    verticalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = UiRes.string.characterItemUrlCount) + characterUiState.urlCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = UiRes.string.characterItemComicCount) + characterUiState.comicCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = UiRes.string.characterItemStoryCount) + characterUiState.storyCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = UiRes.string.characterItemEventCount) + characterUiState.eventCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = UiRes.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
-                                    )
-                                }
-                            }
-
-                            Image(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.2f)
-                                    .fillMaxHeight(0.5f)
-                                    .align(Alignment.CenterEnd),
-                                painter = painterResource(id = characterUiState.bookMarkImage),
-                                contentDescription = null
-                            )
-                        }
-
+                        HomeItem(
+                            characterUiState = characterUiState,
+                            onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
+                            onDownloadThumbnail = onDownloadThumbnail
+                        )
                     }
                 }
             }
@@ -264,11 +155,134 @@ fun HomeScreen(
     }
 
     Box(modifier = modifier
-        .fillMaxWidth()) {
+        .fillMaxWidth()
+    ) {
         PullRefreshIndicator(
             modifier = Modifier.align(Alignment.Center),
             refreshing = true,
             state = refreshState
+        )
+    }
+}
+
+@Composable
+fun HomeItem(
+    modifier: Modifier = Modifier,
+    characterUiState: CharactersUiModel,
+    onModifyingCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
+    onDownloadThumbnail: (String) -> Unit
+) {
+    var imageProgressState by remember {
+        mutableStateOf(
+            true
+        )
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
+            .border(
+                width = 1.dp,
+                color = Color.White,
+                shape = RoundedCornerShape(
+                    dimensionResource(id = UiRes.dimen.characterItemRoundCorner)
+                )
+            )
+            .height(dimensionResource(id = UiRes.dimen.characterItemHeight))
+            .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
+            .clickable {
+                onModifyingCharacterSavedStatus(
+                    characterUiState,
+                    !characterUiState.saved
+                )
+            }
+
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .align(Alignment.CenterStart),
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight()
+            ) {
+                if (imageProgressState) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
+                }
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center)
+                        .clickable {
+                            onDownloadThumbnail(
+                                characterUiState.thumbnail
+                            )
+                        },
+                    painter = rememberAsyncImagePainter(
+                        model = characterUiState.thumbnail,
+                        onState = { state ->
+                            imageProgressState =
+                                when (state) {
+                                    is AsyncImagePainter.State.Loading -> true
+                                    is AsyncImagePainter.State.Empty,
+                                    is AsyncImagePainter.State.Error,
+                                    is AsyncImagePainter.State.Success -> false
+                                }
+                        }),
+                    contentDescription = null,
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(
+                        start = dimensionResource(
+                            id = UiRes.dimen.characterItemCommonPadding
+                        )
+                    )
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = UiRes.string.characterItemUrlCount) + characterUiState.urlCount.toString()
+                )
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = UiRes.string.characterItemComicCount) + characterUiState.comicCount.toString()
+                )
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = UiRes.string.characterItemStoryCount) + characterUiState.storyCount.toString()
+                )
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = UiRes.string.characterItemEventCount) + characterUiState.eventCount.toString()
+                )
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = UiRes.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
+                )
+            }
+        }
+
+        Image(
+            modifier = Modifier
+                .fillMaxWidth(0.2f)
+                .fillMaxHeight(0.5f)
+                .align(Alignment.CenterEnd),
+            painter = painterResource(id = characterUiState.bookMarkImage),
+            contentDescription = null
         )
     }
 }

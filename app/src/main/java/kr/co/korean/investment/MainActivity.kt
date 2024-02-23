@@ -92,11 +92,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     when (permissionGrantedState) {
-                        PermissionState.NotYet -> {
-                            /**
-                             * 권한 설정 전엔 아무 화면도 보여주지 않습니다.
-                             */
-                        }
+                        PermissionState.NotYet -> { }
                         PermissionState.Rejected -> {
                             PermissionDialog(
                                 titleText = stringResource(id = R.string.permissionGrantGuide),
