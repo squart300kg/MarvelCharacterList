@@ -32,6 +32,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.util.DevicePreviews
 
 @Composable
 fun BaseCharacterItem(
@@ -147,6 +148,28 @@ fun BaseCharacterItem(
                 .align(Alignment.CenterEnd),
             painter = painterResource(id = characterUiState.bookMarkImage),
             contentDescription = null
+        )
+    }
+}
+
+@DevicePreviews
+@Composable
+fun BaseCharacterItemPreview() {
+    MaterialTheme {
+        BaseCharacterItem(
+            modifier = Modifier,
+            characterUiState = CharactersUiModel(
+                id = 1,
+                thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                urlCount = 1,
+                comicCount = 1,
+                storyCount = 1,
+                eventCount = 1,
+                seriesCount = 1,
+                saved = true,
+            ),
+            onModifyingCharacterSavedStatus = {_, _ ->},
+            onDownloadThumbnail = {}
         )
     }
 }
