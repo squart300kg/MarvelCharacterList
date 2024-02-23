@@ -1,25 +1,26 @@
 package kr.co.korean.ui.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.TextField
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,16 +33,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
+import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.work.ImageDownLoadResult
@@ -139,16 +140,54 @@ fun HomeScreen(
                 )
             }
 
-            LazyColumn(modifier = modifier
-                .pullRefresh(refreshState)
-            ) {
-                items(characterUiState.itemCount) { index ->
-                    characterUiState[index]?.let { characterUiState ->
-                        BaseCharacterItem(
-                            characterUiState = characterUiState,
-                            onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
-                            onDownloadThumbnail = onDownloadThumbnail
-                        )
+            Column(modifier = Modifier) {
+                Row {
+                    TextField(
+                        modifier = Modifier
+                            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                            .height(50.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(
+                                    dimensionResource(id = R.dimen.characterItemRoundCorner)
+                                )
+                            )
+                            .weight(0.8f),
+                        textStyle = TextStyle(color = Color.White),
+                        value = "sssㄴㅇㄹㅁㄴㄹㅇs",
+                        onValueChange = {}
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                            .height(50.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(
+                                    dimensionResource(id = R.dimen.characterItemRoundCorner)
+                                )
+                            )
+                            .clickable {  }
+                            .weight(0.2f),
+                        style = TextStyle(textAlign = TextAlign.Center),
+                        text = "검색")
+
+                }
+
+                LazyColumn(modifier = Modifier
+                    .pullRefresh(refreshState)
+                ) {
+                    items(characterUiState.itemCount) { index ->
+                        characterUiState[index]?.let { characterUiState ->
+                            BaseCharacterItem(
+                                characterUiState = characterUiState,
+                                onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
+                                onDownloadThumbnail = onDownloadThumbnail
+                            )
+                        }
                     }
                 }
             }
@@ -162,124 +201,6 @@ fun HomeScreen(
             modifier = Modifier.align(Alignment.Center),
             refreshing = true,
             state = refreshState
-        )
-    }
-}
-
-@Composable
-fun HomeItem(
-    modifier: Modifier = Modifier,
-    characterUiState: CharactersUiModel,
-    onModifyingCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
-    onDownloadThumbnail: (String) -> Unit
-) {
-    var imageProgressState by remember { mutableStateOf(true) }
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
-            .border(
-                width = 1.dp,
-                color = Color.White,
-                shape = RoundedCornerShape(
-                    dimensionResource(id = UiRes.dimen.characterItemRoundCorner)
-                )
-            )
-            .height(dimensionResource(id = UiRes.dimen.characterItemHeight))
-            .padding(dimensionResource(id = UiRes.dimen.characterItemCommonPadding))
-            .clickable {
-                onModifyingCharacterSavedStatus(
-                    characterUiState,
-                    !characterUiState.saved
-                )
-            }
-
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .align(Alignment.CenterStart),
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .fillMaxWidth(0.5f)
-                    .fillMaxHeight()
-            ) {
-                if (imageProgressState) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.tertiary,
-                    )
-                }
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center)
-                        .clickable {
-                            onDownloadThumbnail(
-                                characterUiState.thumbnail
-                            )
-                        },
-                    painter = rememberAsyncImagePainter(
-                        model = characterUiState.thumbnail,
-                        onState = { state ->
-                            imageProgressState =
-                                when (state) {
-                                    is AsyncImagePainter.State.Loading -> true
-                                    is AsyncImagePainter.State.Empty,
-                                    is AsyncImagePainter.State.Error,
-                                    is AsyncImagePainter.State.Success -> false
-                                }
-                        }),
-                    contentDescription = null,
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(
-                        start = dimensionResource(
-                            id = UiRes.dimen.characterItemCommonPadding
-                        )
-                    )
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = UiRes.string.characterItemUrlCount) + characterUiState.urlCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = UiRes.string.characterItemComicCount) + characterUiState.comicCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = UiRes.string.characterItemStoryCount) + characterUiState.storyCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = UiRes.string.characterItemEventCount) + characterUiState.eventCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = UiRes.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
-                )
-            }
-        }
-
-        Image(
-            modifier = Modifier
-                .fillMaxWidth(0.2f)
-                .fillMaxHeight(0.5f)
-                .align(Alignment.CenterEnd),
-            painter = painterResource(id = characterUiState.bookMarkImage),
-            contentDescription = null
         )
     }
 }
