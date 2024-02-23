@@ -42,6 +42,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.ui.R as UiRes
@@ -143,7 +144,7 @@ fun HomeScreen(
             ) {
                 items(characterUiState.itemCount) { index ->
                     characterUiState[index]?.let { characterUiState ->
-                        HomeItem(
+                        BaseCharacterItem(
                             characterUiState = characterUiState,
                             onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
                             onDownloadThumbnail = onDownloadThumbnail
@@ -172,11 +173,7 @@ fun HomeItem(
     onModifyingCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
     onDownloadThumbnail: (String) -> Unit
 ) {
-    var imageProgressState by remember {
-        mutableStateOf(
-            true
-        )
-    }
+    var imageProgressState by remember { mutableStateOf(true) }
 
     Box(
         modifier = modifier

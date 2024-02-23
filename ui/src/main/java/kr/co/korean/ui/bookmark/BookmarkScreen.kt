@@ -41,6 +41,7 @@ import kr.co.korean.common.model.Result
 //import kr.co.korean.investment.ui.theme.Purple80
 //import kr.co.korean.investment.ui.theme.PurpleGrey80
 import kr.co.korean.ui.R
+import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.ui.model.CharactersUiModel
 import kr.co.korean.util.DevicePreviews
 
@@ -76,115 +77,12 @@ fun BookmarkScreen(
 
             LazyColumn(modifier = modifier) {
                 items(characterUiState.model.size) { index  ->
-                    characterUiState.model[index].let { characterUiState ->
-                        var imageProgressState by remember { mutableStateOf(true) }
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(
-                                        dimensionResource(id = R.dimen.characterItemRoundCorner)
-                                    )
-                                )
-                                .height(dimensionResource(id = R.dimen.characterItemHeight))
-                                .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-                                .clickable {
-                                    modifyCharacterSavedStatus(
-                                        characterUiState,
-                                        !characterUiState.saved
-                                    )
-                                }
-
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .align(Alignment.CenterStart),
-                            ) {
-
-                                Box(
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .fillMaxWidth(0.5f)
-                                        .fillMaxHeight()
-                                ) {
-                                    if (imageProgressState) {
-                                        CircularProgressIndicator(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .align(Alignment.Center),
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                        )
-                                    }
-                                    Image(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .align(Alignment.Center),
-                                        painter = rememberAsyncImagePainter(
-                                            model = characterUiState.thumbnail,
-                                            onState = { state ->
-                                                imageProgressState = when (state) {
-                                                    is AsyncImagePainter.State.Loading -> true
-                                                    is AsyncImagePainter.State.Empty,
-                                                    is AsyncImagePainter.State.Error,
-                                                    is AsyncImagePainter.State.Success -> false
-                                                }
-                                            }),
-                                        contentDescription = null
-                                    )
-                                }
-
-                                Column(
-                                    modifier = Modifier
-                                        .padding(
-                                            start = dimensionResource(
-                                                id = R.dimen.characterItemCommonPadding
-                                            )
-                                        )
-                                        .fillMaxHeight(),
-                                    verticalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString()
-                                    )
-                                    Text(
-                                        modifier = modifier,
-                                        text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
-                                    )
-                                }
-                            }
-
-                            Image(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.2f)
-                                    .fillMaxHeight(0.5f)
-                                    .align(Alignment.CenterEnd),
-                                painter = painterResource(id = characterUiState.bookMarkImage),
-                                contentDescription = null
-                            )
-                        }
-
-                    }
+                    BaseCharacterItem(
+                        characterUiState = characterUiState.model[index],
+                        onModifyingCharacterSavedStatus = modifyCharacterSavedStatus
+                    )
                 }
             }
-
         }
     }
 
@@ -197,116 +95,6 @@ fun BookmarkScreen(
                 color = MaterialTheme.colorScheme.tertiary,
             )
         }
-    }
-}
-
-@Composable
-fun BookmarkItem(
-    characterUiState: CharactersUiModel,
-    onModifyingCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
-) {
-    var imageProgressState by remember { mutableStateOf(true) }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-            .border(
-                width = 1.dp,
-                color = Color.White,
-                shape = RoundedCornerShape(
-                    dimensionResource(id = R.dimen.characterItemRoundCorner)
-                )
-            )
-            .height(dimensionResource(id = R.dimen.characterItemHeight))
-            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-            .clickable {
-                onModifyingCharacterSavedStatus(
-                    characterUiState,
-                    !characterUiState.saved
-                )
-            }
-
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .align(Alignment.CenterStart),
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .fillMaxWidth(0.5f)
-                    .fillMaxHeight()
-            ) {
-                if (imageProgressState) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.tertiary,
-                    )
-                }
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center),
-                    painter = rememberAsyncImagePainter(
-                        model = characterUiState.thumbnail,
-                        onState = { state ->
-                            imageProgressState = when (state) {
-                                is AsyncImagePainter.State.Loading -> true
-                                is AsyncImagePainter.State.Empty,
-                                is AsyncImagePainter.State.Error,
-                                is AsyncImagePainter.State.Success -> false
-                            }
-                        }),
-                    contentDescription = null
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(
-                        start = dimensionResource(
-                            id = R.dimen.characterItemCommonPadding
-                        )
-                    )
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.characterItemUrlCount) + characterUiState.urlCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString()
-                )
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString()
-                )
-            }
-        }
-
-        Image(
-            modifier = Modifier
-                .fillMaxWidth(0.2f)
-                .fillMaxHeight(0.5f)
-                .align(Alignment.CenterEnd),
-            painter = painterResource(id = characterUiState.bookMarkImage),
-            contentDescription = null
-        )
     }
 }
 
