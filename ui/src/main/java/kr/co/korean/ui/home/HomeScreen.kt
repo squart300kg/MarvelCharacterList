@@ -3,6 +3,7 @@ package kr.co.korean.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,12 +28,16 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -143,8 +148,9 @@ fun HomeScreen(
                 )
             }
 
+            var searchText by remember { mutableStateOf("sssㄴㅇㄹㅁㄴㄹㅇs") }
             Column(modifier = Modifier) {
-                Row(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
@@ -158,25 +164,36 @@ fun HomeScreen(
                 ) {
                     Image(
                         modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.characterItemCommonPadding))
+                            .padding(start = dimensionResource(id = R.dimen.searchTextFieldHorizontalMargin))
                             .size(dimensionResource(id = R.dimen.searchReadingGlassesSize))
-                            .align(Alignment.CenterVertically),
+                            .align(Alignment.CenterStart),
                         painter = painterResource(id = R.drawable.ic_reading_glasses),
                         contentDescription = null
                     )
 
-                    Spacer(
+                    TextField(
                         modifier = Modifier
-                            .width(dimensionResource(id = R.dimen.marginBetweenSearchIconAndTextField))
+                            .align(Alignment.Center),
+                        textStyle = TextStyle(color = Color.White),
+                        value = searchText,
+                        onValueChange = { searchText = it }
                     )
 
-                    TextField(
-                        modifier = Modifier,
-                        textStyle = TextStyle(color = Color.White),
-                        value = "sssㄴㅇㄹㅁㄴㄹㅇs",
-                        onValueChange = {}
-                    )
+                    if (searchText.isNotEmpty()) {
+                        Image(
+                            modifier = Modifier
+                                .padding(end = dimensionResource(id = R.dimen.searchTextFieldHorizontalMargin))
+                                .align(Alignment.CenterEnd),
+                            painter = painterResource(id = R.drawable.ic_close),
+                            contentDescription = null)
+                    }
                 }
+
+                Spacer(
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.marginBetweenSearchIconAndTextField))
+
+                )
 
                 LazyColumn(modifier = Modifier
                     .pullRefresh(refreshState)
