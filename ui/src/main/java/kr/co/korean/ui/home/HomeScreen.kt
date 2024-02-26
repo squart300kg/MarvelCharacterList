@@ -164,7 +164,7 @@ fun HomeScreen(
                 ) {
                     Image(
                         modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.searchTextFieldHorizontalMargin))
+                            .padding(start = dimensionResource(id = R.dimen.searchIconStartMargin))
                             .size(dimensionResource(id = R.dimen.searchReadingGlassesSize))
                             .align(Alignment.CenterStart),
                         painter = painterResource(id = R.drawable.ic_reading_glasses),
@@ -183,7 +183,8 @@ fun HomeScreen(
                         Image(
                             modifier = Modifier
                                 .padding(end = dimensionResource(id = R.dimen.searchTextFieldHorizontalMargin))
-                                .align(Alignment.CenterEnd),
+                                .align(Alignment.CenterEnd)
+                                .clickable { searchText = "" },
                             painter = painterResource(id = R.drawable.ic_close),
                             contentDescription = null)
                     }

@@ -5,6 +5,7 @@
     <dimen name="characterItemRoundCorner">8dp</dimen>
     <dimen name="marginBetweenSearchIconAndTextField">5dp</dimen>
     <dimen name="searchTextFieldRadius">40dp</dimen>
-    <dimen name="searchTextFieldHorizontalMargin">10dp</dimen>
+    <dimen name="searchIconStartMargin">10dp</dimen>
+    <dimen name="searchTextFieldHorizontalMargin">20dp</dimen>
     <dimen name="searchReadingGlassesSize">40dp</dimen>
 </resources>
