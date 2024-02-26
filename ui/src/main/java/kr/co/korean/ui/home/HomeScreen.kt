@@ -1,10 +1,12 @@
 package kr.co.korean.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -141,40 +144,38 @@ fun HomeScreen(
             }
 
             Column(modifier = Modifier) {
-                Row {
-                    TextField(
-                        modifier = Modifier
-                            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-                            .height(50.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(
-                                    dimensionResource(id = R.dimen.characterItemRoundCorner)
-                                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                        .border(
+                            width = 1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(
+                                dimensionResource(id = R.dimen.searchTextFieldRadius)
                             )
-                            .weight(0.8f),
+                        )
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .padding(start = dimensionResource(id = R.dimen.characterItemCommonPadding))
+                            .size(dimensionResource(id = R.dimen.searchReadingGlassesSize))
+                            .align(Alignment.CenterVertically),
+                        painter = painterResource(id = R.drawable.ic_reading_glasses),
+                        contentDescription = null
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(dimensionResource(id = R.dimen.marginBetweenSearchIconAndTextField))
+                    )
+
+                    TextField(
+                        modifier = Modifier,
                         textStyle = TextStyle(color = Color.White),
                         value = "sssㄴㅇㄹㅁㄴㄹㅇs",
                         onValueChange = {}
                     )
-
-                    Text(
-                        modifier = Modifier
-                            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-                            .height(50.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(
-                                    dimensionResource(id = R.dimen.characterItemRoundCorner)
-                                )
-                            )
-                            .clickable {  }
-                            .weight(0.2f),
-                        style = TextStyle(textAlign = TextAlign.Center),
-                        text = "검색")
-
                 }
 
                 LazyColumn(modifier = Modifier
