@@ -52,20 +52,26 @@ fun BaseCharacterItem(
 ) {
     var imageProgressState by remember { mutableStateOf(true) }
 
-    Column {
-        Box(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+    ) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.characterItemHeight))
+        ) {
             if (imageProgressState) {
                 CircularProgressIndicator(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(dimensionResource(id = R.dimen.characterItemHeight)),
+                    modifier = Modifier
+                        .size(150.dp)
+                        .align(Alignment.Center),
                     color = MaterialTheme.colorScheme.tertiary,
                 )
             }
             Image(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.characterItemHeight))
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center)
                     .clickable {
                         onDownloadThumbnail(characterUiState.thumbnail)
                     },
@@ -109,148 +115,12 @@ fun BaseCharacterItem(
         }
 
         Text(
-            modifier = Modifier,
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.characterItemDescriptionTopMargin)),
             text = characterUiState.description.ifEmpty { stringResource(id = R.string.characterDescriptionEmpty) },
             overflow = TextOverflow.Ellipsis,
-            maxLines = 2
+            maxLines = 3
         )
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    Box(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .height(dimensionResource(id = R.dimen.characterItemHeight))
-//            .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
-//            .clickable {
-//                onModifyingCharacterSavedStatus(
-//                    characterUiState,
-//                    !characterUiState.saved
-//                )
-//            }
-//
-//    ) {
-//        Row(
-//            modifier = Modifier
-//                .align(Alignment.CenterStart),
-//        ) {
-//
-//            if (imageProgressState) {
-//                CircularProgressIndicator(
-//                    modifier = Modifier,
-//                    color = MaterialTheme.colorScheme.tertiary,
-//                )
-//            }
-//            Image(
-//                modifier = Modifier
-////                    .weight(0.3f)
-//                    .clickable {
-//                        onDownloadThumbnail(characterUiState.thumbnail)
-//                    },
-//                painter = rememberAsyncImagePainter(
-//                    model = characterUiState.thumbnail,
-//                    onState = { state ->
-//                        imageProgressState =
-//                            when (state) {
-//                                is AsyncImagePainter.State.Loading -> true
-//                                is AsyncImagePainter.State.Empty,
-//                                is AsyncImagePainter.State.Error,
-//                                is AsyncImagePainter.State.Success -> false
-//                            }
-//                    }),
-//                contentDescription = null
-//            )
-//
-//            Column(
-//                modifier = Modifier
-//                    .padding(start = dimensionResource(R.dimen.characterItemCommonPadding))
-////                    .weight(0.7f)
-//                    .fillMaxHeight(),
-//                verticalArrangement = Arrangement.SpaceBetween
-//            ) {
-//                Box(
-//                    modifier = Modifier.fillMaxWidth().weight(0.1f)
-//                ) {
-//                    Text(
-//                        modifier = Modifier.align(Alignment.CenterStart),
-//                        text = characterUiState.name,
-//                        style = TextStyle(
-//                            fontWeight = FontWeight.Bold,
-//                            fontSize = 16.sp
-//                        )
-//                    )
-//
-//                    Image(
-//                        modifier = Modifier
-//                            .align(Alignment.CenterEnd)
-//                            .size(dimensionResource(id = R.dimen.bookmarkSize)),
-//                        painter = painterResource(id = characterUiState.bookMarkImage),
-//                        contentDescription = null
-//                    )
-//                }
-//
-//                Text(
-//                    modifier = Modifier
-//                        .padding(top = dimensionResource(id = R.dimen.characterItemDescriptionTopMargin))
-//                        .weight(0.6f),
-//                    text = characterUiState.description.ifEmpty { stringResource(id = R.string.characterDescriptionEmpty) },
-//                    overflow = TextOverflow.Ellipsis
-//                )
-//
-////                Box(
-////                    modifier = Modifier
-////                        .weight(0.3f)
-////                        .fillMaxWidth()
-////                ) {
-////                    Text(
-////                        modifier = Modifier
-////                            .align(Alignment.CenterStart),
-////                        text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString())
-////                    Text(
-////                        modifier = Modifier
-////                            .align(Alignment.CenterEnd),
-////                        text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString())
-////                    Text(
-////                        modifier = Modifier
-////                            .align(Alignment.BottomStart),
-////                        text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString())
-////                    Text(
-////                        modifier = Modifier
-////                            .align(Alignment.BottomEnd),
-////                        text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString())
-////
-////                }
-//
-//            }
-//        }
-//    }
 }
 
 @DevicePreviews

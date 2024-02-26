@@ -3,11 +3,11 @@
     <dimen name="characterItemCommonPadding">10dp</dimen>
     <dimen name="characterItemHeight">300dp</dimen>
     <dimen name="characterItemRoundCorner">8dp</dimen>
-    <dimen name="characterItemDescriptionTopMargin">10dp</dimen>
     <dimen name="marginBetweenSearchIconAndTextField">5dp</dimen>
     <dimen name="searchTextFieldRadius">40dp</dimen>
     <dimen name="searchIconStartMargin">10dp</dimen>
     <dimen name="searchTextFieldHorizontalMargin">20dp</dimen>
     <dimen name="searchReadingGlassesSize">40dp</dimen>
     <dimen name="bookmarkSize">30dp</dimen>
+    <dimen name="characterItemDescriptionTopMargin">10dp</dimen>
 </resources>
