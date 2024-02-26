@@ -14,6 +14,8 @@ data class MarvelCharacter(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "characterId") val characterId: Int,
     @ColumnInfo(name = "thumbnail") val thumbnail: String,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "urlCount") val urlCount:Int,
     @ColumnInfo(name = "comicCount") val comicCount:Int,
     @ColumnInfo(name = "storyCount") val storyCount:Int,

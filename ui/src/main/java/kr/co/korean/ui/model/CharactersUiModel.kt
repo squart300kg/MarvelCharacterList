@@ -7,6 +7,8 @@ import kr.co.korean.ui.R
 data class CharactersUiModel(
     val id: Int,
     val thumbnail: String,
+    val name: String,
+    val description: String,
     val urlCount: Int,
     val comicCount: Int,
     val storyCount: Int,
@@ -24,6 +26,8 @@ fun CharactersUiModel.convertDataModel() =
     CharacterDataModel(
         id = id,
         thumbnail = thumbnail,
+        name = name,
+        description = description,
         urlCount = urlCount,
         storyCount = storyCount,
         seriesCount = seriesCount,
@@ -36,6 +40,8 @@ fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
     CharactersUiModel(
         id = dataModel.id,
         thumbnail = dataModel.thumbnail,
+        name = dataModel.name,
+        description = dataModel.description,
         urlCount = dataModel.urlCount,
         comicCount = dataModel.comicCount,
         storyCount = dataModel.storyCount,

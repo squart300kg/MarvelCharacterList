@@ -27,6 +27,8 @@ fun syncAndConvertUiModel(
     CharactersUiModel(
         id = remoteModel.id,
         thumbnail = remoteModel.thumbnail,
+        name = remoteModel.name,
+        description = remoteModel.description,
         urlCount = remoteModel.urlCount,
         comicCount = remoteModel.comicCount,
         storyCount = remoteModel.storyCount,

@@ -83,6 +83,8 @@ fun BookmarkScreenPreview() {
                 CharactersUiModel(
                     id = 1,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    name = "hulk",
+                    description = "description hello world",
                     urlCount = 1,
                     comicCount = 1,
                     storyCount = 1,
@@ -93,6 +95,8 @@ fun BookmarkScreenPreview() {
                 CharactersUiModel(
                     id = 1,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    name = "hulk",
+                    description = "description hello world",
                     urlCount = 1,
                     comicCount = 1,
                     storyCount = 1,
@@ -103,6 +107,8 @@ fun BookmarkScreenPreview() {
                 CharactersUiModel(
                     id = 1,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    name = "hulk",
+                    description = "description hello world",
                     urlCount = 1,
                     comicCount = 1,
                     storyCount = 1,
@@ -113,6 +119,8 @@ fun BookmarkScreenPreview() {
                 CharactersUiModel(
                     id = 1,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                    name = "hulk",
+                    description = "description hello world",
                     urlCount = 1,
                     comicCount = 1,
                     storyCount = 1,

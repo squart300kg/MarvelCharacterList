@@ -24,6 +24,8 @@ fun CharacterDataModel.convertRoomModel() =
     MarvelCharacter(
         characterId = id,
         thumbnail = thumbnail,
+        name = name,
+        description = description,
         urlCount = urlCount,
         comicCount = comicCount,
         storyCount = storyCount,
@@ -36,6 +38,8 @@ fun convertDataModel(roomModels: List<MarvelCharacter>) =
         CharacterDataModel(
             id = marvelCharacter.characterId,
             thumbnail = marvelCharacter.thumbnail,
+            name = marvelCharacter.name,
+            description = marvelCharacter.description,
             urlCount = marvelCharacter.urlCount,
             comicCount = marvelCharacter.comicCount,
             storyCount = marvelCharacter.storyCount,
@@ -49,6 +53,8 @@ fun convertDataModel(pagingData: PagingData<CharactersResponseModel.Data.Result>
         CharacterDataModel(
             id = pagingData.id,
             thumbnail = pagingData.thumbnail.imageFullPath,
+            name = pagingData.name,
+            description = pagingData.description,
             urlCount = pagingData.urls.size,
             comicCount = pagingData.comics.returned,
             seriesCount = pagingData.series.returned,
