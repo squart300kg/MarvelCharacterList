@@ -107,7 +107,7 @@ data class CharactersResponseModel(
                 val path: String
             ) {
                 val imageFullPath: String
-                    get() = "${path.replace("http", "https")}/${ImageScaleType.PORTRAIT_XLARGE.value}.$extension"
+                    get() = "${path.replace("http", "https")}/${ImageScaleType.LANDSCAPE_XLARGE.value}.$extension"
             }
 
             data class Url(
