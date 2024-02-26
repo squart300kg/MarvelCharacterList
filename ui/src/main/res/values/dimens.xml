@@ -9,5 +9,5 @@
     <dimen name="searchTextFieldHorizontalMargin">20dp</dimen>
     <dimen name="searchReadingGlassesSize">40dp</dimen>
     <dimen name="bookmarkSize">30dp</dimen>
-    <dimen name="characterItemDescriptionTopMargin">10dp</dimen>
+    <dimen name="characterItemCountTopMargin">5dp</dimen>
 </resources>

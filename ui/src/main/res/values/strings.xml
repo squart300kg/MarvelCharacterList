@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="characterItemUrlCount">urls</string>
-    <string name="characterItemComicCount">comics </string>
-    <string name="characterItemStoryCount">stories </string>
-    <string name="characterItemEventCount">events </string>
-    <string name="characterItemSeriesCount">series </string>
+    <string name="characterItemComicCount">comics\u0020</string>
+    <string name="characterItemStoryCount">stories\u0020</string>
+    <string name="characterItemEventCount">events\u0020</string>
+    <string name="characterItemSeriesCount">series\u0020</string>
     <string name="pagingEndMessage">end of page! </string>
     <string name="savedSuccess">Image Is Successfully Saved!</string>
     <string name="savedError">Image Saving Is Error!</string>
-    <string name="characterDescriptionEmpty">Comming Soon</string>
+    <string name="characterDescriptionEmpty"> - Coming Soon</string>
     <string name="bookmark">좋아요</string>
 </resources>

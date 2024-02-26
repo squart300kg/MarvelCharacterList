@@ -106,6 +106,8 @@ fun BaseCharacterItem(
             )
 
             Text(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically),
                 text = characterUiState.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -115,11 +117,29 @@ fun BaseCharacterItem(
         }
 
         Text(
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.characterItemDescriptionTopMargin)),
             text = characterUiState.description.ifEmpty { stringResource(id = R.string.characterDescriptionEmpty) },
             overflow = TextOverflow.Ellipsis,
-            maxLines = 3
+            maxLines = 2
         )
+
+        Row(
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.characterItemCountTopMargin)).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString(),
+                style = TextStyle(color = Color.Gray))
+            Text(
+                text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString(),
+                style = TextStyle(color = Color.Gray))
+            Text(
+                text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString(),
+                style = TextStyle(color = Color.Gray))
+            Text(
+                text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString(),
+                style = TextStyle(color = Color.Gray))
+        }
+
     }
 }
 
