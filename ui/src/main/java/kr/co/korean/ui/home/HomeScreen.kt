@@ -148,12 +148,13 @@ fun HomeScreen(
                 )
             }
 
-            var searchText by remember { mutableStateOf("sssㄴㅇㄹㅁㄴㄹㅇs") }
+            var searchText by remember { mutableStateOf("") }
             Column(modifier = Modifier) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+                        .padding(horizontal = dimensionResource(id = R.dimen.characterItemCommonPadding))
+                        .padding(top = dimensionResource(id = R.dimen.characterItemCommonPadding))
                         .border(
                             width = 1.dp,
                             color = Color.White,
