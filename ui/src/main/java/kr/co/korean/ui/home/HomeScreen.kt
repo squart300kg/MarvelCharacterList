@@ -61,6 +61,7 @@ import kr.co.korean.ui.R as UiRes
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onSnackBarStateChanged: (String) -> Unit,
+    onNavigateToCharacterDetail: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 

@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kr.co.korean.ui.bookmark.BookmarkScreen
+import kr.co.korean.ui.detail.navigateToCharacterDetailScreen
 import kr.co.korean.ui.home.HomeScreen
 
 @Composable
@@ -21,7 +22,8 @@ fun BaseNavHost(
     ) {
         composable(route = BaseDestination.HOME.name) {
             HomeScreen(
-                onSnackBarStateChanged = onSnackBarStateChanged
+                onSnackBarStateChanged = onSnackBarStateChanged,
+                onNavigateToCharacterDetail = navController::navigateToCharacterDetailScreen
             )
         }
         composable(route = BaseDestination.BOOKMARKS.name) {
