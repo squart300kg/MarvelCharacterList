@@ -177,6 +177,12 @@ fun HomeScreen(
                             .align(Alignment.Center),
                         textStyle = TextStyle(color = Color.White),
                         value = searchText,
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = R.string.searchPlaceHolder),
+                                style = TextStyle(color = Color.Gray)
+                            )
+                        },
                         onValueChange = { searchText = it }
                     )
 
