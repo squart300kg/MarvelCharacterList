@@ -1,4 +1,4 @@
-package kr.co.korean.ui.model
+package kr.co.korean.model
 
 import androidx.annotation.DrawableRes
 import kr.co.korean.repository.model.CharacterDataModel

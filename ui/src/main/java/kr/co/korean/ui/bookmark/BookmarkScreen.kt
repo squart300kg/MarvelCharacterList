@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.korean.common.model.Result
 import kr.co.korean.ui.base.BaseCharacterItem
-import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.util.DevicePreviews
 
 @Composable

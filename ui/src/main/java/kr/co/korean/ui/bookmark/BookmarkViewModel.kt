@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 import kr.co.korean.common.model.Result
 import kr.co.korean.domain.ModifyCharacterSavedStatusUseCase
 import kr.co.korean.repository.CharacterRepository
-import kr.co.korean.ui.model.CharactersUiModel
-import kr.co.korean.ui.model.convertDataModel
-import kr.co.korean.ui.model.convertUiModel
+import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.model.convertDataModel
+import kr.co.korean.model.convertUiModel
 import javax.inject.Inject
 
 

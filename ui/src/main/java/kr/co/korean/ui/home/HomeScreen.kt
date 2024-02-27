@@ -52,7 +52,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
-import kr.co.korean.ui.model.CharactersUiModel
+import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.ui.R as UiRes
 
