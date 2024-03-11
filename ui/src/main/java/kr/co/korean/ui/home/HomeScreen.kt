@@ -48,11 +48,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.flow.flowOf
 import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.util.DevicePreviews
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.ui.R as UiRes
 
@@ -230,4 +234,83 @@ fun HomeScreen(
             state = refreshState
         )
     }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@DevicePreviews
+@Composable
+fun HomeScreenPreview() {
+    MaterialTheme {
+        HomeScreen(
+            modifier = Modifier.fillMaxSize(),
+            refreshState = rememberPullRefreshState(
+                refreshing = true,
+                onRefresh = {}
+            ),
+            characterUiState = flowOf(PagingData.from(
+                sourceLoadStates = LoadStates(
+                    refresh = LoadState.NotLoading(false),
+                    append = LoadState.NotLoading(false),
+                    prepend = LoadState.NotLoading(false),
+                ),
+                data = listOf(
+                    CharactersUiModel(
+                        id = 1,
+                        thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                        name = "hulk1",
+                        description = "description hello world1",
+                        urlCount = 1,
+                        comicCount = 1,
+                        storyCount = 1,
+                        eventCount = 1,
+                        seriesCount = 1,
+                        saved = true,
+                    ),
+                    CharactersUiModel(
+                        id = 2,
+                        thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                        name = "hulk2",
+                        description = "description hello world2",
+                        urlCount = 1,
+                        comicCount = 1,
+                        storyCount = 1,
+                        eventCount = 1,
+                        seriesCount = 1,
+                        saved = false,
+                    ),
+                    CharactersUiModel(
+                        id = 3,
+                        thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                        name = "hulk3",
+                        description = "description hello world3",
+                        urlCount = 1,
+                        comicCount = 1,
+                        storyCount = 1,
+                        eventCount = 1,
+                        seriesCount = 1,
+                        saved = true,
+                    ),
+                    CharactersUiModel(
+                        id = 4,
+                        thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
+                        name = "hulk4",
+                        description = "description hello world4",
+                        urlCount = 1,
+                        comicCount = 1,
+                        storyCount = 1,
+                        eventCount = 1,
+                        seriesCount = 1,
+                        saved = true,
+                    )
+                )
+            )).collectAsLazyPagingItems(),
+            imageDownloadState = ImageDownLoadResult.Loading,
+            onSnackBarStateChanged = { state -> },
+            onRefreshProgressStateChange = { state -> },
+            onLoadingProgressStateChange = { state -> },
+            onModifyCharacterSavedStatus = { uiModel, saved -> },
+            onDownloadThumbnail = { url -> }
+        )
+    }
+
 }
