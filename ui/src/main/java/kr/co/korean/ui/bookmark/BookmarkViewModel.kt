@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kr.co.korean.common.model.Result
+import kr.co.korean.common.model.UiResult
 import kr.co.korean.domain.ModifyCharacterSavedStatusUseCase
 import kr.co.korean.repository.CharacterRepository
 import kr.co.korean.model.CharactersUiModel
@@ -25,14 +25,14 @@ class BookmarkViewModel @Inject constructor(
     private val modifyCharacterSavedStatusUseCase: ModifyCharacterSavedStatusUseCase
 ): ViewModel() {
 
-    val localCharacters: StateFlow<Result<List<CharactersUiModel>>> =
+    val localCharacters: StateFlow<UiResult<List<CharactersUiModel>>> =
         characterRepository.localCharacters
-            .catch { Result.Error(it) }
-            .map { Result.Success(it.map(::convertUiModel)) }
+            .catch { UiResult.Error(it) }
+            .map { UiResult.Success(it.map(::convertUiModel)) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = Result.Loading
+                initialValue = UiResult.Loading
             )
 
     fun modifyCharacterSavedStatus(uiModel: CharactersUiModel, saved: Boolean) {

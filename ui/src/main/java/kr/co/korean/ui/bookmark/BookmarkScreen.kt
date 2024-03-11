@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kr.co.korean.common.model.Result
+import kr.co.korean.common.model.UiResult
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.util.DevicePreviews
@@ -40,15 +40,15 @@ fun BookmarkScreen(
 @Composable
 fun BookmarkScreen(
     modifier: Modifier = Modifier,
-    characterUiState: Result<List<CharactersUiModel>>,
+    characterUiState: UiResult<List<CharactersUiModel>>,
     progressState: Boolean,
     onProgressStateChange: (Boolean) -> Unit,
     modifyCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit
 ) {
     when (characterUiState) {
-        is Result.Loading -> onProgressStateChange(true)
-        is Result.Error -> onProgressStateChange(false)
-        is Result.Success -> {
+        is UiResult.Loading -> onProgressStateChange(true)
+        is UiResult.Error -> onProgressStateChange(false)
+        is UiResult.Success -> {
             onProgressStateChange(false)
 
             LazyColumn(modifier = modifier) {
@@ -79,7 +79,7 @@ fun BookmarkScreen(
 fun BookmarkScreenPreview() {
     MaterialTheme {
         BookmarkScreen(
-            characterUiState = Result.Success(listOf(
+            characterUiState = UiResult.Success(listOf(
                 CharactersUiModel(
                     id = 1,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
@@ -93,7 +93,7 @@ fun BookmarkScreenPreview() {
                     saved = true,
                 ),
                 CharactersUiModel(
-                    id = 1,
+                    id = 2,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
                     name = "hulk",
                     description = "description hello world",
@@ -105,7 +105,7 @@ fun BookmarkScreenPreview() {
                     saved = false,
                 ),
                 CharactersUiModel(
-                    id = 1,
+                    id = 3,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
                     name = "hulk",
                     description = "description hello world",
@@ -117,7 +117,7 @@ fun BookmarkScreenPreview() {
                     saved = true,
                 ),
                 CharactersUiModel(
-                    id = 1,
+                    id = 4,
                     thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
                     name = "hulk",
                     description = "description hello world",

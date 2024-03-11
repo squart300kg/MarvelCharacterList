@@ -47,7 +47,6 @@ android {
 
 dependencies {
 
-//    implementation(project(":app"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))
     implementation(project(":data:work"))
@@ -74,4 +73,5 @@ dependencies {
     kapt(libs.com.google.dagger.hilt.compiler)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 }

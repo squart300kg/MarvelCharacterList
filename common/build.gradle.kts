@@ -2,8 +2,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin)
-    alias(libs.plugins.dagger.hilt)
-    kotlin("kapt")
 }
 
 android {
@@ -34,20 +32,4 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    kapt {
-        correctErrorTypes = true
-    }
-}
-
-dependencies {
-
-    implementation(libs.com.google.dagger.hilt.android)
-    implementation(libs.androidx.core.ktx)
-
-    kapt(libs.com.google.dagger.hilt.compiler)
-
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-
-    testImplementation(libs.androidx.test.ext.junit)
 }
