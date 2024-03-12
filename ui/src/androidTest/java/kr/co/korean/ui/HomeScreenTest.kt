@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.test.hasScrollToIndexAction
+import androidx.compose.ui.test.hasScrollToNodeAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performScrollToNode
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
@@ -66,5 +67,81 @@ class HomeScreenTest {
                 label = composeTestRule.activity.resources.getString(R.string.semanticProgressBar)
             )
             .assertExists()
+    }
+
+    @Test
+    fun progressBar_whenAppFirstLoaded_showCharacters() {
+        composeTestRule.setContent {
+            BoxWithConstraints {
+                HomeScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    refreshState = rememberPullRefreshState(
+                        refreshing = false,
+                        onRefresh = {}
+                    ),
+                    characterUiState = flowOf(
+                        PagingData.from(
+                            data = characterUiModelsTestData,
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.NotLoading(false),
+                                append = LoadState.Loading,
+                                prepend = LoadState.Loading,
+                            )
+                        )
+                    ).collectAsLazyPagingItems(),
+                    imageDownloadState = ImageDownLoadResult.NoneStart,
+                    loadingProgressState = true,
+                    onLoadingProgressStateChange = { state -> },
+                    onRefreshProgressStateChange = { state -> },
+                    onSnackBarStateChanged = { state -> },
+                    onModifyCharacterSavedStatus = { uiModel, saved -> },
+                    onDownloadThumbnail = { url -> }
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithText(
+                characterUiModelsTestData[0].name
+            )
+            .assertExists()
+
+        composeTestRule
+            .onNode(hasScrollToNodeAction())
+            .performScrollToNode(
+                hasText(characterUiModelsTestData[1].name)
+            )
+
+        composeTestRule
+            .onNodeWithText(
+                characterUiModelsTestData[1].name
+            )
+            .assertExists()
+
+        composeTestRule
+            .onNode(hasScrollToNodeAction())
+            .performScrollToNode(
+                hasText(characterUiModelsTestData[2].name)
+            )
+
+        composeTestRule
+            .onNodeWithText(
+                characterUiModelsTestData[2].name
+            )
+            .assertExists()
+
+        composeTestRule
+            .onNode(hasScrollToNodeAction())
+            .performScrollToNode(
+                hasText(characterUiModelsTestData[3].name)
+            )
+
+        composeTestRule
+            .onNodeWithText(
+                characterUiModelsTestData[3].name
+            )
+            .assertExists()
+
+
     }
 }
