@@ -1,9 +1,8 @@
 package kr.co.korean.ui.model
 
-import kr.co.korean.common.model.UiResult
 import kr.co.korean.model.CharactersUiModel
 
-val characterUiModelsTestData = UiResult.Success(listOf(
+val characterUiModelsTestData = listOf(
     CharactersUiModel(
         id = 1,
         thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
@@ -52,4 +51,4 @@ val characterUiModelsTestData = UiResult.Success(listOf(
         seriesCount = 1,
         saved = true,
     )
-))
+)

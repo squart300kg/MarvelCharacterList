@@ -9,6 +9,7 @@ androidxHiltNavigationCompose = "1.0.0"
 androidxNavigationCommonKtx = "2.7.4"
 junit = "4.13.2"
 androidxTestExtJunit = "1.1.5"
+orgMockitoKotlin = "4.1.0"
 androidxEspresso = "3.5.0"
 androidxLifecycleViewmodelCompose = "2.6.1"
 androidxLifecycleRuntimeCompose = "2.6.1"
@@ -52,6 +53,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit"}
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit"}
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+org-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "orgMockitoKotlin" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
