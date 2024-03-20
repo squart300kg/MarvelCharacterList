@@ -63,6 +63,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
+    // test
     val characterUiState = viewModel.characters.collectAsLazyPagingItems()
     val imageDownloadState by viewModel.imageDownloadState.collectAsStateWithLifecycle()
     var loadingProgressState by remember { mutableStateOf(false) }
