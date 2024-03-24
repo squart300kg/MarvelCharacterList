@@ -34,7 +34,7 @@ jetbrainsKotlin = "1.8.10"
 daggerHilt = "2.45"
 appcompat = "1.6.1"
 material = "1.10.0"
-org-jetbrains-kotlin-jvm = "1.8.10"
+org-jetbrains-kotlin-jvm = "1.9.23"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
