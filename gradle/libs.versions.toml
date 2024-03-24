@@ -31,7 +31,7 @@ androidGradlePlugin = "8.1.2"
 jetbrainsKotlin = "1.8.10"
 
 # libraries and plugins
-daggerHilt = "2.45"
+daggerHilt = "2.51"
 appcompat = "1.6.1"
 material = "1.10.0"
 org-jetbrains-kotlin-jvm = "1.8.10"
