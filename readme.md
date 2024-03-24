@@ -4,7 +4,7 @@
 
 ![alt text](./readme-image/headerImage.png)
 
-🌻 This app follow [Google's official architecture guidance](https://developer.android.com/topic/architecture) and made with [Marvle open API](https://developer.marvel.com/). Let's take a look at the sample app specifically.  
+🌻 This app follow [Google's official architecture guidance](https://developer.android.com/topic/architecture) and made with [Marvle open API](https://developer.marvel.com/). Let's take a look at the sample app specifically. Additionally, the DataLayer of this app is implemented with multiple source which means for '**paging source**', '**room database**', '**work manager**'  
 
 </p>
 
