@@ -53,7 +53,7 @@ Data Layer has '**Repository Module**' which is first entry point of '**UI Layer
 To put it in context with architecture above, The repository module within Data Layer is 'CharacterRepository'
 
 ## 🤝 Contribution
-My sample app is not perfect and has many shortcomings. Therefore, I would be very happy if you could request a pull request for the development of the app. Always welcome.
+My sample app is not perfect and has many shortcomings. Therefore, I would be very happy if you could request a PR for the development of the app. Always welcome.
 
 # License
 ```xml
