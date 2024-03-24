@@ -42,7 +42,7 @@ To put it in context with architecture above, The domain layer of this sample ap
 ### Data layer
 ![alt text](./readme-image/DataLayer.png)
 
-Data Layer has '**Repository Modyle**' which is first entry point of 'UI Layer' and '**Domain Layer**'. '**Repository Moddule**' has three responsibilities 
+Data Layer has '**Repository Module**' which is first entry point of '**UI Layer**' and '**Domain Layer**'. '**Repository Moddule**' has three responsibilities 
 
 👉 Responsibility for querying local data from database or file system or AndroidKeyStore
 
