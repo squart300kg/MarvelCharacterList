@@ -1,6 +1,7 @@
 package kr.co.korean.ui.home
 
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,6 +24,8 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -88,7 +91,7 @@ fun HomeScreen(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -151,72 +154,16 @@ fun HomeScreen(
                 )
             }
 
-            var searchText by remember { mutableStateOf("") }
-            Column(modifier = Modifier) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = dimensionResource(id = R.dimen.characterItemCommonPadding))
-                        .padding(top = dimensionResource(id = R.dimen.characterItemCommonPadding))
-                        .border(
-                            width = 1.dp,
-                            color = Color.White,
-                            shape = RoundedCornerShape(
-                                dimensionResource(id = R.dimen.searchTextFieldRadius)
-                            )
+            LazyColumn(modifier = Modifier
+                .pullRefresh(refreshState)
+            ) {
+                items(characterUiState.itemCount) { index ->
+                    characterUiState[index]?.let { characterUiState ->
+                        BaseCharacterItem(
+                            characterUiState = characterUiState,
+                            onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
+                            onDownloadThumbnail = onDownloadThumbnail
                         )
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.searchIconStartMargin))
-                            .size(dimensionResource(id = R.dimen.searchReadingGlassesSize))
-                            .align(Alignment.CenterStart),
-                        painter = painterResource(id = R.drawable.ic_reading_glasses),
-                        contentDescription = null
-                    )
-
-                    TextField(
-                        modifier = Modifier
-                            .align(Alignment.Center),
-                        textStyle = TextStyle(color = Color.White),
-                        value = searchText,
-                        placeholder = {
-                            Text(
-                                text = stringResource(id = R.string.searchPlaceHolder),
-                                style = TextStyle(color = Color.Gray)
-                            )
-                        },
-                        onValueChange = { searchText = it }
-                    )
-
-                    if (searchText.isNotEmpty()) {
-                        Image(
-                            modifier = Modifier
-                                .padding(end = dimensionResource(id = R.dimen.searchTextFieldHorizontalMargin))
-                                .align(Alignment.CenterEnd)
-                                .clickable { searchText = "" },
-                            painter = painterResource(id = R.drawable.ic_close),
-                            contentDescription = null)
-                    }
-                }
-
-                Spacer(
-                    modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.marginBetweenSearchIconAndTextField))
-
-                )
-
-                LazyColumn(modifier = Modifier
-                    .pullRefresh(refreshState)
-                ) {
-                    items(characterUiState.itemCount) { index ->
-                        characterUiState[index]?.let { characterUiState ->
-                            BaseCharacterItem(
-                                characterUiState = characterUiState,
-                                onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
-                                onDownloadThumbnail = onDownloadThumbnail
-                            )
-                        }
                     }
                 }
             }
