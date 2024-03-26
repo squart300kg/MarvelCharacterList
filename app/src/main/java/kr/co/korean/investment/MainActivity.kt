@@ -78,12 +78,11 @@ class MainActivity : ComponentActivity() {
                                 BaseNavigationBarItem(
                                     onClick = {
                                         val topLevelNavOptions = navOptions {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                            }
+                                            popUpTo(navController.graph.findStartDestination().id)
                                             launchSingleTop = true
                                         }
 
-                                        navController.navigate(destination.name, topLevelNavOptions) },
+                                        navController.navigate(destination.route, topLevelNavOptions) },
                                     selected = selected,
                                     destination = destination
                                 )

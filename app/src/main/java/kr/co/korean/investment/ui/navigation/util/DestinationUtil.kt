@@ -16,5 +16,5 @@ fun NavHostController.getCurrentDestination(): NavDestination? {
 
 fun NavDestination?.isTopLevelDestinationInHierarchy(destination: BaseDestination) =
     this?.hierarchy?.any {
-        it.route?.contains(destination.name, true) ?: false
+        it.route?.contains(destination.route, true) ?: false
     } ?: false
