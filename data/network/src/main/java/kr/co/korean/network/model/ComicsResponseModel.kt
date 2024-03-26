@@ -2,8 +2,10 @@ package kr.co.korean.network.model
 
 import com.google.gson.annotations.SerializedName
 import kr.co.korean.network.model.common.Characters
+import kr.co.korean.network.model.common.Creators
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
+import kr.co.korean.network.model.common.RoleItem
 import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.Stories
 import kr.co.korean.network.model.common.Thumbnail
@@ -97,27 +99,6 @@ data class ComicsResponseModel(
             @SerializedName("variants")
             val variants: List<Any>
         ) {
-
-
-            data class Creators(
-                @SerializedName("available")
-                val available: Int,
-                @SerializedName("collectionURI")
-                val collectionURI: String,
-                @SerializedName("items")
-                val items: List<Item>,
-                @SerializedName("returned")
-                val returned: Int
-            ) {
-                data class Item(
-                    @SerializedName("name")
-                    val name: String,
-                    @SerializedName("resourceURI")
-                    val resourceURI: String,
-                    @SerializedName("role")
-                    val role: String
-                )
-            }
 
             data class Date(
                 @SerializedName("date")
