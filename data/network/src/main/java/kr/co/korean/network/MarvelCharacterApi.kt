@@ -1,6 +1,6 @@
 package kr.co.korean.network
 
-import kr.co.korean.network.model.CharactersResponseModel
+import kr.co.korean.network.model.common.ResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,7 +13,7 @@ interface MarvelCharacterApi {
         @Query("ts") timeStamp: Long,
         @Query("hash") hash: String,
         @Query("offset") offset: Int,
-    ): CharactersResponseModel
+    ): ResponseModel
 
     @GET("/v1/public/characters/{id}/{contentsType}")
     suspend fun getSpecificContents(
@@ -22,6 +22,6 @@ interface MarvelCharacterApi {
         @Query("apikey") apiKey: String,
         @Query("ts") timeStamp: Long,
         @Query("hash") hash: String,
-    ): CharactersResponseModel
+    ): ResponseModel
 
 }

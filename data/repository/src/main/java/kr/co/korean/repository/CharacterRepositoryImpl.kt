@@ -14,7 +14,7 @@ import kr.co.korean.network.BuildConfig
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
-import kr.co.korean.network.model.CharactersResponseModel
+import kr.co.korean.network.model.common.Result
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
@@ -48,7 +48,7 @@ fun convertDataModel(roomModels: List<MarvelCharacter>) =
         )
     }
 
-fun convertDataModel(pagingData: PagingData<CharactersResponseModel.Data.Result>) =
+fun convertDataModel(pagingData: PagingData<Result.CharactersResult>) =
     pagingData.map { pagingData ->
         CharacterDataModel(
             id = pagingData.id,
@@ -63,7 +63,7 @@ fun convertDataModel(pagingData: PagingData<CharactersResponseModel.Data.Result>
         )
     }
 
-fun convertDataModel(remoteData: CharactersResponseModel.Data.Result) =
+fun convertDataModel(remoteData: Result.CharactersResult) =
     CharacterDataModel(
         id = 0,
         thumbnail = "",
@@ -105,7 +105,9 @@ class CharacterRepositoryImpl @Inject constructor(
                     hash = encodeToMd5("${System.currentTimeMillis()}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
                     id = id,
                     type = type
-                ).data.results.map(::convertDataModel)
+                ).data.results
+                    .map { it as Result.CharactersResult }
+                    .map(::convertDataModel)
             )
         }
     }

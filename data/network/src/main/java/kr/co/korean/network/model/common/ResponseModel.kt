@@ -1,8 +1,6 @@
-package kr.co.korean.network.model
+package kr.co.korean.network.model.common
 
-import kr.co.korean.network.model.common.Result
-
-data class EventsResponseModel(
+data class ResponseModel(
     val attributionHTML: String,
     val attributionText: String,
     val code: Int,
@@ -15,7 +13,7 @@ data class EventsResponseModel(
         val count: Int,
         val limit: Int,
         val offset: Int,
-        val results: List<Result.EventsResult>,
+        val results: List<Result>,
         val total: Int
     )
 }
