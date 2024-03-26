@@ -4,6 +4,7 @@ import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.RoleItem
+import kr.co.korean.network.model.common.Series
 
 data class StoriesResponseModel(
     val attributionHTML: String,
@@ -37,13 +38,6 @@ data class StoriesResponseModel(
             val type: String
         ) {
             data class Characters(
-                val available: Int,
-                val collectionURI: String,
-                val items: List<Item>,
-                val returned: Int
-            )
-
-            data class Series(
                 val available: Int,
                 val collectionURI: String,
                 val items: List<Item>,

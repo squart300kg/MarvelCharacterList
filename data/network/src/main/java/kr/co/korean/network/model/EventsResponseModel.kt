@@ -2,6 +2,7 @@ package kr.co.korean.network.model
 
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Item
+import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.TypeItem
 
 data class EventsResponseModel(
@@ -67,13 +68,6 @@ data class EventsResponseModel(
             data class Previous(
                 val name: String,
                 val resourceURI: String
-            )
-
-            data class Series(
-                val available: Int,
-                val collectionURI: String,
-                val items: List<Item>,
-                val returned: Int
             )
 
             data class Stories(

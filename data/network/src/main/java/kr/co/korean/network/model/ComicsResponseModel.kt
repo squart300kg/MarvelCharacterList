@@ -3,6 +3,7 @@ package kr.co.korean.network.model
 import com.google.gson.annotations.SerializedName
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
+import kr.co.korean.network.model.common.Series
 
 data class ComicsResponseModel(
     @SerializedName("attributionHTML")
@@ -142,13 +143,6 @@ data class ComicsResponseModel(
                 val price: Double,
                 @SerializedName("type")
                 val type: String
-            )
-
-            data class Series(
-                @SerializedName("name")
-                val name: String,
-                @SerializedName("resourceURI")
-                val resourceURI: String
             )
 
             data class Stories(
