@@ -65,15 +65,15 @@ fun convertDataModel(pagingData: PagingData<CharactersResponseModel.Data.Result>
 
 fun convertDataModel(remoteData: CharactersResponseModel.Data.Result) =
     CharacterDataModel(
-        id = remoteData.id,
-        thumbnail = remoteData.thumbnail.imageFullPath,
-        name = remoteData.name,
+        id = 0,
+        thumbnail = "",
+        name = "",
         description = remoteData.description,
-        urlCount = remoteData.urls.size,
-        comicCount = remoteData.comics.returned,
-        seriesCount = remoteData.series.returned,
-        storyCount = remoteData.stories.returned,
-        eventCount = remoteData.events.returned
+        urlCount = 0,
+        comicCount = 0,
+        seriesCount = 0,
+        storyCount = 0,
+        eventCount = 0,
     )
 
 /**
