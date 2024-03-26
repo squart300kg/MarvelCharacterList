@@ -1,5 +1,6 @@
 package kr.co.korean.network.model
 
+import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.RoleItem
 
@@ -59,13 +60,6 @@ data class StoriesResponseModel(
                 val available: Int,
                 val collectionURI: String,
                 val items: List<RoleItem>,
-                val returned: Int
-            )
-
-            data class Events(
-                val available: Int,
-                val collectionURI: String,
-                val items: List<Any>,
                 val returned: Int
             )
 
