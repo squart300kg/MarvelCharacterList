@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kr.co.korean.common.encodeToMd5
 import kr.co.korean.database.dao.MarvelCharacterDao
@@ -61,6 +62,20 @@ fun convertDataModel(pagingData: PagingData<CharactersResponseModel.Data.Result>
             eventCount = pagingData.events.returned
         )
     }
+
+fun convertDataModel(remoteData: CharactersResponseModel.Data.Result) =
+    CharacterDataModel(
+        id = remoteData.id,
+        thumbnail = remoteData.thumbnail.imageFullPath,
+        name = remoteData.name,
+        description = remoteData.description,
+        urlCount = remoteData.urls.size,
+        comicCount = remoteData.comics.returned,
+        seriesCount = remoteData.series.returned,
+        storyCount = remoteData.stories.returned,
+        eventCount = remoteData.events.returned
+    )
+
 /**
  * Repository의 경우, API의 'XXXResponse' 네이밍의 모델 수신 후,
  * 상위 레이어로 전달을 위한 모델('XXXDataModel')로 파싱 및 Ui Layer or Data Layer에 노출합니다.
@@ -82,13 +97,17 @@ class CharacterRepositoryImpl @Inject constructor(
         ).flow.map(::convertDataModel)
 
     override suspend fun getRemoteSingleContent(id: Int, type: String): Flow<List<CharacterDataModel>> {
-        marvelCharacterApi.getSpecificContents(
-            apiKey = BuildConfig.marblePubKey,
-            timeStamp = System.currentTimeMillis(),
-            hash = encodeToMd5("${System.currentTimeMillis()}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
-            id = id,
-            type = type
-        )
+        return flow {
+            emit(
+                value = marvelCharacterApi.getSpecificContents(
+                    apiKey = BuildConfig.marblePubKey,
+                    timeStamp = System.currentTimeMillis(),
+                    hash = encodeToMd5("${System.currentTimeMillis()}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
+                    id = id,
+                    type = type
+                ).data.results.map(::convertDataModel)
+            )
+        }
     }
 
 

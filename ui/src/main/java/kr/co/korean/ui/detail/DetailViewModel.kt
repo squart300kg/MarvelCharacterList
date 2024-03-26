@@ -36,6 +36,7 @@ class DetailViewModel @Inject constructor(
         ) { id, type ->
             checkNotNull(id) { "$DETAIL_ID_ARG must not be null" }
             checkNotNull(type) { "$DETAIL_CONTENTS_TYPE_ARG must not be null" }
+
             characterRepository.getRemoteSingleContent(id, type).first()
         }
         .catch { UiResult.Error(it) }
