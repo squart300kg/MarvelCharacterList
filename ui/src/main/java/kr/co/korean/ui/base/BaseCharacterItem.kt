@@ -123,21 +123,23 @@ fun BaseCharacterItem(
         )
 
         Row(
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.characterItemCountTopMargin)).fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = dimensionResource(id = R.dimen.characterItemCountTopMargin))
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(id = R.string.characterItemComicCount) + characterUiState.comicCount.toString(),
-                style = TextStyle(color = Color.Gray))
-            Text(
-                text = stringResource(id = R.string.characterItemSeriesCount) + characterUiState.seriesCount.toString(),
-                style = TextStyle(color = Color.Gray))
-            Text(
-                text = stringResource(id = R.string.characterItemStoryCount) + characterUiState.storyCount.toString(),
-                style = TextStyle(color = Color.Gray))
-            Text(
-                text = stringResource(id = R.string.characterItemEventCount) + characterUiState.eventCount.toString(),
-                style = TextStyle(color = Color.Gray))
+            listOf(
+                R.string.characterItemComicCount to characterUiState.comicCount,
+                R.string.characterItemSeriesCount to characterUiState.seriesCount,
+                R.string.characterItemStoryCount to characterUiState.storyCount,
+                R.string.characterItemEventCount to characterUiState.eventCount,
+            ).forEach { pair ->
+                val res = pair.first
+                val count = pair.second
+                Text(
+                    text = stringResource(id = res) + count,
+                    style = TextStyle(color = Color.Gray))
+            }
         }
 
     }
