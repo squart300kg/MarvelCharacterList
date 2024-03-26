@@ -4,11 +4,8 @@ import kr.co.korean.network.model.common.Characters
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Creators
 import kr.co.korean.network.model.common.Events
-import kr.co.korean.network.model.common.Item
-import kr.co.korean.network.model.common.RoleItem
 import kr.co.korean.network.model.common.Stories
 import kr.co.korean.network.model.common.Thumbnail
-import kr.co.korean.network.model.common.TypeItem
 import kr.co.korean.network.model.common.Url
 
 data class SeriesResponseModel(

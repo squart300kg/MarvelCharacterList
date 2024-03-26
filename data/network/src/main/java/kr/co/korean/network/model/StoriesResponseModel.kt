@@ -4,8 +4,6 @@ import kr.co.korean.network.model.common.Characters
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Creators
 import kr.co.korean.network.model.common.Events
-import kr.co.korean.network.model.common.Item
-import kr.co.korean.network.model.common.RoleItem
 import kr.co.korean.network.model.common.Series
 
 data class StoriesResponseModel(
@@ -39,13 +37,10 @@ data class StoriesResponseModel(
             val title: String,
             val type: String
         ) {
-
-
             data class OriginalIssue(
                 val name: String,
                 val resourceURI: String
             )
-
         }
     }
 }

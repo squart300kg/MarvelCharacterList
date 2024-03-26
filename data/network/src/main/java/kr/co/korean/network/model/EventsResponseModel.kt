@@ -3,11 +3,9 @@ package kr.co.korean.network.model
 import kr.co.korean.network.model.common.Characters
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Creators
-import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.Stories
 import kr.co.korean.network.model.common.Thumbnail
-import kr.co.korean.network.model.common.TypeItem
 import kr.co.korean.network.model.common.Url
 
 data class EventsResponseModel(
@@ -44,13 +42,10 @@ data class EventsResponseModel(
             val title: String,
             val urls: List<Url>
         ) {
-
-
             data class Next(
                 val name: String,
                 val resourceURI: String
             )
-
             data class Previous(
                 val name: String,
                 val resourceURI: String
