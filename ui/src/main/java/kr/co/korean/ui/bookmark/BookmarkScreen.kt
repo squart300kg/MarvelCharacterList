@@ -13,12 +13,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.korean.common.model.UiResult
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
 
 @Composable
@@ -76,62 +78,16 @@ fun BookmarkScreen(
 
 @Composable
 @DevicePreviews
-fun BookmarkScreenPreview() {
+fun BookmarkScreenPreview(
+    @PreviewParameter(CharacterUiModelPreviewParameterProvider::class)
+    characterUiModels: List<CharactersUiModel>
+) {
     MaterialTheme {
         BookmarkScreen(
-            characterUiState = UiResult.Success(listOf(
-                CharactersUiModel(
-                    id = 1,
-                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
-                    name = "hulk",
-                    description = "description hello world",
-                    urlCount = 1,
-                    comicCount = 1,
-                    storyCount = 1,
-                    eventCount = 1,
-                    seriesCount = 1,
-                    saved = true,
-                ),
-                CharactersUiModel(
-                    id = 2,
-                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
-                    name = "hulk",
-                    description = "description hello world",
-                    urlCount = 1,
-                    comicCount = 1,
-                    storyCount = 1,
-                    eventCount = 1,
-                    seriesCount = 1,
-                    saved = false,
-                ),
-                CharactersUiModel(
-                    id = 3,
-                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
-                    name = "hulk",
-                    description = "description hello world",
-                    urlCount = 1,
-                    comicCount = 1,
-                    storyCount = 1,
-                    eventCount = 1,
-                    seriesCount = 1,
-                    saved = true,
-                ),
-                CharactersUiModel(
-                    id = 4,
-                    thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
-                    name = "hulk",
-                    description = "description hello world",
-                    urlCount = 1,
-                    comicCount = 1,
-                    storyCount = 1,
-                    eventCount = 1,
-                    seriesCount = 1,
-                    saved = true,
-                )
-            )),
+            characterUiState = UiResult.Success(characterUiModels),
             progressState = false,
-            onProgressStateChange = {},
-            modifyCharacterSavedStatus = {_,_ ->}
+            onProgressStateChange = { },
+            modifyCharacterSavedStatus = { _,_ ->}
         )
     }
 }
