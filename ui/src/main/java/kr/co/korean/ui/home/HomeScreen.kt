@@ -189,7 +189,9 @@ fun HomeScreen(
                         route = DETAIL_ROUTE
                     ) {
                         composable(route = DETAIL_ROUTE) {
-                            DetailScreen()
+                            DetailScreen(
+                                onBackClick = listDetailNavigator::navigateBack
+                            )
                         }
                         composable(route = DETAIL_ROUTE_BASE) {
                             DetailPlaceHolderScreen()

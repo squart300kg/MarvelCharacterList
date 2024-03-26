@@ -5,7 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kr.co.korean.common.encodeToMd5
 import kr.co.korean.database.dao.MarvelCharacterDao
@@ -81,6 +80,17 @@ class CharacterRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = CHARACTER_DATA_PAGE_SIZE),
             pagingSourceFactory = { MarvelCharacterPagingSource(marvelCharacterApi) }
         ).flow.map(::convertDataModel)
+
+    override suspend fun getRemoteSingleContent(id: Int, type: String): Flow<List<CharacterDataModel>> {
+        marvelCharacterApi.getSpecificContents(
+            apiKey = BuildConfig.marblePubKey,
+            timeStamp = System.currentTimeMillis(),
+            hash = encodeToMd5("${System.currentTimeMillis()}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
+            id = id,
+            type = type
+        )
+    }
+
 
     override suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel, saved: Boolean) {
         val roomModel = dataModel.convertRoomModel()

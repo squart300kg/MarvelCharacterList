@@ -2,22 +2,16 @@ package kr.co.korean.ui.base
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,10 +43,10 @@ import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.util.DevicePreviews
 
 enum class ContentsType {
-    Comic,
+    Comics,
     Series,
-    Story,
-    Event,
+    Stories,
+    Events,
 }
 
 @Composable
@@ -147,10 +141,10 @@ fun BaseCharacterItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             listOf(
-                Triple(R.string.characterItemComicCount, characterUiState.comicCount, ContentsType.Comic),
+                Triple(R.string.characterItemComicCount, characterUiState.comicCount, ContentsType.Comics),
                 Triple(R.string.characterItemSeriesCount, characterUiState.seriesCount, ContentsType.Series),
-                Triple(R.string.characterItemStoryCount, characterUiState.storyCount, ContentsType.Story),
-                Triple(R.string.characterItemEventCount, characterUiState.eventCount, ContentsType.Event),
+                Triple(R.string.characterItemStoryCount, characterUiState.storyCount, ContentsType.Stories),
+                Triple(R.string.characterItemEventCount, characterUiState.eventCount, ContentsType.Events),
             ).forEach { triple ->
                 val res = triple.first
                 val count = triple.second
