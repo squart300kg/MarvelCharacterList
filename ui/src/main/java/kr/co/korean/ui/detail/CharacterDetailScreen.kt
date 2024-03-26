@@ -13,4 +13,5 @@ fun CharacterDetailScreen(
     modifier: Modifier = Modifier
 ) {
 
+
 }
