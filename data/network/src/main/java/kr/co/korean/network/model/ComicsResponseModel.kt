@@ -1,6 +1,7 @@
 package kr.co.korean.network.model
 
 import com.google.gson.annotations.SerializedName
+import kr.co.korean.network.model.common.Characters
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Series
@@ -96,16 +97,7 @@ data class ComicsResponseModel(
             @SerializedName("variants")
             val variants: List<Any>
         ) {
-            data class Characters(
-                @SerializedName("available")
-                val available: Int,
-                @SerializedName("collectionURI")
-                val collectionURI: String,
-                @SerializedName("items")
-                val items: List<Item>,
-                @SerializedName("returned")
-                val returned: Int
-            )
+
 
             data class Creators(
                 @SerializedName("available")
