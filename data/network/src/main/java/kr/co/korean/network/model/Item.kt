@@ -1,4 +1,4 @@
-package kr.co.korean.network.model.common
+package kr.co.korean.network.model
 
 data class Item(
     val name: String,

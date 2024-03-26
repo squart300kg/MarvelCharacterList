@@ -1,6 +1,6 @@
 package kr.co.korean.network
 
-import kr.co.korean.network.model.common.ResponseModel
+import kr.co.korean.network.model.ResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

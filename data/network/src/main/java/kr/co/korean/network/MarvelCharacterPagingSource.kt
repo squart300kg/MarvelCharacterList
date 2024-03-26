@@ -3,8 +3,7 @@ package kr.co.korean.network
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kr.co.korean.common.encodeToMd5
-import kr.co.korean.network.model.common.ResponseModel
-import kr.co.korean.network.model.common.Result
+import kr.co.korean.network.model.Result
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject

@@ -14,7 +14,7 @@ import kr.co.korean.network.BuildConfig
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
-import kr.co.korean.network.model.common.Result
+import kr.co.korean.network.model.Result
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource

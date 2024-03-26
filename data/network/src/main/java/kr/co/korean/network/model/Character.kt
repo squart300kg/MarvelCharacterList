@@ -1,8 +1,8 @@
-package kr.co.korean.network.model.common
+package kr.co.korean.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Events(
+data class Characters(
     @SerializedName("available")
     val available: Int,
     @SerializedName("collectionURI")

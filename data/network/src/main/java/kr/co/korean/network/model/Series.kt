@@ -1,4 +1,4 @@
-package kr.co.korean.network.model.common
+package kr.co.korean.network.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
