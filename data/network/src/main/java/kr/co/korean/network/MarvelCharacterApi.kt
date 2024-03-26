@@ -17,11 +17,11 @@ interface MarvelCharacterApi {
 
     @GET("/v1/public/characters/{id}/{contentsType}")
     suspend fun getSpecificContents(
+        @Path("id") id: Int,
+        @Path("contentsType") type: String,
         @Query("apikey") apiKey: String,
         @Query("ts") timeStamp: Long,
         @Query("hash") hash: String,
-        @Path("id") id: Int,
-        @Path("contentsType") type: String
     ): CharactersResponseModel
 
 }

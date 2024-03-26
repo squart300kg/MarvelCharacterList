@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -15,11 +17,9 @@ fun DetailScreen(
 ) {
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-
     Text(
         modifier = modifier.fillMaxSize(),
-        text = uiState.toString())
-
-
-
+        text = uiState.toString(),
+        style = TextStyle(color = Color.White)
+    )
 }

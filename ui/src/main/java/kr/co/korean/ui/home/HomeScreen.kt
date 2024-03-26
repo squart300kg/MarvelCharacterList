@@ -48,6 +48,7 @@ import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.ui.base.ContentsType
 import kr.co.korean.ui.base.isDetailPaneVisible
+import kr.co.korean.ui.detail.DETAIL_PLACEHOLDER_BASE_ROUTE
 import kr.co.korean.ui.detail.DetailPlaceHolderScreen
 import kr.co.korean.ui.detail.DetailScreen
 import kr.co.korean.ui.detail.navigation.DETAIL_ROUTE
@@ -173,7 +174,7 @@ fun HomeScreen(
                                     highlightSelectedItem = listDetailNavigator.isDetailPaneVisible(),
                                     onNavigateToCharacterDetail = { type, id ->
                                         nestedNavController.navigateToDetailScreen(id, type.name) {
-                                            popUpTo(DETAIL_ROUTE)
+                                            popUpTo(DETAIL_PLACEHOLDER_BASE_ROUTE)
                                         }
                                         listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
                                     }
@@ -185,8 +186,8 @@ fun HomeScreen(
                 detailPane = {
                     NavHost(
                         navController = nestedNavController,
-                        startDestination = DETAIL_ROUTE,
-                        route = DETAIL_ROUTE
+                        startDestination = DETAIL_ROUTE_BASE,
+                        route = DETAIL_PLACEHOLDER_BASE_ROUTE
                     ) {
                         composable(route = DETAIL_ROUTE) {
                             DetailScreen(
