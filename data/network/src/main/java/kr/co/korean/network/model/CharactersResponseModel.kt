@@ -5,6 +5,7 @@ import kr.co.korean.network.constant.ImageScaleType
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Series
+import kr.co.korean.network.model.common.TypeItem
 
 data class CharactersResponseModel(
     @SerializedName("attributionHTML")
@@ -65,7 +66,7 @@ data class CharactersResponseModel(
                 @SerializedName("collectionURI")
                 val collectionURI: String,
                 @SerializedName("items")
-                val items: List<StoryItem>,
+                val items: List<TypeItem>,
                 @SerializedName("returned")
                 val returned: Int
             )
@@ -94,15 +95,6 @@ data class CharactersResponseModel(
             val name: String,
             @SerializedName("resourceURI")
             val resourceURI: String
-        )
-
-        data class StoryItem(
-            @SerializedName("name")
-            val name: String,
-            @SerializedName("resourceURI")
-            val resourceURI: String,
-            @SerializedName("type")
-            val type: String
         )
     }
 }

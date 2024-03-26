@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Series
+import kr.co.korean.network.model.common.Stories
 
 data class ComicsResponseModel(
     @SerializedName("attributionHTML")
@@ -144,26 +145,6 @@ data class ComicsResponseModel(
                 @SerializedName("type")
                 val type: String
             )
-
-            data class Stories(
-                @SerializedName("available")
-                val available: Int,
-                @SerializedName("collectionURI")
-                val collectionURI: String,
-                @SerializedName("items")
-                val items: List<Item>,
-                @SerializedName("returned")
-                val returned: Int
-            ) {
-                data class Item(
-                    @SerializedName("name")
-                    val name: String,
-                    @SerializedName("resourceURI")
-                    val resourceURI: String,
-                    @SerializedName("type")
-                    val type: String
-                )
-            }
 
             data class TextObject(
                 @SerializedName("language")
