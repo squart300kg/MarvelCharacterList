@@ -15,6 +15,7 @@ import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.network.model.Result
+import kr.co.korean.network.model.Result.Companion.convertCharactersResult
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
@@ -106,7 +107,7 @@ class CharacterRepositoryImpl @Inject constructor(
                     id = id,
                     type = type
                 ).data.results
-                    .map { it as Result.CharactersResult }
+                    .convertCharactersResult()
                     .map(::convertDataModel)
             )
         }

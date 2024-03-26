@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kr.co.korean.common.encodeToMd5
 import kr.co.korean.network.model.Result
+import kr.co.korean.network.model.Result.Companion.convertCharactersResult
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class MarvelCharacterPagingSource @Inject constructor(
             ).data
 
             return LoadResult.Page(
-                data = response.results.map { it as Result.CharactersResult },
+                data = response.results.convertCharactersResult(),
                 prevKey = null,
                 nextKey = if (nextPage >= response.total) null else nextPage + 1
             )
