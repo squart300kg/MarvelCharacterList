@@ -1,5 +1,6 @@
 package kr.co.korean.ui.detail
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -12,6 +13,11 @@ fun DetailScreen(
     modifier: Modifier = Modifier
 ) {
     val listDetailNavigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
+    BackHandler(listDetailNavigator.canNavigateBack()) {
+        listDetailNavigator.navigateBack()
+    }
+
+
 
 
 }
