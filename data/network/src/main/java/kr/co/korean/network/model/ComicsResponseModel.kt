@@ -1,6 +1,7 @@
 package kr.co.korean.network.model
 
 import com.google.gson.annotations.SerializedName
+import kr.co.korean.network.model.common.Item
 
 data class ComicsResponseModel(
     @SerializedName("attributionHTML")

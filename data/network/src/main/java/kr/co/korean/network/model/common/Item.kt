@@ -1,10 +1,18 @@
 package kr.co.korean.network.model.common
 
-import com.google.gson.annotations.SerializedName
-
 data class Item(
-    @SerializedName("name")
     val name: String,
-    @SerializedName("resourceURI")
     val resourceURI: String
+)
+
+data class RoleItem(
+    val name: String,
+    val resourceURI: String,
+    val role: String
+)
+
+data class TypeItem(
+    val name: String,
+    val resourceURI: String,
+    val type: String
 )

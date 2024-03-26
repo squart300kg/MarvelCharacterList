@@ -1,6 +1,7 @@
 package kr.co.korean.network.model
 
 import kr.co.korean.network.model.common.Item
+import kr.co.korean.network.model.common.RoleItem
 
 data class StoriesResponseModel(
     val attributionHTML: String,
@@ -57,15 +58,9 @@ data class StoriesResponseModel(
             data class Creators(
                 val available: Int,
                 val collectionURI: String,
-                val items: List<Item>,
+                val items: List<RoleItem>,
                 val returned: Int
-            ) {
-                data class Item(
-                    val name: String,
-                    val resourceURI: String,
-                    val role: String
-                )
-            }
+            )
 
             data class Events(
                 val available: Int,
