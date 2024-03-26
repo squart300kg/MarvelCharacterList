@@ -29,6 +29,4 @@ fun DetailScreen(
 
         }
     )
-
-
 }

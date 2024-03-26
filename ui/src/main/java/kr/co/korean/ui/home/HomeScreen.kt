@@ -25,6 +25,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,6 +47,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
@@ -55,6 +59,8 @@ import kotlinx.coroutines.flow.flowOf
 import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.ui.detail.DetailPlaceHolderScreen
+import kr.co.korean.ui.detail.navigation.DETAIL_ROUTE
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
 import kr.co.korean.work.ImageDownLoadResult
@@ -154,19 +160,45 @@ fun HomeScreen(
                 )
             }
 
-            LazyColumn(modifier = Modifier
-                .pullRefresh(refreshState)
-            ) {
-                items(characterUiState.itemCount) { index ->
-                    characterUiState[index]?.let { characterUiState ->
-                        BaseCharacterItem(
-                            characterUiState = characterUiState,
-                            onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
-                            onDownloadThumbnail = onDownloadThumbnail
-                        )
+            val nestedNavController = rememberNavController()
+            val listDetailNavigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
+            BackHandler(listDetailNavigator.canNavigateBack()) {
+                listDetailNavigator.navigateBack()
+            }
+
+            ListDetailPaneScaffold(
+                directive = listDetailNavigator.scaffoldDirective,
+                value = listDetailNavigator.scaffoldValue,
+                listPane = {
+                    LazyColumn(modifier = Modifier
+                        .pullRefresh(refreshState)
+                    ) {
+                        items(characterUiState.itemCount) { index ->
+                            characterUiState[index]?.let { characterUiState ->
+                                BaseCharacterItem(
+                                    characterUiState = characterUiState,
+                                    onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
+                                    onDownloadThumbnail = onDownloadThumbnail,
+                                    onNavigateToCharacterDetail = { type, id -> }
+                                )
+                            }
+                        }
+                    }
+                },
+                detailPane = {
+                    NavHost(
+                        navController = nestedNavController,
+                        startDestination = DETAIL_ROUTE,
+                        route = DETAIL_ROUTE
+                    ) {
+
+
+                        composable(route = DETAIL_ROUTE) {
+                            DetailPlaceHolderScreen()
+                        }
                     }
                 }
-            }
+            )
         }
     }
 

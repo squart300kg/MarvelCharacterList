@@ -43,12 +43,20 @@ import kr.co.korean.ui.R
 import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.util.DevicePreviews
 
+enum class ContentsType {
+    Comic,
+    Series,
+    Story,
+    Event,
+}
+
 @Composable
 fun BaseCharacterItem(
     modifier: Modifier = Modifier,
     characterUiState: CharactersUiModel,
-    onModifyingCharacterSavedStatus: (CharactersUiModel, Boolean) -> Unit,
-    onDownloadThumbnail: (String) -> Unit = {}
+    onModifyingCharacterSavedStatus: (uiModel: CharactersUiModel, isSaved: Boolean) -> Unit,
+    onDownloadThumbnail: (url: String) -> Unit = {},
+    onNavigateToCharacterDetail: (type: ContentsType, id: Int) -> Unit = { _, _ -> },
 ) {
     var imageProgressState by remember { mutableStateOf(true) }
 
@@ -129,14 +137,16 @@ fun BaseCharacterItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             listOf(
-                R.string.characterItemComicCount to characterUiState.comicCount,
-                R.string.characterItemSeriesCount to characterUiState.seriesCount,
-                R.string.characterItemStoryCount to characterUiState.storyCount,
-                R.string.characterItemEventCount to characterUiState.eventCount,
-            ).forEach { pair ->
-                val res = pair.first
-                val count = pair.second
+                Triple(R.string.characterItemComicCount, characterUiState.comicCount, ContentsType.Comic),
+                Triple(R.string.characterItemSeriesCount, characterUiState.seriesCount, ContentsType.Series),
+                Triple(R.string.characterItemStoryCount, characterUiState.storyCount, ContentsType.Story),
+                Triple(R.string.characterItemEventCount, characterUiState.eventCount, ContentsType.Event),
+            ).forEach { triple ->
+                val res = triple.first
+                val count = triple.second
+                val type = triple.third
                 Text(
+                    modifier = Modifier.clickable { onNavigateToCharacterDetail(type, characterUiState.id) },
                     text = stringResource(id = res) + count,
                     style = TextStyle(color = Color.Gray))
             }
