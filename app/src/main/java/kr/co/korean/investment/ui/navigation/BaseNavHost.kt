@@ -4,11 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import kr.co.korean.ui.bookmark.BookmarkScreen
 import kr.co.korean.ui.bookmark.navigation.bookmarkScreen
-import kr.co.korean.ui.detail.navigateToCharacterDetailScreen
-import kr.co.korean.ui.home.HomeScreen
+import kr.co.korean.ui.detail.navigation.navigateToDetailScreen
 import kr.co.korean.ui.home.navigation.HOME_ROUTE_BASE
 import kr.co.korean.ui.home.navigation.homeScreen
 
@@ -25,7 +22,7 @@ fun BaseNavHost(
     ) {
         homeScreen(
             onSnackBarStateChanged = onSnackBarStateChanged,
-            onNavigateToCharacterDetail = navController::navigateToCharacterDetailScreen
+            onNavigateToCharacterDetail = { navController.navigateToDetailScreen("dummyId") }
         )
         bookmarkScreen()
     }

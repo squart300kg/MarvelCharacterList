@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kr.co.korean.ui.home.HomeScreen
 
-const val HOME_ROUTE_BASE = "home_route"
+const val HOME_ROUTE_BASE = "homeRoute"
 
 fun NavGraphBuilder.homeScreen(
     onSnackBarStateChanged: (String) -> Unit,
