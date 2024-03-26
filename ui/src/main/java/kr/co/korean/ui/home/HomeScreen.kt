@@ -46,7 +46,6 @@ import kotlinx.coroutines.flow.flowOf
 import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
-import kr.co.korean.ui.base.ContentsType
 import kr.co.korean.ui.base.isDetailPaneVisible
 import kr.co.korean.ui.detail.DETAIL_PLACEHOLDER_BASE_ROUTE
 import kr.co.korean.ui.detail.DetailPlaceHolderScreen

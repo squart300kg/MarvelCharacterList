@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import kr.co.korean.common.model.UiResult
 import kr.co.korean.model.convertUiModel
 import kr.co.korean.repository.CharacterRepository
+import kr.co.korean.repository.ContentsType
 import kr.co.korean.ui.detail.navigation.DETAIL_CONTENTS_TYPE_ARG
 import kr.co.korean.ui.detail.navigation.DETAIL_ID_ARG
 import javax.inject.Inject
@@ -35,7 +36,10 @@ class DetailViewModel @Inject constructor(
             checkNotNull(id) { "$DETAIL_ID_ARG must not be null" }
             checkNotNull(type) { "$DETAIL_CONTENTS_TYPE_ARG must not be null" }
 
-            characterRepository.getRemoteSingleContent(id.toInt(), type.lowercase()).first()
+            characterRepository.getRemoteSingleContent(
+                id = id.toInt(),
+                type = ContentsType.valueOf(type)
+            ).first()
         }
         .catch { Log.e("detailErrorLog", it.stackTraceToString()) }
         .map { UiResult.Success(it.map(::convertUiModel)) }

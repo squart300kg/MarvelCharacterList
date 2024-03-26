@@ -41,15 +41,9 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.repository.ContentsType
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
-
-enum class ContentsType {
-    Comics,
-    Series,
-    Stories,
-    Events,
-}
 
 @Composable
 fun BaseCharacterItem(

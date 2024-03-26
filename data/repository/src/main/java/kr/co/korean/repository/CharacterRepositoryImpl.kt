@@ -97,7 +97,7 @@ class CharacterRepositoryImpl @Inject constructor(
             pagingSourceFactory = { MarvelCharacterPagingSource(marvelCharacterApi) }
         ).flow.map(::convertDataModel)
 
-    override suspend fun getRemoteSingleContent(id: Int, type: String): Flow<List<CharacterDataModel>> {
+    override suspend fun getRemoteSingleContent(id: Int, type: ContentsType): Flow<List<CharacterDataModel>> {
         return flow {
             emit(
                 value = marvelCharacterApi.getSpecificContents(
@@ -105,7 +105,7 @@ class CharacterRepositoryImpl @Inject constructor(
                     timeStamp = System.currentTimeMillis(),
                     hash = encodeToMd5("${System.currentTimeMillis()}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
                     id = id,
-                    type = type
+                    type = type.name.lowercase()
                 ).data.results
                     .convertCharactersResult()
                     .map(::convertDataModel)
