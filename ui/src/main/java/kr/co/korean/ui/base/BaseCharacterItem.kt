@@ -34,12 +34,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
 
 enum class ContentsType {
@@ -169,22 +171,14 @@ internal fun <T> ThreePaneScaffoldNavigator<T>.isDetailPaneVisible(): Boolean =
 
 @DevicePreviews
 @Composable
-fun BaseCharacterItemPreview() {
+fun BaseCharacterItemPreview(
+    @PreviewParameter(CharacterUiModelPreviewParameterProvider::class)
+    characterUiModels: List<CharactersUiModel>
+) {
     MaterialTheme {
         BaseCharacterItem(
             modifier = Modifier,
-            characterUiState = CharactersUiModel(
-                id = 1,
-                thumbnail = "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/portrait_xlarge.jpg",
-                name = "hulk",
-                description = "description hello world",
-                urlCount = 1,
-                comicCount = 1,
-                storyCount = 1,
-                eventCount = 1,
-                seriesCount = 1,
-                saved = true,
-            ),
+            characterUiState = characterUiModels[0],
             onModifyingCharacterSavedStatus = {_, _ ->},
             onDownloadThumbnail = {}
         )
