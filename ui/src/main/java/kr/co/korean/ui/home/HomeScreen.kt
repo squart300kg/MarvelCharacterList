@@ -2,30 +2,21 @@ package kr.co.korean.ui.home
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.TextField
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,14 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,9 +46,13 @@ import kotlinx.coroutines.flow.flowOf
 import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.ui.base.ContentsType
 import kr.co.korean.ui.base.isDetailPaneVisible
 import kr.co.korean.ui.detail.DetailPlaceHolderScreen
+import kr.co.korean.ui.detail.DetailScreen
 import kr.co.korean.ui.detail.navigation.DETAIL_ROUTE
+import kr.co.korean.ui.detail.navigation.DETAIL_ROUTE_BASE
+import kr.co.korean.ui.detail.navigation.navigateToDetailScreen
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
 import kr.co.korean.work.ImageDownLoadResult
@@ -72,7 +63,6 @@ import kr.co.korean.ui.R as UiRes
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onSnackBarStateChanged: (String) -> Unit,
-    onNavigateToCharacterDetail: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -94,7 +84,7 @@ fun HomeScreen(
         onRefreshProgressStateChange = { refreshProgressState = it },
         onSnackBarStateChanged = onSnackBarStateChanged,
         onModifyCharacterSavedStatus = viewModel::modifyCharacterSavedStatus,
-        onDownloadThumbnail = viewModel::downloadThumbnail
+        onDownloadThumbnail = viewModel::downloadThumbnail,
     )
 }
 
@@ -182,7 +172,10 @@ fun HomeScreen(
                                     onDownloadThumbnail = onDownloadThumbnail,
                                     highlightSelectedItem = listDetailNavigator.isDetailPaneVisible(),
                                     onNavigateToCharacterDetail = { type, id ->
-
+                                        nestedNavController.navigateToDetailScreen(id) {
+                                            popUpTo(DETAIL_ROUTE)
+                                        }
+                                        listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
                                     }
                                 )
                             }
@@ -195,9 +188,10 @@ fun HomeScreen(
                         startDestination = DETAIL_ROUTE,
                         route = DETAIL_ROUTE
                     ) {
-
-
                         composable(route = DETAIL_ROUTE) {
+                            DetailScreen()
+                        }
+                        composable(route = DETAIL_ROUTE_BASE) {
                             DetailPlaceHolderScreen()
                         }
                     }

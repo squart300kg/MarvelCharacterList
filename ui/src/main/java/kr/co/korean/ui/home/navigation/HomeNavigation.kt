@@ -8,12 +8,10 @@ const val HOME_ROUTE_BASE = "homeRoute"
 
 fun NavGraphBuilder.homeScreen(
     onSnackBarStateChanged: (String) -> Unit,
-    onNavigateToCharacterDetail: () -> Unit,
 ) {
     composable(route = HOME_ROUTE_BASE) {
         HomeScreen(
             onSnackBarStateChanged = onSnackBarStateChanged,
-            onNavigateToCharacterDetail = onNavigateToCharacterDetail,
         )
     }
 }
