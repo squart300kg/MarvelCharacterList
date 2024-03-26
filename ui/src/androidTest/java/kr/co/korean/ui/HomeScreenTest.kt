@@ -100,47 +100,61 @@ class HomeScreenTest {
             }
         }
 
-        composeTestRule
-            .onNodeWithText(
-                characterUiModelsTestData[0].name
-            )
-            .assertExists()
+        repeat(characterUiModelsTestData.size) { index ->
+            composeTestRule
+                .onNode(hasScrollToNodeAction())
+                .performScrollToNode(
+                    hasText(characterUiModelsTestData[index].name)
+                )
 
-        composeTestRule
-            .onNode(hasScrollToNodeAction())
-            .performScrollToNode(
-                hasText(characterUiModelsTestData[1].name)
-            )
+            composeTestRule
+                .onNodeWithText(
+                    characterUiModelsTestData[index].name
+                )
+                .assertExists()
+        }
 
-        composeTestRule
-            .onNodeWithText(
-                characterUiModelsTestData[1].name
-            )
-            .assertExists()
-
-        composeTestRule
-            .onNode(hasScrollToNodeAction())
-            .performScrollToNode(
-                hasText(characterUiModelsTestData[2].name)
-            )
-
-        composeTestRule
-            .onNodeWithText(
-                characterUiModelsTestData[2].name
-            )
-            .assertExists()
-
-        composeTestRule
-            .onNode(hasScrollToNodeAction())
-            .performScrollToNode(
-                hasText(characterUiModelsTestData[3].name)
-            )
-
-        composeTestRule
-            .onNodeWithText(
-                characterUiModelsTestData[3].name
-            )
-            .assertExists()
+//        composeTestRule
+//            .onNodeWithText(
+//                characterUiModelsTestData[0].name
+//            )
+//            .assertExists()
+//
+//        composeTestRule
+//            .onNode(hasScrollToNodeAction())
+//            .performScrollToNode(
+//                hasText(characterUiModelsTestData[1].name)
+//            )
+//
+//        composeTestRule
+//            .onNodeWithText(
+//                characterUiModelsTestData[1].name
+//            )
+//            .assertExists()
+//
+//        composeTestRule
+//            .onNode(hasScrollToNodeAction())
+//            .performScrollToNode(
+//                hasText(characterUiModelsTestData[2].name)
+//            )
+//
+//        composeTestRule
+//            .onNodeWithText(
+//                characterUiModelsTestData[2].name
+//            )
+//            .assertExists()
+//
+//        composeTestRule
+//            .onNode(hasScrollToNodeAction())
+//            .performScrollToNode(
+//                hasText(characterUiModelsTestData[3].name)
+//            )
+//
+//        composeTestRule
+//            .onNodeWithText(
+//                characterUiModelsTestData[3].name
+//            )
+//            .assertExists()
 
 
     }
