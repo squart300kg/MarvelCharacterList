@@ -27,16 +27,6 @@ fun BaseNavHost(
             onSnackBarStateChanged = onSnackBarStateChanged,
             onNavigateToCharacterDetail = navController::navigateToCharacterDetailScreen
         )
-//        composable(route = BaseDestination.HOME.name) {
-//            HomeScreen(
-//                onSnackBarStateChanged = onSnackBarStateChanged,
-//                onNavigateToCharacterDetail = navController::navigateToCharacterDetailScreen
-//            )
-//        }
         bookmarkScreen()
-//        composable(route = BaseDestination.BOOKMARKS.name) {
-//            BookmarkScreen()
-//        }
-
     }
 }
