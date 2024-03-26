@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import kr.co.korean.network.constant.ImageScaleType
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Events
+import kr.co.korean.network.model.common.Result
 import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.Stories
 import kr.co.korean.network.model.common.Thumbnail
@@ -34,33 +35,8 @@ data class CharactersResponseModel(
         @SerializedName("offset")
         val offset: Int,
         @SerializedName("results")
-        val results: List<Result>,
+        val results: List<Result.CharactersResult>,
         @SerializedName("total")
         val total: Int
-    ) {
-        data class Result(
-            @SerializedName("comics")
-            val comics: Comics,
-            @SerializedName("description")
-            val description: String,
-            @SerializedName("events")
-            val events: Events,
-            @SerializedName("id")
-            val id: Int,
-            @SerializedName("modified")
-            val modified: String,
-            @SerializedName("name")
-            val name: String,
-            @SerializedName("resourceURI")
-            val resourceURI: String,
-            @SerializedName("series")
-            val series: Series,
-            @SerializedName("stories")
-            val stories: Stories,
-            @SerializedName("thumbnail")
-            val thumbnail: Thumbnail,
-            @SerializedName("urls")
-            val urls: List<Url>
-        )
-    }
+    )
 }
