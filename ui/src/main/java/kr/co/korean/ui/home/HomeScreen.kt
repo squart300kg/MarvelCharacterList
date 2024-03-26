@@ -24,6 +24,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,14 +107,19 @@ fun HomeScreen(
      * 또한 이미지 로딩이 완료(=[LoadState.NotLoading])시,
      * 이미지 다운을 위한 프로그래스바(=[ImageDownLoadResult]를 띄우게 됩니다.
      */
-    when (characterUiState.loadState.refresh) {
+    when (val loadState = characterUiState.loadState.refresh) {
         is LoadState.Loading -> {
-            onLoadingProgressStateChange(true)
-            onRefreshProgressStateChange(true)
+            LaunchedEffect(Unit) {
+                onLoadingProgressStateChange(true)
+                onRefreshProgressStateChange(true)
+            }
         }
         is LoadState.Error -> {
-            onLoadingProgressStateChange(false)
-            onRefreshProgressStateChange(true)
+            LaunchedEffect(Unit) {
+                onLoadingProgressStateChange(false)
+                onRefreshProgressStateChange(false)
+                onSnackBarStateChanged(loadState.error.message ?: "")
+            }
         }
         is LoadState.NotLoading -> {
             onRefreshProgressStateChange(false)
@@ -126,10 +132,14 @@ fun HomeScreen(
                     onLoadingProgressStateChange(false)
                 }
                 is ImageDownLoadResult.Error -> {
-                    onSnackBarStateChanged(stringResource(id = UiRes.string.savedError))
+                    LaunchedEffect(Unit) {
+                        onSnackBarStateChanged(context.getString(UiRes.string.savedError))
+                    }
                 }
                 is ImageDownLoadResult.Success -> {
-                    onSnackBarStateChanged(stringResource(id = UiRes.string.savedSuccess))
+                    LaunchedEffect(Unit) {
+                        onSnackBarStateChanged(context.getString(UiRes.string.savedSuccess))
+                    }
                 }
             }
 
