@@ -16,6 +16,10 @@ import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.network.model.Result
 import kr.co.korean.network.model.Result.Companion.convertCharactersResult
+import kr.co.korean.network.model.Result.Companion.convertComicsResult
+import kr.co.korean.network.model.Result.Companion.convertEventsResult
+import kr.co.korean.network.model.Result.Companion.convertSeriesResult
+import kr.co.korean.network.model.Result.Companion.convertStoriesResult
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
@@ -107,6 +111,15 @@ class CharacterRepositoryImpl @Inject constructor(
                     id = id,
                     type = type.name.lowercase()
                 ).data.results
+                    .apply {
+                        when (type) {
+                            ContentsType.Characters -> convertCharactersResult()
+                            ContentsType.Comics -> convertComicsResult()
+                            ContentsType.Events -> convertEventsResult()
+                            ContentsType.Series -> convertSeriesResult()
+                            ContentsType.Stories -> convertStoriesResult()
+                        }
+                    }
                     .convertCharactersResult()
                     .map(::convertDataModel)
             )

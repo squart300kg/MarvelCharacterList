@@ -6,6 +6,7 @@ import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 
 enum class ContentsType {
+    Characters,
     Comics,
     Series,
     Stories,

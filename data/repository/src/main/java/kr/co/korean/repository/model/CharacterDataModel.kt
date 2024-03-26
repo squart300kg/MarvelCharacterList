@@ -11,3 +11,21 @@ data class CharacterDataModel(
     val eventCount: Int,
     val seriesCount: Int,
 )
+
+sealed interface ContentsDataModel {
+    data class SeriesDataModel(
+        val hello: String
+    ): ContentsDataModel
+
+    data class EventsDataModel(
+        val hello: String
+    ): ContentsDataModel
+
+    data class StoriesDataModel(
+        val hello: String
+    ): ContentsDataModel
+
+    data class ComicsDataModel(
+        val hello: String
+    ): ContentsDataModel
+}
