@@ -3,6 +3,14 @@ package kr.co.korean.network.model
 import com.google.gson.annotations.SerializedName
 
 sealed interface Result {
+    companion object {
+        fun List<Result>.convertCharactersResult() = this.map { it as CharactersResult }
+        fun List<Result>.convertEventsResult() = this.map { it as EventsResult }
+        fun List<Result>.convertSeriesResult() = this.map { it as SeriesResult }
+        fun List<Result>.convertStoriesResult() = this.map { it as StoriesResult }
+        fun List<Result>.convertComicsResult() = this.map { it as ComicsResult }
+    }
+
     data class CharactersResult(
         @SerializedName("comics")
         val comics: Comics,
