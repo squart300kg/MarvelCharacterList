@@ -59,6 +59,7 @@ import kotlinx.coroutines.flow.flowOf
 import kr.co.korean.ui.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
+import kr.co.korean.ui.base.isDetailPaneVisible
 import kr.co.korean.ui.detail.DetailPlaceHolderScreen
 import kr.co.korean.ui.detail.navigation.DETAIL_ROUTE
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
@@ -179,7 +180,10 @@ fun HomeScreen(
                                     characterUiState = characterUiState,
                                     onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
                                     onDownloadThumbnail = onDownloadThumbnail,
-                                    onNavigateToCharacterDetail = { type, id -> }
+                                    highlightSelectedItem = listDetailNavigator.isDetailPaneVisible(),
+                                    onNavigateToCharacterDetail = { type, id ->
+
+                                    }
                                 )
                             }
                         }

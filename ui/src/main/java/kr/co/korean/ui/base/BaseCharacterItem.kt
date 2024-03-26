@@ -1,6 +1,7 @@
 package kr.co.korean.ui.base
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
+import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,6 +59,7 @@ enum class ContentsType {
 fun BaseCharacterItem(
     modifier: Modifier = Modifier,
     characterUiState: CharactersUiModel,
+    highlightSelectedItem: Boolean = false,
     onModifyingCharacterSavedStatus: (uiModel: CharactersUiModel, isSaved: Boolean) -> Unit,
     onDownloadThumbnail: (url: String) -> Unit = {},
     onNavigateToCharacterDetail: (type: ContentsType, id: Int) -> Unit = { _, _ -> },
@@ -63,6 +69,10 @@ fun BaseCharacterItem(
     Column(
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.characterItemCommonPadding))
+            .background(
+                if (highlightSelectedItem) MaterialTheme.colorScheme.surfaceVariant
+                else Color.Transparent
+            )
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -154,6 +164,14 @@ fun BaseCharacterItem(
 
     }
 }
+
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+internal fun <T> ThreePaneScaffoldNavigator<T>.isListPaneVisible(): Boolean =
+    scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
+
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+internal fun <T> ThreePaneScaffoldNavigator<T>.isDetailPaneVisible(): Boolean =
+    scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
 
 @DevicePreviews
 @Composable
