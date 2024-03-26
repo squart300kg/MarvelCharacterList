@@ -1,5 +1,6 @@
 package kr.co.korean.network.model
 
+import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.RoleItem
@@ -36,13 +37,6 @@ data class StoriesResponseModel(
             val type: String
         ) {
             data class Characters(
-                val available: Int,
-                val collectionURI: String,
-                val items: List<Item>,
-                val returned: Int
-            )
-
-            data class Comics(
                 val available: Int,
                 val collectionURI: String,
                 val items: List<Item>,
