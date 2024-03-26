@@ -99,14 +99,7 @@ data class ComicsResponseModel(
                 val items: List<Item>,
                 @SerializedName("returned")
                 val returned: Int
-            ) {
-                data class Item(
-                    @SerializedName("name")
-                    val name: String,
-                    @SerializedName("resourceURI")
-                    val resourceURI: String
-                )
-            }
+            )
 
             data class Creators(
                 @SerializedName("available")

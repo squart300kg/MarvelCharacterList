@@ -1,5 +1,7 @@
 package kr.co.korean.network.model
 
+import kr.co.korean.network.model.common.Item
+
 data class SeriesResponseModel(
     val attributionHTML: String,
     val attributionText: String,
@@ -86,11 +88,6 @@ data class SeriesResponseModel(
             data class Thumbnail(
                 val extension: String,
                 val path: String
-            )
-
-            data class Item(
-                val name: String,
-                val resourceURI: String
             )
 
             data class Url(

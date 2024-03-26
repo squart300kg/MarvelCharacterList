@@ -1,5 +1,7 @@
 package kr.co.korean.network.model
 
+import kr.co.korean.network.model.common.Item
+
 data class EventsResponseModel(
     val attributionHTML: String,
     val attributionText: String,
@@ -34,11 +36,6 @@ data class EventsResponseModel(
             val title: String,
             val urls: List<Url>
         ) {
-
-            data class Item(
-                val name: String,
-                val resourceURI: String
-            )
 
             data class Characters(
                 val available: Int,
