@@ -121,72 +121,125 @@ sealed interface Result {
     }
 
     data class EventsResult(
+        @SerializedName("characters")
         val characters: Characters,
+        @SerializedName("comics")
         val comics: Comics,
+        @SerializedName("creators")
         val creators: Creators,
+        @SerializedName("description")
         val description: String,
+        @SerializedName("end")
         val end: String,
+        @SerializedName("id")
         val id: Int,
+        @SerializedName("modified")
         val modified: String,
+        @SerializedName("next")
         val next: Next,
+        @SerializedName("previous")
         val previous: Previous,
+        @SerializedName("resourceURI")
         val resourceURI: String,
+        @SerializedName("series")
         val series: Series,
+        @SerializedName("start")
         val start: String,
+        @SerializedName("stories")
         val stories: Stories,
+        @SerializedName("thumbnail")
         val thumbnail: Thumbnail,
+        @SerializedName("title")
         val title: String,
+        @SerializedName("urls")
         val urls: List<Url>
     ): Result {
         data class Next(
+            @SerializedName("name")
             val name: String,
+            @SerializedName("resourceURI")
             val resourceURI: String
         )
         data class Previous(
+            @SerializedName("name")
             val name: String,
+            @SerializedName("resourceURI")
             val resourceURI: String
         )
     }
 
     data class StoriesResult(
+        @SerializedName("characters")
         val characters: Characters,
+        @SerializedName("comics")
         val comics: Comics,
+        @SerializedName("creators")
         val creators: Creators,
+        @SerializedName("description")
         val description: String,
+        @SerializedName("events")
         val events: Events,
+        @SerializedName("id")
         val id: Int,
+        @SerializedName("modified")
         val modified: String,
+        @SerializedName("originalIssue")
         val originalIssue: OriginalIssue,
+        @SerializedName("resourceURI")
         val resourceURI: String,
+        @SerializedName("series")
         val series: Series,
+        @SerializedName("thumbnail")
         val thumbnail: Any,
+        @SerializedName("title")
         val title: String,
+        @SerializedName("type")
         val type: String
     ): Result {
         data class OriginalIssue(
+            @SerializedName("name")
             val name: String,
+            @SerializedName("resourceURI")
             val resourceURI: String
         )
     }
 
     data class SeriesResult(
+        @SerializedName("characters")
         val characters: Characters,
+        @SerializedName("comics")
         val comics: Comics,
+        @SerializedName("creators")
         val creators: Creators,
+        @SerializedName("description")
         val description: String,
+        @SerializedName("endYear")
         val endYear: Int,
+        @SerializedName("events")
         val events: Events,
+        @SerializedName("id")
         val id: Int,
+        @SerializedName("modified")
         val modified: String,
+        @SerializedName("next")
         val next: Any,
+        @SerializedName("previous")
         val previous: Any,
+        @SerializedName("rating")
         val rating: String,
+        @SerializedName("resourceURI")
         val resourceURI: String,
+        @SerializedName("startYear")
         val startYear: Int,
+        @SerializedName("stories")
         val stories: Stories,
+        @SerializedName("thumbnail")
         val thumbnail: Thumbnail,
+        @SerializedName("title")
         val title: String,
+        @SerializedName("type")
         val type: String,
+        @SerializedName("urls")
         val urls: List<Url>
     ): Result
 }
