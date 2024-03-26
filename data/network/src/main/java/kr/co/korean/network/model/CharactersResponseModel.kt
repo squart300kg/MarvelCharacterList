@@ -7,6 +7,7 @@ import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.Thumbnail
 import kr.co.korean.network.model.common.TypeItem
+import kr.co.korean.network.model.common.Url
 
 data class CharactersResponseModel(
     @SerializedName("attributionHTML")
@@ -71,21 +72,6 @@ data class CharactersResponseModel(
                 @SerializedName("returned")
                 val returned: Int
             )
-
-            data class Url(
-                @SerializedName("type")
-                val type: String,
-                @SerializedName("url")
-                val url: String
-            )
-
         }
-
-        data class NormalItem(
-            @SerializedName("name")
-            val name: String,
-            @SerializedName("resourceURI")
-            val resourceURI: String
-        )
     }
 }

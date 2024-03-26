@@ -6,6 +6,7 @@ import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Stories
 import kr.co.korean.network.model.common.Thumbnail
 import kr.co.korean.network.model.common.TypeItem
+import kr.co.korean.network.model.common.Url
 
 data class SeriesResponseModel(
     val attributionHTML: String,
@@ -62,11 +63,6 @@ data class SeriesResponseModel(
                     val role: String
                 )
             }
-
-            data class Url(
-                val type: String,
-                val url: String
-            )
         }
     }
 }

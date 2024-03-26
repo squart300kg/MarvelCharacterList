@@ -6,6 +6,7 @@ import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.Stories
 import kr.co.korean.network.model.common.Thumbnail
+import kr.co.korean.network.model.common.Url
 
 data class ComicsResponseModel(
     @SerializedName("attributionHTML")
@@ -154,13 +155,6 @@ data class ComicsResponseModel(
                 val text: String,
                 @SerializedName("type")
                 val type: String
-            )
-
-            data class Url(
-                @SerializedName("type")
-                val type: String,
-                @SerializedName("url")
-                val url: String
             )
         }
     }
