@@ -5,6 +5,7 @@ import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Series
 import kr.co.korean.network.model.common.Stories
+import kr.co.korean.network.model.common.Thumbnail
 
 data class ComicsResponseModel(
     @SerializedName("attributionHTML")
@@ -153,13 +154,6 @@ data class ComicsResponseModel(
                 val text: String,
                 @SerializedName("type")
                 val type: String
-            )
-
-            data class Thumbnail(
-                @SerializedName("extension")
-                val extension: String,
-                @SerializedName("path")
-                val path: String
             )
 
             data class Url(

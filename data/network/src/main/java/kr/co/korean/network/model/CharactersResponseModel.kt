@@ -5,6 +5,7 @@ import kr.co.korean.network.constant.ImageScaleType
 import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Series
+import kr.co.korean.network.model.common.Thumbnail
 import kr.co.korean.network.model.common.TypeItem
 
 data class CharactersResponseModel(
@@ -70,16 +71,6 @@ data class CharactersResponseModel(
                 @SerializedName("returned")
                 val returned: Int
             )
-
-            data class Thumbnail(
-                @SerializedName("extension")
-                val extension: String,
-                @SerializedName("path")
-                val path: String
-            ) {
-                val imageFullPath: String
-                    get() = "${path.replace("http", "https")}/${ImageScaleType.LANDSCAPE_XLARGE.value}.$extension"
-            }
 
             data class Url(
                 @SerializedName("type")

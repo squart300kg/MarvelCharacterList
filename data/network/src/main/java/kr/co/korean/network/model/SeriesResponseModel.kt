@@ -4,6 +4,7 @@ import kr.co.korean.network.model.common.Comics
 import kr.co.korean.network.model.common.Events
 import kr.co.korean.network.model.common.Item
 import kr.co.korean.network.model.common.Stories
+import kr.co.korean.network.model.common.Thumbnail
 import kr.co.korean.network.model.common.TypeItem
 
 data class SeriesResponseModel(
@@ -61,11 +62,6 @@ data class SeriesResponseModel(
                     val role: String
                 )
             }
-
-            data class Thumbnail(
-                val extension: String,
-                val path: String
-            )
 
             data class Url(
                 val type: String,
