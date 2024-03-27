@@ -5,13 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 
-enum class ContentsType {
-    Comics,
-    Series,
-    Stories,
-    Events,
-}
-
 interface CharacterRepository {
 
     val localCharacters: Flow<List<CharacterDataModel>>

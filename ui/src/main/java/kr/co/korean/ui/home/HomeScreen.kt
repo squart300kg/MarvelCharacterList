@@ -171,8 +171,8 @@ fun HomeScreen(
                                     onModifyingCharacterSavedStatus = onModifyCharacterSavedStatus,
                                     onDownloadThumbnail = onDownloadThumbnail,
                                     highlightSelectedItem = listDetailNavigator.isDetailPaneVisible(),
-                                    onNavigateToCharacterDetail = { type, id ->
-                                        nestedNavController.navigateToDetailScreen(id, type.name) {
+                                    onNavigateToCharacterDetail = { id ->
+                                        nestedNavController.navigateToDetailScreen(id) {
                                             popUpTo(DETAIL_PLACEHOLDER_BASE_ROUTE)
                                         }
                                         listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)

@@ -10,13 +10,12 @@ import androidx.navigation.navArgument
 import kr.co.korean.ui.detail.DetailScreen
 
 const val DETAIL_ID_ARG = "detailId"
-const val DETAIL_CONTENTS_TYPE_ARG = "contentsType"
 const val DETAIL_ROUTE_BASE = "detailRoute"
-const val DETAIL_ROUTE = "$DETAIL_ROUTE_BASE?$DETAIL_ID_ARG={$DETAIL_ID_ARG}&$DETAIL_CONTENTS_TYPE_ARG={$DETAIL_CONTENTS_TYPE_ARG}"
+const val DETAIL_ROUTE = "$DETAIL_ROUTE_BASE?$DETAIL_ID_ARG={$DETAIL_ID_ARG}"
 
-fun NavHostController.navigateToDetailScreen(id: Int?, type: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+fun NavHostController.navigateToDetailScreen(id: Int?, navOptions: NavOptionsBuilder.() -> Unit = {}) {
     val route = if (id != null) {
-        "$DETAIL_ROUTE_BASE?$DETAIL_ID_ARG=$id&$DETAIL_CONTENTS_TYPE_ARG=$type"
+        "$DETAIL_ROUTE_BASE?$DETAIL_ID_ARG=$id"
     } else {
         DETAIL_ROUTE_BASE
     }
@@ -31,11 +30,6 @@ fun NavGraphBuilder.detailScreen() {
                 defaultValue = null
                 nullable = true
                 type = NavType.IntType
-            },
-            navArgument(DETAIL_CONTENTS_TYPE_ARG) {
-                defaultValue = null
-                nullable = true
-                type = NavType.StringType
             },
         )
     ) {

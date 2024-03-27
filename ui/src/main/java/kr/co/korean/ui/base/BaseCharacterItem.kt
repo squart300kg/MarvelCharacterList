@@ -52,7 +52,7 @@ fun BaseCharacterItem(
     highlightSelectedItem: Boolean = false,
     onModifyingCharacterSavedStatus: (uiModel: CharactersUiModel, isSaved: Boolean) -> Unit,
     onDownloadThumbnail: (url: String) -> Unit = {},
-    onNavigateToCharacterDetail: (type: ContentsType, id: Int) -> Unit = { _, _ -> },
+    onNavigateToCharacterDetail: (id: Int) -> Unit = { },
 ) {
     var imageProgressState by remember { mutableStateOf(true) }
 
@@ -137,16 +137,15 @@ fun BaseCharacterItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             listOf(
-                Triple(R.string.characterItemComicCount, characterUiState.comicCount, ContentsType.Comics),
-                Triple(R.string.characterItemSeriesCount, characterUiState.seriesCount, ContentsType.Series),
-                Triple(R.string.characterItemStoryCount, characterUiState.storyCount, ContentsType.Stories),
-                Triple(R.string.characterItemEventCount, characterUiState.eventCount, ContentsType.Events),
+                Pair(R.string.characterItemComicCount, characterUiState.comicCount),
+                Pair(R.string.characterItemSeriesCount, characterUiState.seriesCount),
+                Pair(R.string.characterItemStoryCount, characterUiState.storyCount),
+                Pair(R.string.characterItemEventCount, characterUiState.eventCount),
             ).forEach { triple ->
                 val res = triple.first
                 val count = triple.second
-                val type = triple.third
                 Text(
-                    modifier = Modifier.clickable { onNavigateToCharacterDetail(type, characterUiState.id) },
+                    modifier = Modifier.clickable { onNavigateToCharacterDetail(characterUiState.id) },
                     text = stringResource(id = res) + count,
                     style = TextStyle(color = Color.Gray))
             }
