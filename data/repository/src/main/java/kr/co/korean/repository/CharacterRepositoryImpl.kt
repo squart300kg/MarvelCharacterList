@@ -16,6 +16,7 @@ import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
 import kr.co.korean.network.model.CharactersResult
 import kr.co.korean.repository.model.CharacterDataModel
+import kr.co.korean.repository.model.CharacterDetailDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
 import org.w3c.dom.CharacterData
@@ -97,7 +98,7 @@ class CharacterRepositoryImpl @Inject constructor(
             pagingSourceFactory = { MarvelCharacterPagingSource(marvelCharacterApi) }
         ).flow.map(::convertDataModel)
 
-    override fun getRemoteSingleCharacter(id: Int): Flow<List<CharacterDataModel>> {
+    override fun getRemoteSingleCharacter(id: Int): Flow<List<CharacterDetailDataModel>> {
         val currentTimeMillis = System.currentTimeMillis()
         return flow {
             emit(
@@ -106,7 +107,20 @@ class CharacterRepositoryImpl @Inject constructor(
                     apiKey = BuildConfig.marblePubKey,
                     timeStamp = currentTimeMillis,
                     hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
-                ).data.results.map(::convertDataModel)
+                ).data.results.map { result ->
+                    CharacterDetailDataModel(
+                        id = result.id,
+                        thumbnail = result.thumbnail.imageFullPath,
+                        name = result.name,
+                        description = result.description,
+                        contents = mapOf(
+                            CharacterDetailDataModel.ContentsType.Series to result.series.items.map { it.name },
+                            CharacterDetailDataModel.ContentsType.Comics to result.comics.items.map { it.name },
+                            CharacterDetailDataModel.ContentsType.Stories to result.stories.items.map { it.name },
+                            CharacterDetailDataModel.ContentsType.Events to result.events.items.map { it.name },
+                        )
+                    )
+                }
             )
         }
     }

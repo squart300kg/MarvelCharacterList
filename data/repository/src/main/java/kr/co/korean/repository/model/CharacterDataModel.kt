@@ -11,3 +11,19 @@ data class CharacterDataModel(
     val eventCount: Int,
     val seriesCount: Int,
 )
+
+data class CharacterDetailDataModel(
+    val id: Int,
+    val thumbnail: String,
+    val name: String,
+    val description: String,
+    val contents: Map<ContentsType, List<String>>
+) {
+    enum class ContentsType {
+        Series,
+        Comics,
+        Stories,
+        Events
+    }
+
+}

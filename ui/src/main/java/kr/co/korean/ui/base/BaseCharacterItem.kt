@@ -41,7 +41,6 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.ui.R
 import kr.co.korean.model.CharactersUiModel
-import kr.co.korean.repository.ContentsType
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
 
@@ -125,6 +124,8 @@ fun BaseCharacterItem(
         }
 
         Text(
+            modifier = Modifier
+                .clickable { onNavigateToCharacterDetail(characterUiState.id) },
             text = characterUiState.description.ifEmpty { stringResource(id = R.string.characterDescriptionEmpty) },
             overflow = TextOverflow.Ellipsis,
             maxLines = 2
@@ -133,7 +134,8 @@ fun BaseCharacterItem(
         Row(
             modifier = Modifier
                 .padding(top = dimensionResource(id = R.dimen.characterItemCountTopMargin))
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { onNavigateToCharacterDetail(characterUiState.id) },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             listOf(
@@ -145,7 +147,7 @@ fun BaseCharacterItem(
                 val res = triple.first
                 val count = triple.second
                 Text(
-                    modifier = Modifier.clickable { onNavigateToCharacterDetail(characterUiState.id) },
+                    modifier = Modifier,
                     text = stringResource(id = res) + count,
                     style = TextStyle(color = Color.Gray))
             }
