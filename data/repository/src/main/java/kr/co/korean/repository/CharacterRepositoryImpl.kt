@@ -20,12 +20,12 @@ import kr.co.korean.network.model.Result.Companion.convertComicsResult
 import kr.co.korean.network.model.Result.Companion.convertEventsResult
 import kr.co.korean.network.model.Result.Companion.convertSeriesResult
 import kr.co.korean.network.model.Result.Companion.convertStoriesResult
-import kr.co.korean.repository.model.CharacterDataModel
+import kr.co.korean.repository.model.ContentsDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
 import javax.inject.Inject
 
-fun CharacterDataModel.convertRoomModel() =
+fun ContentsDataModel.CharacterDataModel.convertRoomModel() =
     MarvelCharacter(
         characterId = id,
         thumbnail = thumbnail,
@@ -40,7 +40,7 @@ fun CharacterDataModel.convertRoomModel() =
 
 fun convertDataModel(roomModels: List<MarvelCharacter>) =
     roomModels.map { marvelCharacter ->
-        CharacterDataModel(
+        ContentsDataModel.CharacterDataModel(
             id = marvelCharacter.characterId,
             thumbnail = marvelCharacter.thumbnail,
             name = marvelCharacter.name,
@@ -55,7 +55,7 @@ fun convertDataModel(roomModels: List<MarvelCharacter>) =
 
 fun convertDataModel(pagingData: PagingData<Result.CharactersResult>) =
     pagingData.map { pagingData ->
-        CharacterDataModel(
+        ContentsDataModel.CharacterDataModel(
             id = pagingData.id,
             thumbnail = pagingData.thumbnail.imageFullPath,
             name = pagingData.name,
@@ -69,7 +69,7 @@ fun convertDataModel(pagingData: PagingData<Result.CharactersResult>) =
     }
 
 fun convertDataModel(remoteData: Result.CharactersResult) =
-    CharacterDataModel(
+    ContentsDataModel.CharacterDataModel(
         id = 0,
         thumbnail = "",
         name = "",
@@ -79,6 +79,26 @@ fun convertDataModel(remoteData: Result.CharactersResult) =
         seriesCount = 0,
         storyCount = 0,
         eventCount = 0,
+    )
+
+fun convertDataModel(remoteData: Result.SeriesResult) =
+    ContentsDataModel.SeriesDataModel(
+        hello = "",
+    )
+
+fun convertDataModel(remoteData: Result.ComicsResult) =
+    ContentsDataModel.ComicsDataModel(
+        hello = ""
+    )
+
+fun convertDataModel(remoteData: Result.EventsResult) =
+    ContentsDataModel.EventsDataModel(
+        hello = ""
+    )
+
+fun convertDataModel(remoteData: Result.StoriesResult) =
+    ContentsDataModel.StoriesDataModel(
+        hello = ""
     )
 
 /**
@@ -91,17 +111,17 @@ class CharacterRepositoryImpl @Inject constructor(
     private val thumbnailDownloadDataSource: ThumbnailDownloadDataSource
 ): CharacterRepository {
 
-    override val localCharacters: Flow<List<CharacterDataModel>> =
+    override val localCharacters: Flow<List<ContentsDataModel.CharacterDataModel>> =
         marvelCharacterDao.getAllCharacter()
             .map(::convertDataModel)
 
-    override val remoteCharacters: Flow<PagingData<CharacterDataModel>> =
+    override val remoteCharacters: Flow<PagingData<ContentsDataModel.CharacterDataModel>> =
         Pager(
             config = PagingConfig(pageSize = CHARACTER_DATA_PAGE_SIZE),
             pagingSourceFactory = { MarvelCharacterPagingSource(marvelCharacterApi) }
         ).flow.map(::convertDataModel)
 
-    override suspend fun getRemoteSingleContent(id: Int, type: ContentsType): Flow<List<CharacterDataModel>> {
+    override suspend fun getRemoteSingleContent(id: Int, type: ContentsType): Flow<List<ContentsDataModel>> {
         return flow {
             emit(
                 value = marvelCharacterApi.getSpecificContents(
@@ -111,23 +131,21 @@ class CharacterRepositoryImpl @Inject constructor(
                     id = id,
                     type = type.name.lowercase()
                 ).data.results
-                    .apply {
+                    .let { results ->
                         when (type) {
-                            ContentsType.Characters -> convertCharactersResult()
-                            ContentsType.Comics -> convertComicsResult()
-                            ContentsType.Events -> convertEventsResult()
-                            ContentsType.Series -> convertSeriesResult()
-                            ContentsType.Stories -> convertStoriesResult()
+                            ContentsType.Characters -> results.convertCharactersResult().map(::convertDataModel)
+                            ContentsType.Comics -> results.convertComicsResult().map(::convertDataModel)
+                            ContentsType.Events -> results.convertEventsResult().map(::convertDataModel)
+                            ContentsType.Series -> results.convertSeriesResult().map(::convertDataModel)
+                            ContentsType.Stories -> results.convertStoriesResult().map(::convertDataModel)
                         }
                     }
-                    .convertCharactersResult()
-                    .map(::convertDataModel)
             )
         }
     }
 
 
-    override suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel, saved: Boolean) {
+    override suspend fun modifyCharacterSavedStatus(dataModel: ContentsDataModel.CharacterDataModel, saved: Boolean) {
         val roomModel = dataModel.convertRoomModel()
         if (saved) {
             marvelCharacterDao.upsert(roomModel)

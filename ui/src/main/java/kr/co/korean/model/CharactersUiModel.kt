@@ -1,7 +1,7 @@
 package kr.co.korean.model
 
 import androidx.annotation.DrawableRes
-import kr.co.korean.repository.model.CharacterDataModel
+import kr.co.korean.repository.model.ContentsDataModel
 import kr.co.korean.ui.R
 
 data class CharactersUiModel(
@@ -23,7 +23,7 @@ data class CharactersUiModel(
 }
 
 fun CharactersUiModel.convertDataModel() =
-    CharacterDataModel(
+    ContentsDataModel.CharacterDataModel(
         id = id,
         thumbnail = thumbnail,
         name = name,
@@ -36,7 +36,7 @@ fun CharactersUiModel.convertDataModel() =
     )
 
 
-fun convertUiModel(dataModel: CharacterDataModel): CharactersUiModel =
+fun convertUiModel(dataModel: ContentsDataModel.CharacterDataModel): CharactersUiModel =
     CharactersUiModel(
         id = dataModel.id,
         thumbnail = dataModel.thumbnail,
