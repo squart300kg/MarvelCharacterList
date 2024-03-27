@@ -8,7 +8,6 @@
     <string name="pagingEndMessage">end of page! </string>
     <string name="savedSuccess">Image Is Successfully Saved!</string>
     <string name="savedError">Image Saving Is Error!</string>
-    <string name="characterDescriptionEmpty"> - Coming Soon</string>
     <string name="bookmark">좋아요</string>
     <string name="searchPlaceHolder">write search words.</string>
     <string name="semanticProgressBar">progressBar</string>

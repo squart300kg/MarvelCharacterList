@@ -123,13 +123,15 @@ fun BaseCharacterItem(
             )
         }
 
-        Text(
-            modifier = Modifier
-                .clickable { onNavigateToCharacterDetail(characterUiState.id) },
-            text = characterUiState.description.ifEmpty { stringResource(id = R.string.characterDescriptionEmpty) },
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 2
-        )
+        if (characterUiState.description.isNotEmpty()) {
+            Text(
+                modifier = Modifier
+                    .clickable { onNavigateToCharacterDetail(characterUiState.id) },
+                text = characterUiState.description,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2
+            )
+        }
 
         Row(
             modifier = Modifier
