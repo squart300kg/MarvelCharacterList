@@ -7,8 +7,10 @@ import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kr.co.korean.common.encodeToMd5
 import kr.co.korean.database.dao.MarvelCharacterDao
 import kr.co.korean.database.entity.MarvelCharacter
+import kr.co.korean.network.BuildConfig
 import kr.co.korean.network.CHARACTER_DATA_PAGE_SIZE
 import kr.co.korean.network.MarvelCharacterApi
 import kr.co.korean.network.MarvelCharacterPagingSource
@@ -16,6 +18,7 @@ import kr.co.korean.network.model.CharactersResult
 import kr.co.korean.repository.model.CharacterDataModel
 import kr.co.korean.work.ImageDownLoadResult
 import kr.co.korean.work.ThumbnailDownloadDataSource
+import org.w3c.dom.CharacterData
 import javax.inject.Inject
 
 fun CharacterDataModel.convertRoomModel() =
@@ -61,6 +64,19 @@ fun convertDataModel(pagingData: PagingData<CharactersResult>) =
         )
     }
 
+fun convertDataModel(remoteData: CharactersResult) =
+    CharacterDataModel(
+        id = remoteData.id,
+        thumbnail = remoteData.thumbnail.imageFullPath,
+        name = remoteData.name,
+        description = remoteData.description,
+        urlCount = remoteData.urls.size,
+        comicCount = remoteData.comics.returned,
+        seriesCount = remoteData.series.returned,
+        storyCount = remoteData.stories.returned,
+        eventCount = remoteData.events.returned
+    )
+
 /**
  * Repository의 경우, API의 'XXXResponse' 네이밍의 모델 수신 후,
  * 상위 레이어로 전달을 위한 모델('XXXDataModel')로 파싱 및 Ui Layer or Data Layer에 노출합니다.
@@ -80,6 +96,20 @@ class CharacterRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = CHARACTER_DATA_PAGE_SIZE),
             pagingSourceFactory = { MarvelCharacterPagingSource(marvelCharacterApi) }
         ).flow.map(::convertDataModel)
+
+    override fun getRemoteSingleCharacter(id: Int): Flow<List<CharacterDataModel>> {
+        val currentTimeMillis = System.currentTimeMillis()
+        return flow {
+            emit(
+                value = marvelCharacterApi.getSingleCharacter(
+                    id = id,
+                    apiKey = BuildConfig.marblePubKey,
+                    timeStamp = currentTimeMillis,
+                    hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
+                ).data.results.map(::convertDataModel)
+            )
+        }
+    }
 
     override suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel, saved: Boolean) {
         val roomModel = dataModel.convertRoomModel()

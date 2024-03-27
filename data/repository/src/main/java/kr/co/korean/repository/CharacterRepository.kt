@@ -11,6 +11,8 @@ interface CharacterRepository {
 
     val remoteCharacters: Flow<PagingData<CharacterDataModel>>
 
+    fun getRemoteSingleCharacter(id: Int): Flow<List<CharacterDataModel>>
+
     suspend fun modifyCharacterSavedStatus(dataModel: CharacterDataModel, saved: Boolean)
 
     val imageDownloadState: Flow<ImageDownLoadResult>

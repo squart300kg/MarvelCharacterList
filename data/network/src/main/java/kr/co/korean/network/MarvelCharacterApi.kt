@@ -21,7 +21,6 @@ interface MarvelCharacterApi {
         @Query("apikey") apiKey: String,
         @Query("ts") timeStamp: Long,
         @Query("hash") hash: String,
-        @Query("offset") offset: Int,
     ): ResponseModel
 
 }
