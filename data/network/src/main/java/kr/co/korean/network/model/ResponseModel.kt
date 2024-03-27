@@ -26,7 +26,7 @@ data class ResponseModel(
         @SerializedName("offset")
         val offset: Int,
         @SerializedName("results")
-        val results: List<Result>,
+        val results: List<CharactersResult>,
         @SerializedName("total")
         val total: Int
     )

@@ -26,26 +26,5 @@ class DetailViewModel @Inject constructor(
     private val characterRepository: CharacterRepository
 ): ViewModel() {
 
-    private val id: StateFlow<String?> = savedStateHandle.getStateFlow(DETAIL_ID_ARG, null)
-    private val type: StateFlow<String?> = savedStateHandle.getStateFlow(DETAIL_CONTENTS_TYPE_ARG, null)
-    val uiState =
-        combine(
-            flow = id,
-            flow2 = type
-        ) { id, type ->
-            checkNotNull(id) { "$DETAIL_ID_ARG must not be null" }
-            checkNotNull(type) { "$DETAIL_CONTENTS_TYPE_ARG must not be null" }
 
-            characterRepository.getRemoteSingleContent(
-                id = id.toInt(),
-                type = ContentsType.valueOf(type)
-            ).first()
-        }
-        .catch { Log.e("detailErrorLog", it.stackTraceToString()) }
-        .map { UiResult.Success(it.map(::convertUiModel)) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = UiResult.Loading
-        )
 }

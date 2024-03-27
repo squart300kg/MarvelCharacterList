@@ -16,10 +16,9 @@ fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel()
 ) {
 
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     Text(
         modifier = modifier.fillMaxSize(),
-        text = uiState.toString(),
+        text = "uiState".toString(),
         style = TextStyle(color = Color.White)
     )
 }
