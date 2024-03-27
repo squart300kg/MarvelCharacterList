@@ -15,13 +15,13 @@ interface MarvelCharacterApi {
         @Query("offset") offset: Int,
     ): ResponseModel
 
-    @GET("/v1/public/characters/{id}/{contentsType}")
-    suspend fun getSpecificContents(
+    @GET("/v1/public/characters/{id}")
+    suspend fun getSingleCharacter(
         @Path("id") id: Int,
-        @Path("contentsType") type: String,
         @Query("apikey") apiKey: String,
         @Query("ts") timeStamp: Long,
         @Query("hash") hash: String,
+        @Query("offset") offset: Int,
     ): ResponseModel
 
 }
