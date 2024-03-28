@@ -1,9 +1,6 @@
 package kr.co.korean.investment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -37,7 +34,7 @@ import kr.co.korean.investment.ui.permission.PermissionState
 import kr.co.korean.investment.ui.permission.isPermissionAllGranted
 import kr.co.korean.investment.ui.permission.permissions
 import kr.co.korean.investment.ui.permission.startAppSettingsActivity
-import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
+import kr.co.korean.investment.ui.theme.BaseTheme
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
@@ -47,26 +44,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val navController = rememberNavController()
-            val uiScope = rememberCoroutineScope()
-            val snackbarHostState = remember { SnackbarHostState() }
-            var permissionGrantedState by remember { mutableStateOf(PermissionState.NotYet) }
-            val launcherMultiplePermissions = rememberLauncherForActivityResult(
-                ActivityResultContracts.RequestMultiplePermissions()
-            ) { permissionsMap ->
-                if (permissionsMap.values.isNotEmpty()) {
-                    val areGranted =
-                        permissionsMap.values.reduce { acc, next -> acc && next }
-                    permissionGrantedState =
-                        if (areGranted) PermissionState.Granted else PermissionState.Rejected
-                }
-            }
-
-            KoreanInvestmentTheme {
-
+            BaseTheme {
+                val navController = rememberNavController()
+                val snackbarHostState = remember { SnackbarHostState() }
+                val uiScope = rememberCoroutineScope()
                 val windowSize = calculateWindowSizeClass(this)
                 val shouldShowBottomBar = windowSize.widthSizeClass == WindowWidthSizeClass.Compact
                 val shouldShowNavRail = !shouldShowBottomBar
+                var permissionGrantedState by remember { mutableStateOf(PermissionState.NotYet) }
+                val launcherMultiplePermissions = rememberLauncherForActivityResult(
+                    ActivityResultContracts.RequestMultiplePermissions()
+                ) { permissionsMap ->
+                    if (permissionsMap.values.isNotEmpty()) {
+                        val areGranted =
+                            permissionsMap.values.reduce { acc, next -> acc && next }
+                        permissionGrantedState =
+                            if (areGranted) PermissionState.Granted else PermissionState.Rejected
+                    }
+                }
 
                 Scaffold(
                     snackbarHost = {
@@ -106,13 +101,13 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                val context = LocalContext.current
                 SideEffect {
                     if (permissionGrantedState == PermissionState.NotYet) {
                         launcherMultiplePermissions.launch(permissions)
                     }
                 }
 
+                val context = LocalContext.current
                 LifecycleEffect(
                     onResume = {
                         if (context.isPermissionAllGranted) {

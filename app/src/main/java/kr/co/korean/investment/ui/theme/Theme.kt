@@ -5,7 +5,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun KoreanInvestmentTheme(
+fun BaseTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
