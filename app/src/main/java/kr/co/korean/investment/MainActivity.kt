@@ -9,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -107,37 +108,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    if (shouldShowNavRail) {
-                        NavigationRail {
-                            baseDestinations.forEach { destination ->
-                                val selected = navController
-                                    .getCurrentDestination()
-                                    .isTopLevelDestinationInHierarchy(destination)
-
-                                NavigationRailItem(
-                                    selected = selected,
-                                    onClick = {
-                                        val topLevelNavOptions = navOptions {
-                                            popUpTo(navController.graph.findStartDestination().id)
-                                            launchSingleTop = true
-                                        }
-
-                                        navController.navigate(destination.route, topLevelNavOptions)
-                                    },
-                                    icon = {
-                                        Icon(
-                                            painter = painterResource(id = if (selected) {
-                                                destination.selectedIconRes
-                                            } else {
-                                                destination.unselectedIconRes
-                                            }),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    label = { Text(stringResource(id = destination.iconTextIdRes)) })
-                            }
-                        }
-                    }
                     when (permissionGrantedState) {
                         PermissionState.NotYet -> { }
                         PermissionState.Rejected -> {
@@ -151,15 +121,48 @@ class MainActivity : ComponentActivity() {
                                 })
                         }
                         PermissionState.Granted -> {
-                            BaseNavHost(
-                                navController = navController,
-                                modifier = Modifier.padding(innerPadding),
-                                onSnackBarStateChanged = { message ->
-                                    uiScope.launch {
-                                        snackbarHostState.showSnackbar(message = message)
+                            Row {
+                                if (shouldShowNavRail) {
+                                    NavigationRail {
+                                        baseDestinations.forEach { destination ->
+                                            val selected = navController
+                                                .getCurrentDestination()
+                                                .isTopLevelDestinationInHierarchy(destination)
+
+                                            NavigationRailItem(
+                                                selected = selected,
+                                                onClick = {
+                                                    val topLevelNavOptions = navOptions {
+                                                        popUpTo(navController.graph.findStartDestination().id)
+                                                        launchSingleTop = true
+                                                    }
+
+                                                    navController.navigate(destination.route, topLevelNavOptions)
+                                                },
+                                                icon = {
+                                                    Icon(
+                                                        painter = painterResource(id = if (selected) {
+                                                            destination.selectedIconRes
+                                                        } else {
+                                                            destination.unselectedIconRes
+                                                        }),
+                                                        contentDescription = null
+                                                    )
+                                                },
+                                                label = { Text(stringResource(id = destination.iconTextIdRes)) })
+                                        }
                                     }
                                 }
-                            )
+                                BaseNavHost(
+                                    navController = navController,
+                                    modifier = Modifier.padding(innerPadding),
+                                    onSnackBarStateChanged = { message ->
+                                        uiScope.launch {
+                                            snackbarHostState.showSnackbar(message = message)
+                                        }
+                                    }
+                                )
+                            }
                         }
                     }
                 }
