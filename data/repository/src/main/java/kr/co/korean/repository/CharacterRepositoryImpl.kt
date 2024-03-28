@@ -66,16 +66,17 @@ fun convertDataModel(pagingData: PagingData<CharactersResult>) =
     }
 
 fun convertDataModel(remoteData: CharactersResult) =
-    CharacterDataModel(
+    CharacterDetailDataModel(
         id = remoteData.id,
         thumbnail = remoteData.thumbnail.imageFullPath,
         name = remoteData.name,
         description = remoteData.description,
-        urlCount = remoteData.urls.size,
-        comicCount = remoteData.comics.returned,
-        seriesCount = remoteData.series.returned,
-        storyCount = remoteData.stories.returned,
-        eventCount = remoteData.events.returned
+        contents = mapOf(
+            CharacterDetailDataModel.ContentsType.Series to remoteData.series.items.map { it.name },
+            CharacterDetailDataModel.ContentsType.Comics to remoteData.comics.items.map { it.name },
+            CharacterDetailDataModel.ContentsType.Stories to remoteData.stories.items.map { it.name },
+            CharacterDetailDataModel.ContentsType.Events to remoteData.events.items.map { it.name },
+        )
     )
 
 /**
@@ -107,20 +108,7 @@ class CharacterRepositoryImpl @Inject constructor(
                     apiKey = BuildConfig.marblePubKey,
                     timeStamp = currentTimeMillis,
                     hash = encodeToMd5("${currentTimeMillis}${BuildConfig.marblePrivKey}${BuildConfig.marblePubKey}"),
-                ).data.results.map { result ->
-                    CharacterDetailDataModel(
-                        id = result.id,
-                        thumbnail = result.thumbnail.imageFullPath,
-                        name = result.name,
-                        description = result.description,
-                        contents = mapOf(
-                            CharacterDetailDataModel.ContentsType.Series to result.series.items.map { it.name },
-                            CharacterDetailDataModel.ContentsType.Comics to result.comics.items.map { it.name },
-                            CharacterDetailDataModel.ContentsType.Stories to result.stories.items.map { it.name },
-                            CharacterDetailDataModel.ContentsType.Events to result.events.items.map { it.name },
-                        )
-                    )
-                }
+                ).data.results.map(::convertDataModel)
             )
         }
     }
