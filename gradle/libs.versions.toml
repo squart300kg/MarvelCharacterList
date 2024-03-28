@@ -24,7 +24,7 @@ androidxDataStore = "1.0.0"
 androidxPaging = "3.2.1"
 room = "2.6.1"
 workManager = "2.8.0"
-hiltWorker = "1.0.0"
+hiltWorker = "1.2.0"
 protobuf = "3.24.0"
 
 # plugins
