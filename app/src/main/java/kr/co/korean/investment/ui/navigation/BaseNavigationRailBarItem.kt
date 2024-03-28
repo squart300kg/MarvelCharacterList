@@ -9,7 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 
 @Composable
-internal fun BaseNavigationRailBarItem(
+fun BaseNavigationRailBarItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     selected: Boolean,

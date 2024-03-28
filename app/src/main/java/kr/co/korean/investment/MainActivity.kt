@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import kr.co.korean.investment.ui.LifecycleEffect
 import kr.co.korean.investment.ui.navigation.BaseNavHost
 import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
+import kr.co.korean.investment.ui.navigation.BaseNavigationRailBarItem
 import kr.co.korean.investment.ui.navigation.baseDestinations
 import kr.co.korean.investment.ui.navigation.util.getCurrentDestination
 import kr.co.korean.investment.ui.navigation.util.isTopLevelDestinationInHierarchy
@@ -129,8 +130,7 @@ class MainActivity : ComponentActivity() {
                                                 .getCurrentDestination()
                                                 .isTopLevelDestinationInHierarchy(destination)
 
-                                            NavigationRailItem(
-                                                selected = selected,
+                                            BaseNavigationRailBarItem(
                                                 onClick = {
                                                     val topLevelNavOptions = navOptions {
                                                         popUpTo(navController.graph.findStartDestination().id)
@@ -139,17 +139,10 @@ class MainActivity : ComponentActivity() {
 
                                                     navController.navigate(destination.route, topLevelNavOptions)
                                                 },
-                                                icon = {
-                                                    Icon(
-                                                        painter = painterResource(id = if (selected) {
-                                                            destination.selectedIconRes
-                                                        } else {
-                                                            destination.unselectedIconRes
-                                                        }),
-                                                        contentDescription = null
-                                                    )
-                                                },
-                                                label = { Text(stringResource(id = destination.iconTextIdRes)) })
+                                                selected = selected,
+                                                destination = destination
+                                            )
+
                                         }
                                     }
                                 }
