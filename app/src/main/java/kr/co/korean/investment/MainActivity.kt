@@ -36,6 +36,7 @@ import kr.co.korean.investment.ui.permission.PermissionDialog
 import kr.co.korean.investment.ui.permission.PermissionState
 import kr.co.korean.investment.ui.permission.isPermissionAllGranted
 import kr.co.korean.investment.ui.permission.permissions
+import kr.co.korean.investment.ui.permission.startAppSettingsActivity
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -84,12 +85,7 @@ class MainActivity : ComponentActivity() {
                         PermissionState.Rejected -> {
                             PermissionDialog(
                                 titleText = stringResource(id = R.string.permissionGrantGuide),
-                                onClickOk = {
-                                    Intent().apply {
-                                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                        data = Uri.fromParts("package", packageName, null)
-                                    }.let(::startActivity)
-                                })
+                                onClickOk = ::startAppSettingsActivity)
                         }
                         PermissionState.Granted -> {
                             Row {

@@ -1,5 +1,9 @@
 package kr.co.korean.investment.ui.permission
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +24,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat.startActivity
 import kr.co.korean.investment.R
 
+internal fun Context.startAppSettingsActivity() {
+    Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", packageName, null)
+    }.let(::startActivity)
+}
+
 @Composable
-fun PermissionDialog(
+internal fun PermissionDialog(
     modifier: Modifier = Modifier,
     titleText: String,
     onClickOk: () -> Unit = {},
