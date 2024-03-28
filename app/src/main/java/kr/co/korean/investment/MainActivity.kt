@@ -4,15 +4,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
@@ -39,6 +48,7 @@ import kr.co.korean.investment.ui.permission.isPermissionAllGranted
 import kr.co.korean.investment.ui.permission.permissions
 import kr.co.korean.investment.ui.theme.KoreanInvestmentTheme
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -62,6 +72,11 @@ class MainActivity : ComponentActivity() {
             }
 
             KoreanInvestmentTheme {
+
+                val windowSize = calculateWindowSizeClass(this)
+                val shouldShowBottomBar = windowSize.widthSizeClass == WindowWidthSizeClass.Compact
+                val shouldShowNavRail = !shouldShowBottomBar
+
                 Scaffold(
                     snackbarHost = {
                         SnackbarHost(
@@ -69,27 +84,60 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        NavigationBar {
+                        if (shouldShowBottomBar) {
+                            NavigationBar {
+                                baseDestinations.forEach { destination ->
+                                    val selected = navController
+                                        .getCurrentDestination()
+                                        .isTopLevelDestinationInHierarchy(destination)
+
+                                    BaseNavigationBarItem(
+                                        onClick = {
+                                            val topLevelNavOptions = navOptions {
+                                                popUpTo(navController.graph.findStartDestination().id)
+                                                launchSingleTop = true
+                                            }
+
+                                            navController.navigate(destination.route, topLevelNavOptions) },
+                                        selected = selected,
+                                        destination = destination
+                                    )
+                                }
+                            }
+                        }
+                    }
+                ) { innerPadding ->
+                    if (shouldShowNavRail) {
+                        NavigationRail {
                             baseDestinations.forEach { destination ->
                                 val selected = navController
                                     .getCurrentDestination()
                                     .isTopLevelDestinationInHierarchy(destination)
 
-                                BaseNavigationBarItem(
+                                NavigationRailItem(
+                                    selected = selected,
                                     onClick = {
                                         val topLevelNavOptions = navOptions {
                                             popUpTo(navController.graph.findStartDestination().id)
                                             launchSingleTop = true
                                         }
 
-                                        navController.navigate(destination.route, topLevelNavOptions) },
-                                    selected = selected,
-                                    destination = destination
-                                )
+                                        navController.navigate(destination.route, topLevelNavOptions)
+                                    },
+                                    icon = {
+                                        Icon(
+                                            painter = painterResource(id = if (selected) {
+                                                destination.selectedIconRes
+                                            } else {
+                                                destination.unselectedIconRes
+                                            }),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    label = { Text(stringResource(id = destination.iconTextIdRes)) })
                             }
                         }
                     }
-                ) { innerPadding ->
                     when (permissionGrantedState) {
                         PermissionState.NotYet -> { }
                         PermissionState.Rejected -> {
