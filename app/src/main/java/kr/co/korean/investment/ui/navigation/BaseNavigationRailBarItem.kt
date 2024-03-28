@@ -16,7 +16,7 @@ import kr.co.korean.investment.ui.navigation.util.getCurrentDestination
 import kr.co.korean.investment.ui.navigation.util.isTopLevelDestinationInHierarchy
 
 @Composable
-fun BaseNavigationRails(
+internal fun BaseNavigationRails(
     navController: NavHostController
 ) {
     NavigationRail {

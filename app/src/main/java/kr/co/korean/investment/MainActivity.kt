@@ -10,7 +10,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -26,18 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.co.korean.investment.ui.LifecycleEffect
 import kr.co.korean.investment.ui.navigation.BaseNavHost
-import kr.co.korean.investment.ui.navigation.BaseNavigationBarItem
+import kr.co.korean.investment.ui.navigation.BaseNavigationBarWithItems
 import kr.co.korean.investment.ui.navigation.BaseNavigationRails
-import kr.co.korean.investment.ui.navigation.baseDestinations
-import kr.co.korean.investment.ui.navigation.util.getCurrentDestination
-import kr.co.korean.investment.ui.navigation.util.isTopLevelDestinationInHierarchy
 import kr.co.korean.investment.ui.permission.PermissionDialog
 import kr.co.korean.investment.ui.permission.PermissionState
 import kr.co.korean.investment.ui.permission.isPermissionAllGranted
@@ -81,25 +75,7 @@ class MainActivity : ComponentActivity() {
                     },
                     bottomBar = {
                         if (shouldShowBottomBar) {
-                            NavigationBar {
-                                baseDestinations.forEach { destination ->
-                                    val selected = navController
-                                        .getCurrentDestination()
-                                        .isTopLevelDestinationInHierarchy(destination)
-
-                                    BaseNavigationBarItem(
-                                        onClick = {
-                                            val topLevelNavOptions = navOptions {
-                                                popUpTo(navController.graph.findStartDestination().id)
-                                                launchSingleTop = true
-                                            }
-
-                                            navController.navigate(destination.route, topLevelNavOptions) },
-                                        selected = selected,
-                                        destination = destination
-                                    )
-                                }
-                            }
+                            BaseNavigationBarWithItems(navController)
                         }
                     }
                 ) { innerPadding ->
