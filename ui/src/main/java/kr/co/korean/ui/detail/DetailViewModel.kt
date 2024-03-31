@@ -1,6 +1,7 @@
 package kr.co.korean.ui.detail
 
 import android.util.Log
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,7 @@ import kr.co.korean.repository.model.CharacterDetailDataModel
 import kr.co.korean.ui.detail.navigation.DETAIL_ID_ARG
 import javax.inject.Inject
 
+@Stable
 data class DetailUiModel(
     val thumbnail: String,
     val name: String,
