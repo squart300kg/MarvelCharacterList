@@ -25,7 +25,7 @@ androidxPaging = "3.2.1"
 room = "2.6.1"
 workManager = "2.9.0"
 hiltWorker = "1.2.0"
-protobuf = "3.24.0"
+protobuf = "4.26.1"
 
 # plugins
 protobufPlugin = "0.9.4"
