@@ -72,7 +72,6 @@ dependencies {
 
     implementation(project(":feature:home"))
     implementation(project(":feature:bookmark"))
-    implementation(project(":feature:detail"))
     implementation(project(":feature:base"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))

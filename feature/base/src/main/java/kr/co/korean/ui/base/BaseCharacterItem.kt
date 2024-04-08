@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import kr.co.korean.home.R
+import kr.co.korean.base.R
 import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
@@ -159,11 +159,11 @@ fun BaseCharacterItem(
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-internal fun <T> ThreePaneScaffoldNavigator<T>.isListPaneVisible(): Boolean =
+fun <T> ThreePaneScaffoldNavigator<T>.isListPaneVisible(): Boolean =
     scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-internal fun <T> ThreePaneScaffoldNavigator<T>.isDetailPaneVisible(): Boolean =
+fun <T> ThreePaneScaffoldNavigator<T>.isDetailPaneVisible(): Boolean =
     scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
 
 @DevicePreviews

@@ -47,6 +47,7 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:base"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))
     implementation(project(":data:work"))
