@@ -17,7 +17,8 @@
             <option value="$PROJECT_DIR$/data/repository" />
             <option value="$PROJECT_DIR$/data/work" />
             <option value="$PROJECT_DIR$/domain" />
-            <option value="$PROJECT_DIR$/ui" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/home" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

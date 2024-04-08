@@ -1,8 +1,8 @@
 package kr.co.korean.model
 
 import androidx.annotation.DrawableRes
+import kr.co.korean.home.R
 import kr.co.korean.repository.model.CharacterDataModel
-import kr.co.korean.ui.R
 
 data class CharactersUiModel(
     val id: Int,

@@ -43,7 +43,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.flowOf
-import kr.co.korean.ui.R
+import kr.co.korean.home.R
 import kr.co.korean.ui.base.BaseCharacterItem
 import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.ui.base.isDetailPaneVisible
@@ -56,7 +56,6 @@ import kr.co.korean.ui.detail.navigation.navigateToDetailScreen
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
 import kr.co.korean.work.ImageDownLoadResult
-import kr.co.korean.ui.R as UiRes
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -135,19 +134,19 @@ fun HomeScreen(
                 }
                 is ImageDownLoadResult.Error -> {
                     LaunchedEffect(Unit) {
-                        onSnackBarStateChanged(context.getString(UiRes.string.savedError))
+                        onSnackBarStateChanged(context.getString(R.string.savedError))
                     }
                 }
                 is ImageDownLoadResult.Success -> {
                     LaunchedEffect(Unit) {
-                        onSnackBarStateChanged(context.getString(UiRes.string.savedSuccess))
+                        onSnackBarStateChanged(context.getString(R.string.savedSuccess))
                     }
                 }
             }
 
             if (characterUiState.loadState.append.endOfPaginationReached) {
                 onSnackBarStateChanged(
-                    stringResource(id = UiRes.string.pagingEndMessage)
+                    stringResource(id = R.string.pagingEndMessage)
                 )
             }
 

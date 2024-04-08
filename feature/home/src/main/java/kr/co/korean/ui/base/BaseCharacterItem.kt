@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import kr.co.korean.ui.R
+import kr.co.korean.home.R
 import kr.co.korean.model.CharactersUiModel
 import kr.co.korean.util.CharacterUiModelPreviewParameterProvider
 import kr.co.korean.util.DevicePreviews
