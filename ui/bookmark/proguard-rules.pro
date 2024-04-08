@@ -1,6 +1,6 @@
 # Room
 -keep class * extends androidx.room.RoomDatabase
--keep @androidx.room.Entity class *
+-keep @androidx.room.E  ntity class *
 -dontwarn androidx.room.paging.**
 -keep class kr.co.architecture.database.entity.MarvelCharacter { *; }
 

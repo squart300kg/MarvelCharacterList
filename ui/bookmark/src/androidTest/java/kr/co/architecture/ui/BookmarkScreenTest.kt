@@ -19,14 +19,12 @@ class BookmarkScreenTest {
     @Test
     fun useAppContext() {
         composeTestRule.setContent {
-            BoxWithConstraints {
-                BookmarkScreen(
-                    characterUiState = UiResult.Success(characterUiModelsTestData),
-                    progressState = true,
-                    onProgressStateChange = {},
-                    modifyCharacterSavedStatus = { _, _ -> }
-                )
-            }
+            BookmarkScreen(
+                characterUiState = UiResult.Success(characterUiModelsTestData),
+                progressState = true,
+                onProgressStateChange = {},
+                modifyCharacterSavedStatus = { _, _ -> }
+            )
         }
 
 

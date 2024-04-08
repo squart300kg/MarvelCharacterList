@@ -32,4 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+
+    dependencies {
+
+        testImplementation(libs.junit)
+    }
 }
