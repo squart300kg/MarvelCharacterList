@@ -75,7 +75,7 @@
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
--keep class kr.co.korean.network.model.** {*;}
+-keep class kr.co.architecture.network.model.** {*;}
 -keep class com.google.android.gms.ads.** { *; }
 
 # missing rules

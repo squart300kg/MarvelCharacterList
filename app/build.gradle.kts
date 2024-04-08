@@ -18,11 +18,11 @@ android {
             keyPassword = "ssyssy"
         }
     }
-    namespace = "kr.co.korean.investment"
+    namespace = "kr.co.architecture.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "kr.co.korean.investment"
+        applicationId = "kr.co.architecture.ssy"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

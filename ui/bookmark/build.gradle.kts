@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.co.korean.bookmark"
+    namespace = "kr.co.architecture.bookmark"
     compileSdk = 34
 
     defaultConfig {

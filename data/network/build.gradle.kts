@@ -11,7 +11,7 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
-    namespace = "kr.co.korean.network"
+    namespace = "kr.co.architecture.network"
     compileSdk = 33
 
     defaultConfig {

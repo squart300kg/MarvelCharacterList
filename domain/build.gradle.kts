@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.co.korean.domain"
+    namespace = "kr.co.architecture.domain"
     compileSdk = 33
 
     defaultConfig {

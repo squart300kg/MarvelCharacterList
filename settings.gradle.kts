@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KoreanInvestment"
+rootProject.name = "ArchitectureSample"
 include(":app")
 include(":ui:home")
 include(":ui:bookmark")
