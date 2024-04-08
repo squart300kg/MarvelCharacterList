@@ -32,7 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.korean.common.model.UiResult
-import kr.co.korean.home.R
+import kr.co.korean.detail.R
 
 @Composable
 fun DetailScreen(
