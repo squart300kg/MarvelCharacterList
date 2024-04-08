@@ -70,9 +70,9 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:home"))
-    implementation(project(":feature:bookmark"))
-    implementation(project(":feature:base"))
+    implementation(project(":ui:home"))
+    implementation(project(":ui:bookmark"))
+    implementation(project(":ui:base"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))
     implementation(project(":common"))

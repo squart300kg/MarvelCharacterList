@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.co.korean.bookmark"
+    namespace = "kr.co.korean.home"
     compileSdk = 34
 
     defaultConfig {
@@ -47,7 +47,7 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:base"))
+    implementation(project(":ui:base"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))
     implementation(project(":data:work"))

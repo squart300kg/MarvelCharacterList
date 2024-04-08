@@ -18,9 +18,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "KoreanInvestment"
 include(":app")
-include(":feature:home")
-include(":feature:bookmark")
-include(":feature:base")
+include(":ui:home")
+include(":ui:bookmark")
+include(":ui:base")
 include(":data:network")
 include(":data:database")
 include(":data:repository")
