@@ -70,7 +70,7 @@ android {
 
 dependencies {
 
-    implementation(project(":ui"))
+    implementation(project(":feature:home"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))
     implementation(project(":common"))
