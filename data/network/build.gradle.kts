@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.konan.properties.Properties
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin)
