@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.co.architecture.convention"
+    namespace = "kr.co.architecture.build-logic"
     compileSdk = 33
 
     defaultConfig {
