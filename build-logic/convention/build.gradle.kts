@@ -34,7 +34,7 @@ gradlePlugin {
     plugins {
         register("androidCompose") {
             id = "architecture.sample.compose"
-            implementationClass = "AndroidComposePlugin"
+            implementationClass = "AndroidApplicationComposePlugin"
         }
     }
 }

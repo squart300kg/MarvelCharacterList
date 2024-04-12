@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.architecture.sample.compose)
     kotlin("kapt")
 }
 
@@ -33,12 +34,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
+//    buildFeatures {
+//        compose = true
+//    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "1.5.11"
+//    }
     kapt {
         correctErrorTypes = true
     }
@@ -54,32 +55,32 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.preview)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material3.adaptive)
-    implementation(libs.androidx.compose.material3.windowSizeClass)
-    implementation(libs.androidx.compose.material3.adaptive.layout)
-    implementation(libs.androidx.compose.material3.adaptive.navigation)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
+//    implementation(platform(libs.androidx.compose.bom))
+//    implementation(libs.androidx.activity.compose)
+//    implementation(libs.androidx.compose.ui)
+//    implementation(libs.androidx.compose.ui.graphics)
+//    implementation(libs.androidx.compose.ui.preview)
+//    implementation(libs.androidx.navigation.compose)
+//    implementation(libs.androidx.compose.material)
+//    implementation(libs.androidx.compose.material3)
+//    implementation(libs.androidx.compose.material3.adaptive)
+//    implementation(libs.androidx.compose.material3.windowSizeClass)
+//    implementation(libs.androidx.compose.material3.adaptive.layout)
+//    implementation(libs.androidx.compose.material3.adaptive.navigation)
+//    implementation(libs.androidx.compose.ui.tooling)
+//    implementation(libs.androidx.hilt.navigation.compose)
+//    implementation(libs.androidx.lifecycle.viewmodel.compose)
+//    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.io.coil.kt)
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.androidx.paging.runtimne)
-    implementation(libs.androidx.paging.compose)
+//    implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.work.runtime)
     kapt(libs.com.google.dagger.hilt.compiler)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.testManifest)
+//    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+//    debugImplementation(libs.androidx.compose.ui.test.junit4)
+//    debugImplementation(libs.androidx.compose.ui.tooling)
+//    debugImplementation(libs.androidx.compose.ui.testManifest)
 }
