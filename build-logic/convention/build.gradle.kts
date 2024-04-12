@@ -19,7 +19,7 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-
+    compileOnly(libs.android.gradlePlugin)
 }
 
 tasks {
@@ -32,9 +32,9 @@ tasks {
 
 gradlePlugin {
     plugins {
-        register("androidApplicationCompose") {
-            id = "nowinandroid.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
+        register("androidCompose") {
+            id = "architecture.sample.compose"
+            implementationClass = "AndroidComposePlugin"
         }
     }
 }
