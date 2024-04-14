@@ -83,6 +83,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -90,6 +91,12 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 jetbrains-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKotlin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+
+# Plugins defined by this project
+architecture-sample-application-compose = { id = "architecture.sample.application.compose", version = "unspecified"  }
+architecture-sample-library-compose = { id = "architecture.sample.library.compose", version = "unspecified"  }
+architecture-sample-application-base-setting = { id = "architecture.sample.application.base.setting", version = "unspecified"  }
+architecture-sample-library-base-setting = { id = "architecture.sample.library.base.setting", version = "unspecified"  }
 
 [bundles]
 [metadata]

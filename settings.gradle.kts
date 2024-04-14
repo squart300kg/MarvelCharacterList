@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -10,9 +11,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-    }
-    versionCatalogs {
-        create("libs")
     }
 }
 
@@ -27,4 +25,3 @@ include(":data:repository")
 include(":data:work")
 include(":domain")
 include(":common")
-include(":build-logic")

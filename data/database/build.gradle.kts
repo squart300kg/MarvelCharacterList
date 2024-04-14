@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.architecture.sample.library.base.setting)
     alias(libs.plugins.jetbrains.kotlin)
     alias(libs.plugins.dagger.hilt)
     kotlin("kapt")
@@ -7,10 +7,8 @@ plugins {
 
 android {
     namespace = "kr.co.architecture.database"
-    compileSdk = 33
 
     defaultConfig {
-        minSdk = 24
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner"
@@ -25,13 +23,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     kapt {
         correctErrorTypes = true
@@ -49,10 +40,6 @@ dependencies {
 
     kapt(libs.androidx.room.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
-
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
 
     testImplementation(libs.androidx.test.ext.junit)
     

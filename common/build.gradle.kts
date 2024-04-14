@@ -1,14 +1,12 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.architecture.sample.library.base.setting)
     alias(libs.plugins.jetbrains.kotlin)
 }
 
 android {
     namespace = "kr.co.architecture.common"
-    compileSdk = 33
 
     defaultConfig {
-        minSdk = 24
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner"
@@ -24,16 +22,8 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 
     dependencies {
-
         testImplementation(libs.junit)
     }
 }
