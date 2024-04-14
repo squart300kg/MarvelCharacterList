@@ -40,5 +40,13 @@ gradlePlugin {
             id = "architecture.sample.library.compose"
             implementationClass = "AndroidLibraryComposePlugin"
         }
+        register("androidApplicationBaseSetting") {
+            id = "architecture.sample.application.base.setting"
+            implementationClass = "AndroidApplicationBaseSettingPlugin"
+        }
+        register("androidLibrary") {
+            id = "architecture.sample.library.base.setting"
+            implementationClass = "AndroidLibraryBaseSettingPlugin"
+        }
     }
 }

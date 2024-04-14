@@ -95,6 +95,8 @@ dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt
 # Plugins defined by this project
 architecture-sample-application-compose = { id = "architecture.sample.application.compose", version = "unspecified"  }
 architecture-sample-library-compose = { id = "architecture.sample.library.compose", version = "unspecified"  }
+architecture-sample-application-base-setting = { id = "architecture.sample.application.base.setting", version = "unspecified"  }
+architecture-sample-library-base-setting = { id = "architecture.sample.library.base.setting", version = "unspecified"  }
 
 [bundles]
 [metadata]
