@@ -33,7 +33,7 @@ androidGradlePlugin = "8.3.2"
 jetbrainsKotlin = "1.9.23"
 
 # libraries and plugins
-daggerHilt = "2.51"
+daggerHilt = "2.51.1"
 appcompat = "1.6.1"
 material = "1.11.0"
 
