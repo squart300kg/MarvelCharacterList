@@ -1,5 +1,4 @@
 plugins {
-//    alias(libs.plugins.android.application)
     alias(libs.plugins.architecture.sample.application.base.setting)
     alias(libs.plugins.jetbrains.kotlin)
     alias(libs.plugins.dagger.hilt)
