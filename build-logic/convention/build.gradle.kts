@@ -32,9 +32,13 @@ tasks {
 
 gradlePlugin {
     plugins {
-        register("androidCompose") {
-            id = "architecture.sample.compose"
+        register("androidApplicationCompose") {
+            id = "architecture.sample.application.compose"
             implementationClass = "AndroidApplicationComposePlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "architecture.sample.library.compose"
+            implementationClass = "AndroidLibraryComposePlugin"
         }
     }
 }
