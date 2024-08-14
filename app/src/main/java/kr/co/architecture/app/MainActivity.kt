@@ -40,7 +40,7 @@ import kr.co.architecture.app.ui.theme.BaseTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    // hello
+    // helloㄴㄴ
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
