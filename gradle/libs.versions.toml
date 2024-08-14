@@ -1,9 +1,9 @@
 [versions]
 # libraries
-androidxCore = "1.12.0"
+androidxCore = "1.13.0"
 androidxLlifecycleRuntimeKtx = "2.7.0"
-androidxActivityCompose = "1.8.2"
-androidxComposeBom = "2024.04.00"
+androidxActivityCompose = "1.9.0"
+androidxComposeBom = "2024.04.01"
 androidxNavigation = "2.7.7"
 androidxHiltNavigationCompose = "1.2.0"
 androidxNavigationCommonKtx = "2.7.7"
@@ -17,7 +17,7 @@ composeMaterial = "1.7.0-alpha06"
 androidxComposeMaterial3 = "1.2.0"
 androidxComposeMaterial3Adaptive = "1.0.0-alpha09"
 ioCoilKtCompose = "2.6.0"
-kotlinxSerializationJson = "1.5.1"
+kotlinxSerializationJson = "1.6.3"
 okhttpLogging = "4.12.0"
 retrofit = "2.11.0"
 androidxDataStore = "1.0.0"
@@ -29,11 +29,11 @@ protobuf = "4.26.1"
 
 # plugins
 protobufPlugin = "0.9.4"
-androidGradlePlugin = "8.3.2"
+androidGradlePlugin = "8.4.0"
 jetbrainsKotlin = "1.9.23"
 
 # libraries and plugins
-daggerHilt = "2.51"
+daggerHilt = "2.51.1"
 appcompat = "1.6.1"
 material = "1.11.0"
 
